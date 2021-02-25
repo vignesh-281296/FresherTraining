@@ -1,47 +1,51 @@
 import java.util.Scanner;
 
-/*
- * class for transpose matrix
- * using 2d array
+/**
+ * class for transpose matrix using 2d array
+ *
+ * @version 26-12-2021
+ * @author  vignesh r
  */
 public class DetermineTranspose {
-    
-    /* 
-     * Function for print 
-     * determine transpose 
+   
+    /** 
+     * Function for print determine transpose
+     *
+     * @param matrix 2d array to transpose the element
+     * @param row no of rows
+     * @param column no of column    
      */
-    public static void printDetermineTranspose(int array[][], int row, int col) {
-        
-        for(int i=0; i < row; i++) {                              
-            for(int j=0; j < col; j++) {                            
-               System.out.print(array[j][i] + " ");               
+    public static void printDetermineTranspose(int matrix[][], int row, int column) {        
+        for (int i = 0; i < row; i++) {                              
+            for (int j = 0; j < column; j++) {                            
+                System.out.print(matrix[j][i] + " ");               
             }        
             System.out.println("\n");                             
         }     
     }
 
-   /* 
-    * Driver Code 
-    */
-   public static void main(String args[]) {
+    /** 
+     * Driver Code 
+     */
+    public static void main(String args[]) {
+        Scanner userInput = new Scanner(System.in);
+        System.out.println("Enter no. of row");
+        int row = userInput.nextInt();                               
+        System.out.println("Enter no. of column");
+        int column = userInput.nextInt();  
 
-       Scanner userInput = new Scanner(System.in);
-       System.out.println("Enter no. of rows");
-       int rows = userInput.nextInt();                               
-       System.out.println("Enter no. of column");
-       int columns = userInput.nextInt();  
-       if(rows == 0 && columns == 0) {
-          System.out.print("Row and column value must be greater than zero");
-       } else {
-           System.out.println("Enter the element of matrix");
-           int[][] matrix = new int[rows][columns];                       
-           for(int i = 0; i < rows; i++) {
-              for(int j = 0; j < columns; j++) {
-                  matrix[i][j] = userInput.nextInt();                 
-              }
-           }   
-           System.out.println("Determine Transpose Matrix is ");
-           printDetermineTranspose(matrix, rows, columns);            
+        if (row == 0 && column == 0) {
+            System.out.print("Row and column value must be greater than zero");
+        } else {
+            System.out.println("Enter the element of matrix");
+            int[][] matrix = new int[row][column];                       
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < column; j++) {
+                    matrix[i][j] = userInput.nextInt();                 
+                }
+            } 
+            System.out.println("Determine Transpose Matrix is ");
+            printDetermineTranspose(matrix, row, column);            
          }
    }                              
 }
