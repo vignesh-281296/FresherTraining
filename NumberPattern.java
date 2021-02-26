@@ -7,6 +7,7 @@ import java.util.Scanner;
  * @version 1.0 2021-02-26
  */ 
 public class NumberPattern {
+
     /* 
      * Function to print the number pattern
      *
