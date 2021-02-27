@@ -11,7 +11,7 @@ public class NumberPattern {
     /* 
      * Function to print the number pattern
      *
-     * @param row no of row 
+     * @param row - no of row 
      */
     static void printNumberPattern(int row) {
         for (int i = 1; i <= row; i++) {                        

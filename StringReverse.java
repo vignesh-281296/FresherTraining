@@ -11,8 +11,8 @@ public class StringReverse {
     /* 
      * Function to reverse string
      *
-     * @str for reverse the string
-     * @length string length   
+     * @param str    - for reverse the string
+     * @param length - string length   
      */ 
     static void printReverseString(String str, int length) {     
         for(int i = length; i > 0; i--) {

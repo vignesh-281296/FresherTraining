@@ -11,7 +11,7 @@ public class FindLargestAndSmallestNumber {
     /* 
      * Method to find maximum in arrayOfNumbers[] 
      * 
-     * @param arrayOfNumbers element to find max 
+     * @param arrayOfNumbers -  find max element
      */
     static int largest(int arrayOfNumbers[]) {
         int i;    
@@ -30,7 +30,7 @@ public class FindLargestAndSmallestNumber {
     /* 
      * Method to find maximum in arrayOfNumbers[] 
      *
-     * @param arrayOfNumbers element to find min
+     * @param arrayOfNumbers - find min element
      */
     static int smallest(int arrayOfNumbers[]) {
         int i;  

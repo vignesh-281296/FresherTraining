@@ -3,7 +3,7 @@ import java.util.Scanner;
 /**
  * class for transpose matrix using 2d array
  *
- * @version 26-12-2021
+ * @version 1.0 26-12-2021
  * @author  vignesh r
  */
 public class DetermineTranspose {
@@ -11,9 +11,9 @@ public class DetermineTranspose {
     /** 
      * Function for print determine transpose
      *
-     * @param matrix 2d array to transpose the element
-     * @param row no of rows
-     * @param column no of column    
+     * @param matrix  - 2d array to transpose the element
+     * @param row     - no of rows
+     * @param column  - no of column    
      */
     public static void printDetermineTranspose(int matrix[][], int row, int column) {        
         for (int i = 0; i < row; i++) {                              

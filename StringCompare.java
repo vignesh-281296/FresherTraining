@@ -11,10 +11,10 @@ public class StringCompare {
     /** 
      *Function to print string compare
      *
-     * @param firstString to compare with second string
-     * @param secondString delete the matching string with firststring
-     * @param firstStringLength length of first string
-     * @param secondStringLength length of second string
+     * @param firstString        - to compare with second string
+     * @param secondString       - delete the matching string with firststring
+     * @param firstStringLength  - length of first string
+     * @param secondStringLength - length of second string
      */  
     static void comparingTwoString(String firstString, String secondString, 
                                    int firstStringLength, int secondStringLength) {           

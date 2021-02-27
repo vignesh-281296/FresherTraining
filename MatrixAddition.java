@@ -11,9 +11,9 @@ public class MatrixAddition {
     /** 
      * Function to print Matrix
      * 
-     * @param matrix 2d array to print the result matrix element
-     * @param rowsize no of row
-     * @param columnsize no of column 
+     * @param matrix     - 2d array to print the result matrix element
+     * @param rowsize    - no of row
+     * @param columnsize - no of column 
      */
     static void printMatrix(int matrixC[][], int rowSize, int columnSize) {
         for (int i = 0; i < rowSize; i++) {
@@ -27,8 +27,8 @@ public class MatrixAddition {
     /** 
      * Function to add the two matrices and store in matrix C
      *
-     * @param matrixA 2d array for matrixA
-     * @param matrixB 2d array for matrixB
+     * @param matrixA -  2d array for matrixA
+     * @param matrixB - 2d array for matrixB
      */
     static int[][] add(int matrixA[][], int matrixB[][],
                        int row, int column) {        

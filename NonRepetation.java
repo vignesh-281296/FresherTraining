@@ -10,8 +10,8 @@ public class NonRepetation {
     /** 
      * Function for print non repetation element
      * 
-     * @param arrayOfNumbers to find the non repetation element
-     * @param length array length 
+     * @param arrayOfNumbers - find the non repetation element
+     * @param length         - array length 
      */
     static void printNonRepetation(int arrayOfNumbers[], int length) {         
         for (int i = 0; i < length; i++) {                                    
