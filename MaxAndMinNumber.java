@@ -6,7 +6,7 @@ import java.util.Scanner;
  * @author  vignesh r
  * @version 1.0 2021-02-26
  */
-public class FindLargestAndSmallestNumber {   
+public class MaxAndMinNumber {   
   
     /* 
      * Method to find maximum in arrayOfNumbers[] 

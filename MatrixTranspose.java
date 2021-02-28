@@ -6,7 +6,7 @@ import java.util.Scanner;
  * @version 1.0 26-12-2021
  * @author  vignesh r
  */
-public class DetermineTranspose {
+public class MatrixTranspose {
    
     /** 
      * Function for print determine transpose

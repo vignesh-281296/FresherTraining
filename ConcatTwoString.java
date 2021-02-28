@@ -6,7 +6,7 @@ import java.util.Scanner;
  * @author  vignesh r
  * @version 1.0 2021-02-26
  */ 
-public class StringConcat {
+public class ConcatTwoString {
 
     /**
      * Drive Code

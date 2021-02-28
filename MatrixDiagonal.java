@@ -6,7 +6,7 @@ import java.util.Scanner;
  * @author vignesh r
  * @version 1.0 2021-02-26
  */ 
-public class DiagonalElement {
+public class MatrixDiagonal {
    
     /** 
      * Function for print diagonal Element
