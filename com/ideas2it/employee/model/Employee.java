@@ -6,7 +6,6 @@ package com.ideas2it.employee.model;
  * @author vignesh r.
  * version1.0 01-03-2021.
  */
-
 public class Employee {
 
     private String name;
