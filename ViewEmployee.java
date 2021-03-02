@@ -46,6 +46,7 @@ public class ViewEmployee {
     public static void displayEmployee() { 
         Set<Integer> id = employeeDetails.keySet();  
         for (int idKeys : id) {
+            System.out.println("Emp Id -" + idKeys);
             System.out.println(employeeDetails.get(idKeys));
         }
     }
