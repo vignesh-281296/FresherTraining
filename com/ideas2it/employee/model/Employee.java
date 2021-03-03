@@ -1,5 +1,7 @@
 package com.ideas2it.employee.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /** 
  * Employee of pojo class contain employee details.
  *
@@ -13,13 +15,15 @@ public class Employee {
     private String email;
     private long phoneNumber;
     private long salary;
+    private Date dob;
 
-    public Employee(String name, String city, String email, long phoneNumber, long salary) {
+    public Employee(String name, String city, String email, long phoneNumber, long salary, Date dob) {
         this.name = name;
         this.city = city;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.salary = salary;
+        this.dob = dob;
     }
 
     public String getName() {
@@ -62,8 +66,19 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
     public String toString() {
-        return name + "\n" + city + "\n" + email + "\n" + phoneNumber + "\n" + salary; 
+        return "Name - " + name + "\n" + "City - " + city + "\n" + "Email - "
+                              + email + "\n" + "Phone Number - " + phoneNumber 
+                              + "\n" + "Salary - " + salary + "\n" + "DOB -" 
+                              + new SimpleDateFormat("dd/MM/yyy").format(dob); 
     }       
 
 } 
