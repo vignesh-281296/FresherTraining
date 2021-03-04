@@ -33,8 +33,7 @@ public class EmployeeView {
         System.out.println("Enter your city");
         String city = scanner.nextLine();
         System.out.println("Enter your email");
-        String email = scanner.nextLine();
-        validateEmailId(email);
+        String email = validateEmailId(scanner.nextLine());
         System.out.println("Enter your phone number");
         long phoneNumber = validatePhoneNumber(scanner.nextLong());
         System.out.println("Enter your salary");
@@ -160,7 +159,7 @@ public class EmployeeView {
           } else {
               System.out.print("Invalid Email ID\n"
                                    + "Enter Valid Email ID: ");
-              return validateEmailId(scanner.next());
+              return validateEmailId(scanner.nextLine());
           }
      }
 
