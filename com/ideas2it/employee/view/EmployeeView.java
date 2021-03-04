@@ -33,7 +33,7 @@ public class EmployeeView {
         System.out.println("Enter your city");
         String city = scanner.nextLine();
         System.out.println("Enter your email");
-        String email = validateEmailId(scanner.nextLine());
+        String email = scanner.nextLine();
         System.out.println("Enter your phone number");
         long phoneNumber = validatePhoneNumber(scanner.nextLong());
         System.out.println("Enter your salary");
@@ -147,21 +147,7 @@ public class EmployeeView {
          }
      }
 
-    /**
-     * Method for Email Id validation
-     *
-     * @param Email Id
-     */
-     private String validateEmailId(String emailId) {
-          if (emailId.matches("^[_A-Za-z0-9-\\+]+(\\.[A-Za-z0-9-]+)*@[A-Za-z0-9-]+" +
-                              "(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
-              return emailId;
-          } else {
-              System.out.print("Invalid Email ID\n"
-                                   + "Enter Valid Email ID: ");
-              return validateEmailId(scanner.nextLine());
-          }
-     }
+    
 
     /**
      * Method for date validation
