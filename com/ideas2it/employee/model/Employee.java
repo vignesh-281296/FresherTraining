@@ -78,7 +78,7 @@ public class Employee {
         return "Name - " + name + "\n" + "City - " + city + "\n" + "Email - "
                               + email + "\n" + "Phone Number - " + phoneNumber 
                               + "\n" + "Salary - " + salary + "\n" + "DOB -" 
-                              + new SimpleDateFormat("dd/MM/yyy").format(dob); 
+                              + new SimpleDateFormat("dd/MM/yyyy").format(dob); 
     }       
 
 } 

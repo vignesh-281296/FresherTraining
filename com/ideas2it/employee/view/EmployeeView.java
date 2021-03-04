@@ -1,8 +1,11 @@
 package com.ideas2it.employee.view;
 
 import java.text.ParseException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date; 
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern; 
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,13 +34,15 @@ public class EmployeeView {
         String city = scanner.nextLine();
         System.out.println("Enter your email");
         String email = scanner.nextLine();
-        System.out.println("Enter Date Of Birth(dd/MM/yyyy): ");
-        String date = scanner.nextLine();
-        Date dob = isValidateDate(date); 
+        validateEmailId(email);
         System.out.println("Enter your phone number");
-        long phoneNumber = scanner.nextLong();
+        long phoneNumber = validatePhoneNumber(scanner.nextLong());
         System.out.println("Enter your salary");
         long salary = scanner.nextLong();
+        scanner.nextLine();
+        System.out.println("Enter Date Of Birth in given format dd/mm/yyyy");
+        //String date = scanner.nextLine(); 
+        Date dob = isValidateDate();
         Employee employee = new Employee(name, city, email, phoneNumber, salary, dob);
         if (null == employeeDetails.put(empId, employee)) {
             System.out.println("Create Successfully Employee - " + empId);
@@ -128,16 +133,49 @@ public class EmployeeView {
           }
     }
 
-    private Date isValidateDate(String date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date dob = null;
+    /**
+     * Method for Phone Number validataion 
+     *
+     * @param Phone Number
+     */
+     private long validatePhoneNumber(long phoneNumber) {
+         if (Long.toString(phoneNumber).matches("[6-9][0-9]{9}")) {
+             return phoneNumber;
+         } else {
+             System.out.print("Invalid Phone Number\n"
+                                   + "Enter Valid Phone Number: ");
+             return validatePhoneNumber(scanner.nextLong());
+         }
+     }
+
+    /**
+     * Method for Email Id validation
+     *
+     * @param Email Id
+     */
+     private String validateEmailId(String emailId) {
+          if (emailId.matches("^[_A-Za-z0-9-\\+]+(\\.[A-Za-z0-9-]+)*@[A-Za-z0-9-]+" +
+                              "(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+              return emailId;
+          } else {
+              System.out.print("Invalid Email ID\n"
+                                   + "Enter Valid Email ID: ");
+              return validateEmailId(scanner.next());
+          }
+     }
+
+    /**
+     * Method for date validation
+     */
+    private Date isValidateDate() {
+        
         try {
-	    dob = simpleDateFormat.parse(date);
-        } catch (ParseException e) {
-            return null;
-        }
-        return dob;
-    }
+            return new SimpleDateFormat("dd/MM/yyyy").parse(scanner.next());
+        } catch (ParseException exception) {
+            System.out.println("Enter valid date format");
+            return isValidateDate();
+        }                  
+    } 
     
     /**
      * Method for CRUD operation
@@ -168,7 +206,6 @@ public class EmployeeView {
                 default :
                     System.out.println("Invalid Choice");
             }
-        
         }
     }
 }
