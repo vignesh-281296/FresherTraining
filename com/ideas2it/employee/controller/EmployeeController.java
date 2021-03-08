@@ -1,7 +1,7 @@
 package com.ideas2it.employee.controller;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import com.ideas2it.employee.service.EmployeeService;
 
@@ -9,7 +9,7 @@ import com.ideas2it.employee.service.EmployeeService;
  * class for Employee Controller
  *
  * @author vignesh r
- * @version1.0 04-03-2021
+ * @version 1.0 04-03-2021
  */
 public class EmployeeController {
 
@@ -38,20 +38,30 @@ public class EmployeeController {
     }
 
     /**
+     * Method to return individual employee detail
+     * @param id Emp id
+     * @return individual employee detail
+     */
+    public String getEmployee(int id) {
+        return employeeService.getEmployee(id); 
+    }
+
+    /**
      * Method to check if emp id is exist or not
      * @param id emp id
      * @return if id present in collection true or false
      */
-    public boolean empIdExist(int id) {
-        return employeeService.empIdExist(id);
+    public boolean isEmpIdExist(int id) {
+        return employeeService.isEmpIdExist(id);
     }
 
     /**
      * Method to delete employees
      * @param id emp id
+     * @return true if employee delete or false
      */
-    public void deleteEmployee(int id) {
-        employeeService.deleteEmployee(id);
+    public boolean deleteEmployee(int id) {
+        return employeeService.deleteEmployee(id);
     }
 
     /**
@@ -109,16 +119,18 @@ public class EmployeeController {
     }
 
     /**
-     * Method to validate phone number
+     * Method to check validate phone number
      * @param phone number Employee phone number
+     * @return true if validate phone number or false
      */
     public boolean validatePhoneNumber(long phoneNumber) {
         return employeeService.validatePhoneNumber(phoneNumber);
     }
 
     /**
-     * Method to validate email-id
+     * Method to check validate email-id
      * @param emailId Employee email-id
+     * @return true if validaemail-id or false
      */
     public boolean validateEamil(String emailId) {
         return employeeService.validateEmail(emailId);

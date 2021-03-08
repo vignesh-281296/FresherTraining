@@ -2,14 +2,17 @@ package com.ideas2it.employee.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+
 /** 
  * Employee of pojo class contain employee details.
  *
  * @author vignesh r.
- * version1.0 01-03-2021.
+ * version 1.0 01-03-2021.
  */
 public class Employee {
-
+    
+    private int empId;
     private String name;
     private String city;
     private String email;
@@ -17,7 +20,8 @@ public class Employee {
     private long salary;
     private Date dob;
 
-    public Employee(String name, String city, String email, long phoneNumber, long salary, Date dob) {
+    public Employee(int empId, String name, String city, String email, long phoneNumber, long salary, Date dob) {
+        this.empId = empId;
         this.name = name;
         this.city = city;
         this.email = email;
@@ -25,6 +29,15 @@ public class Employee {
         this.salary = salary;
         this.dob = dob;
     }
+
+    public int getEmpID() {
+        return empId;
+    }
+
+    public void setEmpId(int empId) {
+        this.empId = empId;
+    }
+
 
     public String getName() {
         return name;
@@ -75,10 +88,10 @@ public class Employee {
     }
 
     public String toString() {
-        return "Name - " + name + "\n" + "City - " + city + "\n" + "Email - "
-                              + email + "\n" + "Phone Number - " + phoneNumber 
-                              + "\n" + "Salary - " + salary + "\n" + "DOB -" 
-                              + new SimpleDateFormat("dd/MM/yyyy").format(dob); 
+        return "Employee-Id - " + empId + "\n Name - " + name + "\n City - " + city + "\n Email - "
+                        + email + "\n Phone Number - " + phoneNumber 
+                        + "\n Salary - " + salary + "\n DOB -" 
+                        + new SimpleDateFormat("dd/MM/yyyy").format(dob); 
     }       
 
 } 

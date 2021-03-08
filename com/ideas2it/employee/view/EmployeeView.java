@@ -1,20 +1,20 @@
 package com.ideas2it.employee.view;
 
-import java.util.List;
-import java.text.ParseException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern; 
 import java.util.Scanner;
 
 import com.ideas2it.employee.controller.EmployeeController;
 
 /**
- * contain method to create,delete,update,display.
+ * class is used to perform crud operations.
  *
  * @author vignesh r.
- * version1.0 01-03-2021.
+ * @version 1.0 01-03-2021.
  */
 public class EmployeeView {
   
@@ -22,11 +22,11 @@ public class EmployeeView {
     private EmployeeController employeeController = new EmployeeController();
 
     /**
-     * create employee record
+     * Method is used to create new employee details
      */
     private void createEmployee() {
-        System.out.println("Enter Your name");
         scanner.nextLine();
+        System.out.println("Enter Your name");
         String name = scanner.nextLine();
         System.out.println("Enter your city");
         String city = scanner.nextLine();
@@ -38,7 +38,7 @@ public class EmployeeView {
         long salary = scanner.nextLong();
         scanner.nextLine();
         System.out.println("Enter Date Of Birth in given format dd/mm/yyyy"); 
-        Date dob = isValidateDate();
+        Date dob = ValidateDate();
         if (employeeController.createEmployee(name, city, email, phoneNumber, salary, dob)) {
             System.out.println("Create Successfully");
         } else {
@@ -47,13 +47,13 @@ public class EmployeeView {
     }
 
     /** 
-     * Method to display all employee
+     * Method is used to display created employee details
      */
     private void getAllEmployee() {
-        List<String> employee = employeeController.displayAllEmployee();
-        if (employee.size() > 0) {
-            for (String employees : employee) {
-                System.out.println(employees);
+        List<String> employees = employeeController.displayAllEmployee();
+        if (0 < employees.size()) {
+            for (String employee : employees) {
+                System.out.println(employee);
                 System.out.println("===============================");
             }
         } else {
@@ -62,88 +62,110 @@ public class EmployeeView {
     }
 
     /**
-     * Method to delete employee
+     *Method to display individual employee detail
+     */
+    private void getEmployee() {
+        System.out.println("Enter your Employee id");
+        int empId = scanner.nextInt();
+        if (employeeController.isEmpIdExist(empId)) {
+            System.out.println(employeeController.getEmployee(empId));
+        } else {
+            System.out.println("Emp Id does not exist");
+          }
+    }
+
+    /**
+     * Method is perform the deletion of employee details
      */   
     private void deleteEmployee() {
         System.out.println("Enter your Employee Id");
-        int id = scanner.nextInt();
-        if (employeeController.empIdExist(id)) {
-            employeeController.deleteEmployee(id);
-            System.out.println("Delete Successfully");    
+        int empId = scanner.nextInt();
+        if (employeeController.isEmpIdExist(empId)) {
+            if (employeeController.deleteEmployee(empId)) {
+                System.out.println("Delete Successfully" + empId);
+            } else {
+                System.out.println("Unsuccesfull");
+              }               
         } else {
             System.out.println("Emp ID does not exist");
           }
     }
 
     /**
-     * update employee record based on employee id
+     * Method to update employee record based on employee id
      */
     private void updateEmployee() {
-        System.out.println("Enter the field to update\n 1. update Name\n 2. update City\n"
-                           + "3. update Email\n 4. update Phone\n 5.update Salary\n"
-                           + "6.update Date of Birth\n Enter your choice" );
-        int option = scanner.nextInt();
         System.out.println("Enter your Employee id");
-        int id = scanner.nextInt();
-        if (employeeController.empIdExist(id)) {
-            switch(option) {
-                case 1 :
-                    System.out.println("Enter your name");
-                    scanner.nextLine();
-                    String name = scanner.nextLine();
-                    employeeController.updateName(id, name);
-                    System.out.println("Updated SuccessFully");
-                    break;
-                case 2 :
-                    System.out.println("Enter your City");
-                    scanner.nextLine();
-                    String city = scanner.nextLine();
-                    employeeController.updateCity(id, city);
-                    System.out.println("Updated SuccessFully");
-                    break;
-                case 3 :
-                    System.out.println("Enter your Email");
-                    scanner.nextLine();
-                    String emailId = scanner.nextLine();
-                    employeeController.updateEmail(id, emailId);
-                    System.out.println("Updated SuccessFully");
-                    break;
-                case 4 :
-                    System.out.println("Enter your Phone Number");
-                    long updatePhoneNumber = scanner.nextLong();
-                    employeeController.updatePhoneNumber(id, updatePhoneNumber);
-                    System.out.println("Updated SuccessFully");
-                    break;
-                case 5 :
-                    System.out.println("Enter your Salary");
-                    long updateSalary = scanner.nextLong();
-                    employeeController.updateSalary(id, updateSalary);
-                    System.out.println("Updated SuccessFully");
-                    break;
-                case 6 :
-                    System.out.println("Enter Date Of Birth in given format dd/mm/yyyy");
-                    Date dob = isValidateDate();
-                    employeeController.updateDob(id, dob);
-                    System.out.println("Updated SuccessFully");
-                    break;
-                default :
-                    System.out.println("Invalid Choice");
-            }            
+        int empId = scanner.nextInt();
+        if (!employeeController.isEmpIdExist(empId)) {
+            System.out.println("Employee id does not exist");
         } else {
-            System.out.println("Employee Id does not exist");
-          }         
+            System.out.println("Enter your Update choice");
+            String updationOptionStatement ="Enter the field to update\n 1. Name\n 2. City\n"
+                                             + "3. Email\n 4. Phone\n 5.Salary\n"
+                                             + "6.Date of Birth\n 7. Cancel Updation Enter your choice ";
+        int option = 0;
+            while (7 != option) {
+                System.out.println(updationOptionStatement);
+                option = scanner.nextInt();
+                switch (option) {
+                    case 1 :
+                        scanner.nextLine();
+                        System.out.println("Enter your name");
+                        String name = scanner.nextLine();
+                        employeeController.updateName(empId, name);
+                        System.out.println("Updated SuccessFully");
+                        break;
+                    case 2 :
+                        System.out.println("Enter your City");
+                         String city = scanner.nextLine();
+                         employeeController.updateCity(empId, city);
+                         System.out.println("Updated SuccessFully");
+                         break;
+                    case 3 :
+                        System.out.println("Enter your Email");
+                        String emailId = scanner.nextLine();
+                        employeeController.updateEmail(empId, emailId);
+                        System.out.println("Updated SuccessFully");
+                        break;
+                    case 4 :
+                        System.out.println("Enter your Phone Number");
+                        long updatePhoneNumber = scanner.nextLong();
+                        employeeController.updatePhoneNumber(empId, updatePhoneNumber);
+                        System.out.println("Updated SuccessFully");
+                        break;
+                    case 5 :
+                        System.out.println("Enter your Salary");
+                        long updateSalary = scanner.nextLong();
+                        employeeController.updateSalary(empId, updateSalary);
+                        System.out.println("Updated SuccessFully");
+                        break;
+                    case 6 :
+                        System.out.println("Enter Date Of Birth in given format dd/mm/yyyy");
+                        Date dob = ValidateDate();
+                        employeeController.updateDob(empId, dob);
+                        System.out.println("Updated SuccessFully");
+                        break;
+                    case 7 :
+                        System.out.println("Update Cancelled");
+                        break;
+                    default :
+                        System.out.println("Invalid Choice");
+                } 
+            }
+             
+        }                    
     }
 
     /**
-     * Method to date validation
+     * Method to check date validation
      */
-    private Date isValidateDate() {
-        
+    private Date ValidateDate() {     
         try {
             return new SimpleDateFormat("dd/MM/yyyy").parse(scanner.next());
         } catch (ParseException exception) {
             System.out.println("Enter valid date format");
-            return isValidateDate();
+            return ValidateDate();
         }                  
     }
 
@@ -179,8 +201,9 @@ public class EmployeeView {
     public void operation() {
         int choice = 0;
         String choiceDetails = "Enter 1 to create employee \n Enter 2 to Update employee \n Enter 3 to Delete employee"
-                                + "\n Enter 4 to Display Employee \n Enter 5 to Exit";
-        while (5 != choice) {
+                                + "\n Enter 4 to Display Individual Employee \n Enter 5 to Display Employee"
+                                + "\n Enter 6 to Exit \n Entr your choice";    
+        while(6 != choice) {
             System.out.println(choiceDetails);
             choice = scanner.nextInt();
             switch (choice) {
@@ -188,21 +211,23 @@ public class EmployeeView {
                     createEmployee();
                     break;
                 case 2 :
-                    updateEmployee();
-                    
-                    break;
+                    updateEmployee();        
+                     break;
                 case 3 :
                     deleteEmployee();
                     break;
                 case 4 :
+                    getEmployee();
+                    break;
+                case 5 :
                     getAllEmployee();
                     break;    
-                case 5 :
+                case 6 :
                     System.out.println("Thank You");
                     break;
                 default :
                     System.out.println("Invalid Choice");        
             }
-        }
+        }   
     }
 }

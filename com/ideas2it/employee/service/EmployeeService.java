@@ -1,20 +1,20 @@
 package com.ideas2it.employee.service;
 
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.ideas2it.employee.model.Employee;
 
 /**
- * class for Employee Service
+ * class is used to store and retrieve data using model class
  *
  * @author vignesh r
- * @version1.0 04-03-2021
+ * @version 1.0 04-03-2021
  */
 public class EmployeeService {
 
@@ -22,7 +22,7 @@ public class EmployeeService {
     private int empId = 0;
 
     /**
-     * Method to create Employee
+     * Method to create Employee and store it in employeeDetails
      * @param name Employee name
      * @param city Employee city
      * @param email Employee email-id
@@ -33,9 +33,9 @@ public class EmployeeService {
      */
     public boolean createEmployee(String name, String city, String email, long phoneNumber, 
                                   long salary, Date dob) {
-         Employee employee = new Employee(name, city, email, phoneNumber, salary, dob);
          empId++;
-         return (null == employeeDetails.put(empId, employee)) ? true : false;
+         Employee employee = new Employee(empId, name, city, email, phoneNumber, salary, dob);
+         return null == employeeDetails.put(empId, employee);
     }
 
     /**
@@ -51,20 +51,30 @@ public class EmployeeService {
     }
 
     /**
+     * Method to display individual employee details
+     * @id Employee id
+     * @return individual employee detail 
+     */
+    public String getEmployee(int id) {
+        return employeeDetails.get(id).toString(); 
+    }
+
+    /**
      * Method to check if emp id is exist or not
      * @param id emp id
      * @return if id present in collection true or false
      */
-    public boolean empIdExist(int id) {
-        return (null != employeeDetails.get(id)) ? true : false;
+    public boolean isEmpIdExist(int id) {
+        return null != employeeDetails.get(id);
     }
 
     /**
      * Method to delete employees
      * @param id emp id
+     * return true if employee is delete or false
      */
-    public void deleteEmployee(int id) {
-        employeeDetails.remove(id);
+    public boolean deleteEmployee(int id) {
+        return null != employeeDetails.remove(id);
     }
     
     /**
@@ -132,11 +142,7 @@ public class EmployeeService {
      * @param phone number Employee phone number
      */
     public boolean validatePhoneNumber(long phoneNumber) {
-        if (Long.toString(phoneNumber).matches("[7-9][0-9]{9}")) {
-            return true;    
-        } else {
-            return false;
-          }
+        return Long.toString(phoneNumber).matches("[7-9][0-9]{9}");       
     }
 
     /**
@@ -144,11 +150,7 @@ public class EmployeeService {
      * @param emailId Employee email-id
      */
     public boolean validateEmail(String emailId) {
-        if (emailId.matches("^[_A-Za-z0-9-\\+]+(\\.[A-Za-z0-9-]+)*@[A-Za-z0-9-]+" +
-                              "(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
-            return true;    
-        } else {
-            return false;
-          }
+        return emailId.matches("^[_A-Za-z0-9-\\+]+(\\.[A-Za-z0-9-]+)*@[A-Za-z0-9-]+" +
+                              "(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
     }
 }
