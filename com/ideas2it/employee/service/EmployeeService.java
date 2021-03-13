@@ -1,6 +1,7 @@
 package com.ideas2it.employee.service;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -16,56 +17,31 @@ public interface EmployeeService {
      * @param phoneNumber employee phonenumber
      * @param salary employee salary
      * @param dob employee date of birth
+     * @param employeeAddressDetails lists of employee address
      */
     public boolean insertEmployee(String name, String desgination, String emailId,
-                              long phoneNumber, long salary, Date dob);
-
-    /**
-     * Method used to pass employee address into database
-     * @param empId employee id
-     * @param doorno employee doorno
-     * @param streetName employee street name
-     * @param city employee city
-     * @param district employee district
-     * @param state employee state
-     * @param country employee country
-     * @param addressMode Employee type of address
-     */  
-    public boolean insertAddress(String doorNo, String streetName,
-                                 String city, String district, String state, 
-                                 String country, String addressMode); 
-
-    /**
-     * Method to display all employee details
-     */
-    public List<String> getAllEmployee();
-
-    /**
-     * Method to display all employee address details
-     */
-    public List<String> getAllEmployeeAddress();
+            long phoneNumber, long salary, Date dob, List<String[]> employeeAddressDetails)throws SQLException, ClassNotFoundException;
 
     /**
      * Method to check is employee id exist or not
+     @ param id employeeId
      */
-    public boolean isEmpIdExist(int id);
+    public boolean isEmpIdExist(int id) throws SQLException, ClassNotFoundException;
 
     /**
      * Method to delete employee based upon emp id
      * @param id employee id 
      */
-    public boolean deleteEmployee(int id);
+    public boolean deleteEmployee(int id) throws SQLException, ClassNotFoundException;
 
     /**
-     * Method to display employee based upon employee id
+     * Method to display individual employee details
      * @param id employee id
      */
-    public String getEmployee(int id);  
+    public String getSpecificEmployee(int id) throws SQLException, ClassNotFoundException;
 
     /**
-     * Method to display employee address based upon employee id
-     * @param id employee id
-     * @param addressType type of address
+     * Method to display all employee
      */
-    public String getAddress(int id, String addressType);
+    public List<String> getAllEmployee() throws SQLException, ClassNotFoundException;
 }

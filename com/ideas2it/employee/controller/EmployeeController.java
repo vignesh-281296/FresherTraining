@@ -1,6 +1,7 @@
 package com.ideas2it.employee.controller;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.ideas2it.employee.service.impl.EmployeeServiceImpl;
@@ -19,76 +20,44 @@ public class EmployeeController {
      * @param emailId employee email-id
      * @param phoneNumber employee phonenumber
      * @param salary employee salary
-     * @param dob employee date of birth
-     * @return It will return employee id from employee service
+     * @param dob employee date of birth 
+     * @param address list of employee address details
+     * @return boolean status
      */
     public boolean createEmployee(String name, String desgination, String emailId,
-                                  long phoneNumber, long salary, Date dob) {
-        return employeeService.insertEmployee(name, desgination, emailId, phoneNumber, salary, dob);	
+            long phoneNumber, long salary, Date dob, List<String[]> employeeAddressDetails) throws SQLException, ClassNotFoundException {
+        return employeeService.insertEmployee(name, desgination, emailId, phoneNumber, salary, dob, employeeAddressDetails);	
     }
 
     /**
-     * Method send employee addrress values to EmployeeService to insertAddress method
-     * @param empId employee id
-     * @param doorNo employee door no
-     * @param streetName employee street name
-     * @param city employee city
-     * @param district employee district 
-     * @param state employee state
-     * @param country employee country
-     * @param addressMode employee type of address
-     * @return It will return employee id from employee service
-     */
-    public boolean createAddress(String doorNo, String streetName,
-                                 String city, String district, String state, 
-                                 String country, String addressMode) {
-        return employeeService.insertAddress(doorNo, streetName, city, district, 
-                                             state, country, addressMode);	
-    }
-
-    /**
-     * Method to get all employee details
-     */
-    public List<String> getAllEmployee() {
-        return employeeService.getAllEmployee();
-    } 
-	
-    /**
-     * Method to get all employee address details
-     */
-    public List<String> getAllEmployeeAddress() {
-        return employeeService.getAllEmployeeAddress();
-    }	
-
-    /**
-     * Method to check wheather the emp id is exist or not
+     * Method to check wheather the emp id is exist or not 
+     * @param id employee id
      * @return true if emp id exist or false
      */
-    public boolean isEmpIdExist(int id) {
+    public boolean isEmpIdExist(int id) throws SQLException, ClassNotFoundException {
         return employeeService.isEmpIdExist(id);
     }
 
     /** Method to delete employee
      * @param id employee id
      */
-    public boolean deleteEmployee(int id) {
+    public boolean deleteEmployee(int id) throws SQLException, ClassNotFoundException {
         return employeeService.deleteEmployee(id);
     }
 
     /**
-     * Method to display employee detail based upon employee id
+     * Method to get individual employee details
+     * @param id employee id
      */
-    public String getEmployee(int id) {
-        return employeeService.getEmployee(id);     
+    public String getSpecificEmployee(int id) throws SQLException, ClassNotFoundException {
+        return employeeService.getSpecificEmployee(id);
     }
 
     /**
-     * Method to display particular employee address based upon 
-     * employee id
+     * Method to display all employee details
      * @param id employee id
-     * @param addressType type of address
      */
-    public String getAddress(int id, String addressType) {
-        return employeeService.getAddress(id, addressType);
-    }
+    public List<String> getAllEmployee() throws SQLException, ClassNotFoundException {
+        return employeeService.getAllEmployee();
+    }  
 }

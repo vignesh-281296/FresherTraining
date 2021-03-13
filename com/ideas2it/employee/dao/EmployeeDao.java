@@ -1,9 +1,10 @@
 package com.ideas2it.employee.dao;
 
 import java.util.List;
+import java.sql.SQLException;
 
-import com.ideas2it.employee.model.Employee;
 import com.ideas2it.employee.model.Address;
+import com.ideas2it.employee.model.Employee;
 
 /**
  * EmployeeDoa is an interface of EmployeeDaoImpl
@@ -14,53 +15,28 @@ public interface EmployeeDao {
      * Method insert data from employee class to database
      * @param employee it is an Employee class object
      */ 
-    public boolean insertEmployee(Employee employee);
-
-    /**
-     * Method insert data from address class to database
-     * @param address it is an Address class object
-     */
-    public boolean insertAddress(Address address);
-
-    /**
-     * Method to get all employees
-     */
-    public List<Employee> getAllEmployee();
-
-     /**
-     * Method to get all employees address
-     */
-    public List<Address> getAllEmployeeAddress();
+    public boolean insertEmployee(Employee employee) throws SQLException, ClassNotFoundException;
 
     /**
      * Method to check wheather id is exist or not
      * @param id employee id
      */
-    public boolean isEmpIdExist(int id);
+    public boolean isEmpIdExist(int id) throws SQLException, ClassNotFoundException;
 
     /**
      * Method to delete employee details 
      * @param id employee id
      */
-    public boolean deleteEmployee(int id);
+    public boolean deleteEmployee(int id) throws SQLException, ClassNotFoundException;
 
     /**
-     * Method to update employee details
+     * Method to display specific employee
      * @param id employee id
-     * @param employee employee details
      */
-    public boolean updateEmployee(int id, Employee employee);
-
+    public Employee getSpecificEmployee(int id) throws SQLException, ClassNotFoundException; 
+ 
     /**
-     * Method to employee details based upon id
-     * @param id employee id
+     * Method to display specific employee
      */
-    public Employee getEmployee(int id);
-
-    /**
-     * Method to employee address details based upon id
-     * @param id employee id
-     * @param addressType type of address
-     */
-    public Address getAddress(int id, String addressType);			  
+     public List<Employee> getAllEmployee() throws SQLException, ClassNotFoundException;    			  
 }

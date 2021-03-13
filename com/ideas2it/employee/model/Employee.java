@@ -1,7 +1,10 @@
 package com.ideas2it.employee.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.ideas2it.employee.model.Address;
 /** 
  * Employee of pojo class contain employee details.
  *
@@ -10,30 +13,33 @@ import java.sql.Date;
  */
 public class Employee {
     
-    private int empId;
+    private int id;
     private String name;
     private String desgination;
     private String email;
     private long phoneNumber;
     private long salary;
     private Date dob;
+    private List<Address> address = new ArrayList<Address>();
 
-    public Employee(int empId, String name, String desgination, String email, long phoneNumber, long salary, Date dob) {
-        this.empId = empId;
+    public Employee(int id, String name, String desgination, String email, 
+                    long phoneNumber, long salary, Date dob, List<Address> address) {
+        this.id = id;
         this.name = name;
         this.desgination = desgination;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.salary = salary;
         this.dob = dob;
+        this.address = address;
     }
 
-    public int getEmpID() {
-        return empId;
+    public int getId() {
+        return id;
     }
 
-    public void setEmpId(int empId) {
-        this.empId = empId;
+    public void setId(int id) {
+        this.id = id;
     }
 
 
@@ -85,10 +91,17 @@ public class Employee {
         this.dob = dob;
     }
 
-    public String toString() {
-        return "Employee-Id - " + empId + "\n Name - " + name + "\n Desgination - " + desgination + "\n Email - "
-                        + email + "\n Phone Number - " + phoneNumber 
-                        + "\n Salary - " + salary + "\n DOB -" + dob; 
-    }       
+    public List<Address> getAddress() {
+        return address;
+    }
 
+    public void setAddress(List<Address> address) {
+        this.address = address;
+    }
+
+    public String toString() {
+        return "Employee-Id - " + id + "\n Name - " + name + "\n Desgination - " + desgination + "\n Email - "
+                + email + "\n Phone Number - " + phoneNumber + "\n Salary - " + salary + "\n DOB -" + dob;
+                 
+    }      
 } 
