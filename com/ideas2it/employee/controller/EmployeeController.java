@@ -22,7 +22,7 @@ public class EmployeeController {
      * @param salary employee salary
      * @param dob employee date of birth 
      * @param address list of employee address details
-     * @return boolean status
+     * @return boolean value
      */
     public boolean createEmployee(String name, String desgination, String emailId,
             long phoneNumber, long salary, Date dob, List<String[]> employeeAddressDetails) throws SQLException, ClassNotFoundException {
@@ -30,9 +30,9 @@ public class EmployeeController {
     }
 
     /**
-     * Method to check wheather the emp id is exist or not 
+     * Method to check wheather the employee id is exist or not 
      * @param id employee id
-     * @return true if emp id exist or false
+     * @return boolean value
      */
     public boolean isEmpIdExist(int id) throws SQLException, ClassNotFoundException {
         return employeeService.isEmpIdExist(id);
@@ -40,14 +40,16 @@ public class EmployeeController {
 
     /** Method to delete employee
      * @param id employee id
+     * @return boolean value
      */
     public boolean deleteEmployee(int id) throws SQLException, ClassNotFoundException {
         return employeeService.deleteEmployee(id);
     }
 
     /**
-     * Method to get individual employee details
+     * Method to get individual employee detail
      * @param id employee id
+     * @return individual employee detail
      */
     public String getSpecificEmployee(int id) throws SQLException, ClassNotFoundException {
         return employeeService.getSpecificEmployee(id);
@@ -55,9 +57,45 @@ public class EmployeeController {
 
     /**
      * Method to display all employee details
-     * @param id employee id
+     * @return all employee details
      */
     public List<String> getAllEmployee() throws SQLException, ClassNotFoundException {
         return employeeService.getAllEmployee();
+    }
+
+    /**
+     * Method to update employee details
+     * @param name employee name
+     * @desgination employee desgination
+     * @email employee email
+     * @phoneNumber employee phone number
+     * @salary employee salary
+     * @dob employee date of birth
+     * @id employee id
+     * @return boolean value
+     */
+    public boolean updateEmployee(String name, String desgination, String email, long phoneNumber,
+                                  long salary, Date dob, int id) throws SQLException, ClassNotFoundException {
+        return employeeService.updateEmployee(name, desgination, email, phoneNumber, salary, dob, id); 
+    }
+
+     /**
+     * Method to update employee address details
+     * @param id employee id
+     * @param addressDetails array of address details
+     * @return boolean value 
+     */
+    public boolean updateEmployeeAddress(int id, String[] addressDetails) throws SQLException, ClassNotFoundException {
+        return employeeService.updateEmployeeAddress(id, addressDetails);
+    }
+
+    /**
+     * Method to check wheather the employee address type is exist or not
+     * @param id employee id
+     * @param addressType type of address
+     * @return boolean value
+     */
+    public boolean isExistAddressType(int id, String addressType) throws SQLException, ClassNotFoundException {
+        return employeeService.isExistAddressType(id, addressType);
     }  
 }

@@ -20,7 +20,7 @@ public class EmployeeView {
     private EmployeeController employeeController = new EmployeeController();
     
     /**
-     * Method is used to create new employee details
+     * Method is used to create new employee
      */
     private void createEmployee() throws SQLException, ClassNotFoundException {
         scanner.nextLine();
@@ -36,7 +36,7 @@ public class EmployeeView {
         long salary = scanner.nextLong();
         scanner.nextLine();
         System.out.println("Enter Date Of Birth in given format yyyy-MM-dd");
-        String date = scanner.nextLine(); 
+        String date = scanner.next(); 
         Date dob = Date.valueOf(date);
         String address[] = addressOperation();
         List<String[]> addressDetails = new ArrayList<String[]>();
@@ -51,7 +51,7 @@ public class EmployeeView {
     }
 
     /**
-     * Method to address operation to enter type of address
+     * Method used to create new address 
      */
     private String[] addressOperation() throws SQLException, ClassNotFoundException {
         System.out.println("Please select your type of address");
@@ -66,40 +66,39 @@ public class EmployeeView {
         while (6 != addressChoice) {
             System.out.println(addressChoiceDetail);
             addressChoice = scanner.nextInt();
-                switch (addressChoice) {
-                    case 1 :
-                        addressDetails = createAddress("homeaddress");
-                        break;
-                    case 2 :
-                        addressDetails = createAddress("currentnaddress");
-                        break;
-                    case 3 :
-                        addressDetails = createAddress("permanentaddress");
-                        break;
-                    case 4 :
-                        addressDetails = createAddress("temporaryaddress");
-                        break;
-                    case 5 :
-                        addressDetails = createAddress("officeaddress");
-                        break;
-                    case 6 :
-                        System.out.println("Thank you");
-                        break;
-                    default :
-                        System.out.println("Invalid choice");
-                        break;
-                }
+            switch (addressChoice) {
+                case 1 :
+                    addressDetails = getAddressDetails("homeaddress");
+                    break;
+                case 2 :
+                    addressDetails = getAddressDetails("currentnaddress");
+                    break;
+                case 3 :
+                    addressDetails = getAddressDetails("permanentaddress");
+                    break;
+                case 4 :
+                    addressDetails = getAddressDetails("temporaryaddress");
+                    break;
+                case 5 :
+                    addressDetails = getAddressDetails("officeaddress");
+                    break;
+                case 6 :
+                    System.out.println("Thank you");
+                    break;
+                default :
+                    System.out.println("Invalid choice");
+            }
         }
         return addressDetails;
     }
 
     /**
-     * Method is used to store employee address
+     * Method is used to get employee address details
      * @param addressMode type of employee address
      * @return employee address details
      */
-    private String[] createAddress(String addressMode) throws SQLException, ClassNotFoundException {
-        String[] address = new String[7];
+    private String[] getAddressDetails(String addressMode) throws SQLException, ClassNotFoundException {
+        String[] addressDetails = new String[7];
         scanner.nextLine();
         System.out.println("Enter your door no");
         address[0] = scanner.nextLine();
@@ -114,7 +113,7 @@ public class EmployeeView {
         System.out.println("Enter your country");
         address[5] = scanner.nextLine();
         address[6] = addressMode;
-        return address;
+        return addressDetails;
     }
 
     /**
@@ -129,7 +128,6 @@ public class EmployeeView {
             } else {
                 System.out.println("Unsuccessful");
               }
-            
         } else {
             System.out.println("Employee id doesn't exist");
           }
@@ -156,7 +154,159 @@ public class EmployeeView {
         for (String employees : employeeController.getAllEmployee()) {
             System.out.println(employees + "\n");
         }   
-    } 
+    }
+
+    /**
+     * Method to update employee details 
+     */
+    private void updateOperation() throws SQLException, ClassNotFoundException {
+        System.out.println("Please select your type of address");
+        int updateChoice = 0;
+        String updateChoiceDetail = "Enter 1 to update employee details" 
+                                     + "\n Enter 2 to update address details"
+                                     + "\n Enter 3 to quit";
+        while (3 != updateChoice) {
+            System.out.println(updateChoiceDetail);
+            updateChoice = scanner.nextInt();
+            switch (updateChoice) {
+                case 1 :
+                    updateEmployeeDetails();
+                    break;
+                case 2 :
+                    updateEmployeeAddress();
+                    break;
+                case 3 :
+                    System.out.println("Thank you");
+                    break;
+                default :
+                    System.out.println("Invalid choice");
+            }
+        }
+    }
+
+    /**
+     * Method to update employee details
+     */
+    private void updateEmployeeDetails() throws SQLException, ClassNotFoundException {
+        System.out.println("Enter your employee id");
+        int empId = scanner.nextInt();
+        if (employeeController.isEmpIdExist(empId)) {
+            scanner.nextLine();
+            System.out.println("Enter your name");
+            String name = scanner.nextLine();
+            System.out.println("Entr your desgination");
+            String desgination = scanner.nextLine();
+            System.out.println("Enter your email id");
+            String email = scanner.nextLine();
+            System.out.println("Enter your phone number");
+            long phoneNumber = scanner.nextLong();
+            System.out.println("Enter your salary");
+            long salary = scanner.nextLong();
+            System.out.println("Enter Date Of Birth in given format yyyy-MM-dd");
+            String date = scanner.next(); 
+            Date dob = Date.valueOf(date);
+            boolean updateEmployeeResult = employeeController.updateEmployee(name, desgination, email, phoneNumber, 
+                                                               salary, dob, empId);  
+            if (updateEmployeeResult) {
+                System.out.println("Updated Successfully");
+            } else {
+                System.out.println("Unsuccessful");
+              }
+        } else {
+            System.out.println("Employee id doesn't exist");
+          }
+    }
+
+    /**
+     * Method to update employee address operation
+     */
+    private void updateEmployeeAddress() throws SQLException, ClassNotFoundException {
+        System.out.println("Enter your employee id");
+        int empId = scanner.nextInt();
+        if (employeeController.isEmpIdExist(empId)) {
+            System.out.println("Please select your type of address");   
+            int addressDisplayOption = 0;
+            String addressDisplayChoice = "Enter 1 to home address" 
+                                           + "\n Enter 2 to current address"
+                                           + "\n Enter 3 to permanent address"
+                                           + "\n Enter 4 to temporary address"
+                                           + "\n Enter 5 to office address"
+                                           + "\n Enter 6 to quit";
+            while (6 != addressDisplayOption) {
+                System.out.println(addressDisplayChoice);
+                addressDisplayOption = scanner.nextInt();
+                switch (addressDisplayOption) {
+                    case 1 :
+                        if (employeeController.isExistAddressType(empId, "homeaddress")) {
+                            String[] addressDetails = getAddressDetails("homeaddress");
+                            if (employeeController.updateEmployeeAddress(empId, addressDetails)) {
+                                System.out.println("Home address updated successfully");
+                            } else {
+                                System.out.println("unsuccessful");
+                              }
+                        } else {
+                            System.out.println("Address type does not exist");
+                          }
+                        break;
+                    case 2 :
+                        if (employeeController.isExistAddressType(empId, "currentnaddress")) {
+                            String[] addressDetails = getAddressDetails("currentnaddress'");
+                            if (employeeController.updateEmployeeAddress(empId, addressDetails)) {
+                                System.out.println("Current address updated successfully");
+                            } else {
+                                System.out.println("unsuccessful");
+                              }
+                        } else {
+                            System.out.println("Address type does not exist");
+                          }
+                        break;
+                    case 3 :
+                        if (employeeController.isExistAddressType(empId, "permanentaddress")) {
+                            String[] addressDetails = getAddressDetails("permanentaddress");
+                            if (employeeController.updateEmployeeAddress(empId, addressDetails)) {
+                                System.out.println("Permanent address updated successfully");
+                            } else {
+                                System.out.println("unsuccessful");
+                              }
+                        } else {
+                            System.out.println("Address type does not exist");
+                          }
+                        break;
+                    case 4 :
+                        if (employeeController.isExistAddressType(empId, "temporaryaddress")) {
+                            String[] addressDetails = getAddressDetails("temporaryaddress");
+                            if (employeeController.updateEmployeeAddress(empId, addressDetails)) {
+                                System.out.println("Temporary address updated successfully");
+                            } else {
+                                System.out.println("unsuccessful");
+                              }
+                        } else {
+                            System.out.println("Address type does not exist");
+                          }
+                        break;
+                    case 5 :
+                        if (employeeController.isExistAddressType(empId, "officeaddress")) {
+                            String[] addressDetails = getAddressDetails("officeaddress");
+                            if (employeeController.updateEmployeeAddress(empId, addressDetails)) {
+                                System.out.println("Office address updated successfully");
+                            } else {
+                                System.out.println("unsuccessful");
+                              }
+                        } else {
+                            System.out.println("Address type does not exist");
+                          }
+                        break;
+                    case 6 :
+                        System.out.println("Thank you");
+                        break;
+                    default :
+                        System.out.println("Invalid choice");
+                }
+            }    
+        } else {
+            System.out.println("employee does not exist");
+          }
+    }   
 
     /**
      * Method to CRUD operation
@@ -173,14 +323,17 @@ public class EmployeeView {
                 case 1 : 
                     createEmployee();
                     break;
+                case 2 : 
+                    updateOperation();
+                    break;
                 case 3 : 
                     deleteEmployee();
                     break;
                 case 4 :
-                    displayAllEmployee(); 
+                    getSpecificEmployee(); 
                     break;
                 case 5 : 
-                    getSpecificEmployee();
+                    displayAllEmployee();
                     break;     
                 case 6 :
                     System.out.println("Thank You");

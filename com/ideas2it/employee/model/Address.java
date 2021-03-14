@@ -32,7 +32,7 @@ public class Address {
         this.addressMode = addressMode;
     }
 
-    public int getEmpID() {
+    public int getEmpId() {
         return empId;
     }
 

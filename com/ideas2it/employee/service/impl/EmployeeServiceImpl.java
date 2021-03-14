@@ -11,7 +11,7 @@ import com.ideas2it.employee.model.Employee;
 import com.ideas2it.employee.service.EmployeeService;
 
 /**
- * This class is used retrives datas from POJO
+ * This class for employee business logic
  *
  * @author vignesh r
  */
@@ -24,14 +24,14 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public boolean insertEmployee(String name, String desgination, String emailId,
-                                  long phoneNumber, long salary, Date dob, List<String[]> employeeAddressDetails) throws SQLException, ClassNotFoundException {
+            long phoneNumber, long salary, Date dob, List<String[]> employeeAddressDetails) throws SQLException, ClassNotFoundException {
         Address employeeAddress;
         List<Address> addressDetails = new ArrayList<Address>();
         for (int i = 0; i < employeeAddressDetails.size(); i++) {
             employeeAddress = new Address(0, employeeAddressDetails.get(i)[0], employeeAddressDetails.get(i)[1],
-                                          employeeAddressDetails.get(i)[2], employeeAddressDetails.get(i)[3],
-                                          employeeAddressDetails.get(i)[4],employeeAddressDetails.get(i)[5],
-                                          employeeAddressDetails.get(i)[6]);
+                    employeeAddressDetails.get(i)[2], employeeAddressDetails.get(i)[3],
+                    employeeAddressDetails.get(i)[4],employeeAddressDetails.get(i)[5],
+                    employeeAddressDetails.get(i)[6]);
             addressDetails.add(employeeAddress);
         }
         Employee employee = new Employee(0, name, desgination, emailId, phoneNumber, salary, dob, addressDetails); 
@@ -41,6 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     /**
      * {inheritDoc}
      */
+    @Override
     public boolean isEmpIdExist(int id) throws SQLException, ClassNotFoundException {
         return employeeDao.isEmpIdExist(id);
     }
@@ -78,7 +79,33 @@ public class EmployeeServiceImpl implements EmployeeService {
         for (int i = 0; i < employees.size(); i++) {
             employeeDetails.add(employees.get(i).toString());
         }
-       
         return employeeDetails;      
+    }
+
+    /** 
+     * {inheritDoc}
+     */
+    @Override
+    public boolean updateEmployee(String name, String desgination, String email, long phoneNumber,
+                                  long salary, Date dob, int id) throws SQLException, ClassNotFoundException {
+        return employeeDao.updateEmployee(name, desgination, email, phoneNumber, salary, dob, id);     
+    }
+
+    /** 
+     * {inheritDoc}
+     */
+    @Override
+    public boolean updateEmployeeAddress(int id, String[] addressDetails) throws SQLException, ClassNotFoundException {
+        Address address = new Address(0, addressDetails[0], addressDetails[1], addressDetails[2],addressDetails[3],
+                addressDetails[4], addressDetails[5], addressDetails[6]);
+        return employeeDao.updateEmployeeAddress(id, address);
+    }
+
+    /** 
+     * {inheritDoc}
+     */
+    @Override
+    public boolean isExistAddressType(int id, String addressType) throws SQLException, ClassNotFoundException {
+        return employeeDao.isExistAddressType(id, addressType);
     }
 }

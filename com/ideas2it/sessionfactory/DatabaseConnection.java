@@ -8,6 +8,7 @@ import java.sql.SQLException;
  * This is singleton class 
  * 
  * @author vignesh r
+ * @version 1.0 14-03-2021
  */
 public class DatabaseConnection {
       private static DatabaseConnection databaseConnection = null;
