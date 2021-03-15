@@ -29,9 +29,9 @@ public class EmployeeView {
         System.out.println("Enter your desgination");
         String desgination = scanner.nextLine();
         System.out.println("Enter your email");
-        String email = scanner.nextLine();
+        String email = validateEmail(scanner.next());
         System.out.println("Enter your phone number");
-        long phoneNumber = scanner.nextLong();
+        long phoneNumber = validatePhoneNumber(scanner.nextLong());
         System.out.println("Enter your salary");
         long salary = scanner.nextLong();
         scanner.nextLine();
@@ -101,18 +101,18 @@ public class EmployeeView {
         String[] addressDetails = new String[7];
         scanner.nextLine();
         System.out.println("Enter your door no");
-        address[0] = scanner.nextLine();
+        addressDetails[0] = scanner.nextLine();
         System.out.println("Enter your street name");
-        address[1] = scanner.nextLine();
+        addressDetails[1] = scanner.nextLine();
         System.out.println("Enter your city");
-        address[2] = scanner.nextLine();
+        addressDetails[2] = scanner.nextLine();
         System.out.println("Enter your district");
-        address[3] = scanner.nextLine();
+        addressDetails[3] = scanner.nextLine();
         System.out.println("Enter your state");
-        address[4] = scanner.nextLine();
+        addressDetails[4] = scanner.nextLine();
         System.out.println("Enter your country");
-        address[5] = scanner.nextLine();
-        address[6] = addressMode;
+        addressDetails[5] = scanner.nextLine();
+        addressDetails[6] = addressMode;
         return addressDetails;
     }
 
@@ -306,7 +306,35 @@ public class EmployeeView {
         } else {
             System.out.println("employee does not exist");
           }
-    }   
+    }
+
+    /**
+     * Method to validate phone number
+     * @param phoneNumber employee phone number
+     */
+    private long validatePhoneNumber(long phoneNumber) throws SQLException, ClassNotFoundException {
+        if (employeeController.validatePhoneNumber(phoneNumber)) {
+            return phoneNumber;
+        } else {
+            System.out.print("Invalid Phone Number\n"
+                                   + "Enter Valid Phone Number: ");
+            return validatePhoneNumber(scanner.nextLong());
+          }
+    }
+
+    /**
+     * Method to validate email id
+     * @param emailId employee email-id
+     */ 
+    private String validateEmail(String emailId) throws SQLException, ClassNotFoundException {
+        if (employeeController.validateEamil(emailId)) {
+            return emailId;
+        } else {
+            System.out.print("Invalid EmailID\n"
+                                   + "Enter Valid Email ID: ");
+            return validateEmail(scanner.next());
+          }
+    }    
 
     /**
      * Method to CRUD operation

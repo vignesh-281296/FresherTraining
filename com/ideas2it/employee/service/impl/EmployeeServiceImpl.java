@@ -59,9 +59,13 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public String getSpecificEmployee(int id) throws SQLException, ClassNotFoundException {
-        Employee employees = employeeDao.getSpecificEmployee(id);
-        String employeeDetails = employees.toString();
-        List<Address> employeeAddress = employees.getAddress();
+        Employee employee = employeeDao.getSpecificEmployee(id);     
+        return getEmployeeDetails(employee);
+    }
+
+    private String getEmployeeDetails(Employee employee) {    
+        String employeeDetails = employee.toString();
+        List<Address> employeeAddress = employee.getAddress();
         for (int i = 0; i < employeeAddress.size(); i++) {
             employeeDetails = employeeDetails + employeeAddress.get(i) + "\n";
         }
@@ -73,13 +77,14 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public List<String> getAllEmployee() throws SQLException, ClassNotFoundException {
-        List<String> employeeDetails = new ArrayList<String>();
         List<Employee> employees = new ArrayList<Employee>();
-        employees = employeeDao.getAllEmployee();                           
+        List<String> employeeDetails = new ArrayList<String>();
+        employees = employeeDao.getAllEmployee();
         for (int i = 0; i < employees.size(); i++) {
-            employeeDetails.add(employees.get(i).toString());
+            employeeDetails.add(getEmployeeDetails(employees.get(i)));
         }
-        return employeeDetails;      
+        return employeeDetails;
+              
     }
 
     /** 
@@ -107,5 +112,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public boolean isExistAddressType(int id, String addressType) throws SQLException, ClassNotFoundException {
         return employeeDao.isExistAddressType(id, addressType);
+    }
+
+    /** 
+     * {inheritDoc}
+     */
+    @Override   
+    public boolean validatePhoneNumber(long phoneNumber) throws SQLException, ClassNotFoundException {
+        return Long.toString(phoneNumber).matches("[7-9][0-9]{9}");       
+    }
+
+    /** 
+     * {inheritDoc}
+     */
+    @Override    
+    public boolean validateEmail(String emailId) throws SQLException, ClassNotFoundException {	
+        return emailId.matches("^[_A-Za-z0-9-\\+]+(\\.[A-Za-z0-9-]+)*@[A-Za-z0-9-]+" +
+                              "(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
     }
 }

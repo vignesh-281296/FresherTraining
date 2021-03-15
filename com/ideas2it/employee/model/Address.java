@@ -1,4 +1,4 @@
-package com.ideas2it.employee.model;
+	package com.ideas2it.employee.model;
 
 import java.sql.Date;
 

@@ -97,5 +97,23 @@ public class EmployeeController {
      */
     public boolean isExistAddressType(int id, String addressType) throws SQLException, ClassNotFoundException {
         return employeeService.isExistAddressType(id, addressType);
+    }
+
+    /**
+     * Method to check validate phone number
+     * @param phone number Employee phone number
+     * @return true if validate phone number or false
+     */
+    public boolean validatePhoneNumber(long phoneNumber) throws SQLException, ClassNotFoundException {
+        return employeeService.validatePhoneNumber(phoneNumber);
+    }
+
+    /**
+     * Method to check validate email-id
+     * @param emailId Employee email-id
+     * @return true if validaemail-id or false
+     */
+    public boolean validateEamil(String emailId) throws SQLException, ClassNotFoundException {
+        return employeeService.validateEmail(emailId);
     }  
 }

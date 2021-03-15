@@ -78,5 +78,19 @@ public interface EmployeeService {
      * @param addressType type of address
      * @return boolean value
      */
-    public boolean isExistAddressType(int id, String addressType) throws SQLException, ClassNotFoundException; 
+    public boolean isExistAddressType(int id, String addressType) throws SQLException, ClassNotFoundException;
+
+    /**
+     * Method to validate phone number
+     * @param phone number Employee phone number
+     * @return boolean value
+     */
+    public boolean validatePhoneNumber(long phoneNumber) throws SQLException, ClassNotFoundException;
+
+     /**
+     * Method to validate email-id
+     * @param emailId Employee email-id
+     * @return boolean value
+     */
+    public boolean validateEmail(String emailId) throws SQLException, ClassNotFoundException;
 }
