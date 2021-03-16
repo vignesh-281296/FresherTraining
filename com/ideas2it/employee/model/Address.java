@@ -100,6 +100,6 @@ public class Address {
     public String toString() {
         return "\n Employee-Id - " + empId + "\n Door No - " + doorNo + "- " + streetName + "\n City - "
                 + city + "\n District - " + district + "\n State - " + state + "\n Country -" 
-                + country + "Address Mode= " + addressMode;
+                + country + "\n Address Mode= " + addressMode;
     }
 } 

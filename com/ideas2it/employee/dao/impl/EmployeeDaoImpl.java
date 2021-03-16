@@ -28,8 +28,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public boolean insertEmployee(Employee employee) throws SQLException, ClassNotFoundException {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         int addressResult = 0;
-        List<Address> employeeAddressDetails = new ArrayList<Address>();
-        Address employeeAddress;  
         PreparedStatement prepareStatement = connection.prepareStatement("insert into employee (name, desgination, email," 
                                                                          + "phone_number, salary, dob) values (?, ?, ?, ?, ?, ?)");
         prepareStatement.setString(1, employee.getName());
@@ -44,20 +42,18 @@ public class EmployeeDaoImpl implements EmployeeDao {
             ResultSet resultSet = prepareStatement.executeQuery();
             resultSet.next();
             int employeeId = resultSet.getInt(1);
-            employeeAddressDetails = employee.getAddress();
-            for (int i = 0; i < employeeAddressDetails.size(); i++) {
-                employeeAddress = employeeAddressDetails.get(i);
+            for (Address address : employee.getAddress()) {
                 prepareStatement = connection.prepareStatement("insert into address (employee_id, door_no, street_name," 
                                                                + "city, district, state, country, address_mode)" 
                                                                + "values (?, ?, ?, ?, ?, ?, ?, ?)");
                 prepareStatement.setInt(1, employeeId);
-                prepareStatement.setString(2, employeeAddress.getDoorNo());
-                prepareStatement.setString(3, employeeAddress.getStreetName());
-                prepareStatement.setString(4, employeeAddress.getCity());
-                prepareStatement.setString(5, employeeAddress.getDistrict());
-                prepareStatement.setString(6, employeeAddress.getState());
-                prepareStatement.setString(7, employeeAddress.getCountry());
-                prepareStatement.setString(8, employeeAddress.getAddressMode());
+                prepareStatement.setString(2, address.getDoorNo());
+                prepareStatement.setString(3, address.getStreetName());
+                prepareStatement.setString(4, address.getCity());
+                prepareStatement.setString(5, address.getDistrict());
+                prepareStatement.setString(6, address.getState());
+                prepareStatement.setString(7, address.getCountry());
+                prepareStatement.setString(8, address.getAddressMode());
                 addressResult = prepareStatement.executeUpdate();
             } 
         }
@@ -137,7 +133,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
         List<Employee> employees = new ArrayList<Employee>();
         PreparedStatement prepareStatement = connection.prepareStatement("select emp.id, emp.name, emp.desgination, emp.email, emp.phone_number, emp.salary, emp.dob,"
                                                                          + " a.employee_id, a.door_no, a.street_name, a.city, a.district, a.state, a.country," 
-                                                                         + "a.address_mode from employee as emp inner join address as a on emp.id = a.employee_id");
+                                                                         + "a.address_mode from employee as emp inner join address as a on emp.id = a.employee_id "
+                                                                         + "where is_delete = '0'");
         ResultSet resultSet = prepareStatement.executeQuery();
         while (resultSet.next()) {
             List<Address> addressDetails = new ArrayList<Address>();
@@ -158,16 +155,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
                                        resultSet.getString(13),
                                        resultSet.getString(14),
                                        resultSet.getString(15));
-            addressDetails.add(address);
-            if (resultSet.next()) { 
-                continue; 
-            } else { 
-                break; 
-              }
+                addressDetails.add(address);
+                if (resultSet.next()) { 
+                    continue; 
+                } else { 
+                    break; 
+                  }
             }
             employee.setAddress(addressDetails);
             employees.add(employee);
-       
         }
         return employees;
     }
@@ -199,8 +195,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public boolean updateEmployeeAddress(int id, Address address) throws SQLException, ClassNotFoundException {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         PreparedStatement prepareStatement = connection.prepareStatement("update address set door_no = ?, street_name = ?,"
-                                                       + "city = ?, district = ?, state = ?, country = ?, address_mode = ? "
-                                                       + "where employee_id = ?");
+                                                                         + "city = ?, district = ?, state = ?, country = ?, address_mode = ? "
+                                                                         + "where employee_id = ?");
         prepareStatement.setString(1, address.getDoorNo());
         prepareStatement.setString(2, address.getStreetName());
         prepareStatement.setString(3, address.getCity());
@@ -213,12 +209,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     /**
-     * {inheritDoc}ss
+     * {inheritDoc}
      */
     @Override
     public boolean isExistAddressType(int id, String addressType) throws SQLException, ClassNotFoundException {
         Connection connection = DatabaseConnection.getInstance().getConnection();
-        PreparedStatement prepareStatement = connection.prepareStatement("select count(id) from address where employee_id = ? and" 
+        PreparedStatement prepareStatement = connection.prepareStatement("select count(id) from address where employee_id = ? and " 
                                                                          + "address_mode = ? and is_delete = '0'");
         prepareStatement.setInt(1, id);
         prepareStatement.setString(2, addressType);

@@ -29,6 +29,7 @@ public interface EmployeeDao {
     /**
      * Method to delete employee details 
      * @param id employee id
+     * @return boolean value
      */
     public boolean deleteEmployee(int id) throws SQLException, ClassNotFoundException;
 
@@ -66,7 +67,7 @@ public interface EmployeeDao {
     public boolean updateEmployeeAddress(int id, Address address) throws SQLException, ClassNotFoundException;
 
     /**
-     * Method to check wheather the employee type is exist or not
+     * Method to check wheather the employee address type is exist or not
      * @param id employee id
      * @param addressType type of address
      * @return boolean value
