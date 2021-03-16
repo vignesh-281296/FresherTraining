@@ -139,22 +139,22 @@ public class EmployeeDaoImpl implements EmployeeDao {
         while (resultSet.next()) {
             List<Address> addressDetails = new ArrayList<Address>();
             Employee employee = new Employee(resultSet.getInt(1),
-                                    resultSet.getString(2),
-                                    resultSet.getString(3),
-                                    resultSet.getString(4),
-                                    resultSet.getLong(5),
-                                    resultSet.getLong(6),
-                                    resultSet.getDate(7), null);
+                                             resultSet.getString(2),
+                                             resultSet.getString(3),
+                                             resultSet.getString(4),
+                                             resultSet.getLong(5),
+                                             resultSet.getLong(6),
+                                             resultSet.getDate(7), null);
             int employee_id = resultSet.getInt(1);
             while (employee_id == resultSet.getInt(1)) {
                 Address address =  new Address(resultSet.getInt(8),
-                                       resultSet.getString(9),
-                                       resultSet.getString(10),
-                                       resultSet.getString(11),
-                                       resultSet.getString(12),
-                                       resultSet.getString(13),
-                                       resultSet.getString(14),
-                                       resultSet.getString(15));
+                                               resultSet.getString(9),
+                                               resultSet.getString(10),
+                                               resultSet.getString(11),
+                                               resultSet.getString(12),
+                                               resultSet.getString(13),
+                                               resultSet.getString(14),
+                                               resultSet.getString(15));
                 addressDetails.add(address);
                 if (resultSet.next()) { 
                     continue; 
