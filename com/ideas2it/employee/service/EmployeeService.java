@@ -5,12 +5,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * EmployeeService contains the method signature
+ * It contains the method signature
+ *
+ * @author vignesh r 
+ * @version 1.0 17-03-2021
  */
 public interface EmployeeService {
 
     /**
-     * Method used to pass employee details Dao
+     * It is used to pass employee details Dao
      * @param name employee name
      * @param desgination employee email-id
      * @param emailId employee email-id
@@ -21,37 +24,41 @@ public interface EmployeeService {
      * @return boolean value
      */
     public boolean insertEmployee(String name, String desgination, String emailId,
-            long phoneNumber, long salary, Date dob, List<String[]> employeeAddressDetails)throws SQLException, ClassNotFoundException;
+            long phoneNumber, long salary, Date dob, List<String[]> employeeAddressDetails)
+            throws SQLException, ClassNotFoundException;
 
     /**
-     * Method to check is employee id exist or not
+     * It is used to check wheather employee id exist or not
      * @param id employeeId
      * @return boolean value
      */
-    public boolean isEmpIdExist(int id) throws SQLException, ClassNotFoundException;
+    public boolean isEmpIdExist(int id) 
+            throws SQLException, ClassNotFoundException;
 
     /**
-     * Method to delete employee based upon emp id
+     * It is used to delete employee based upon employee id
      * @param id employee id
      * @return boolean  
      */
     public boolean deleteEmployee(int id) throws SQLException, ClassNotFoundException;
 
     /**
-     * Method to display individual employee details
+     * It is used to get individual employee details
      * @param id employee id
      * @return individual employee details
      */
-    public String getSpecificEmployee(int id) throws SQLException, ClassNotFoundException;
+    public String getSpecificEmployee(int id) 
+            throws SQLException, ClassNotFoundException;
 
     /**
-     * Method to display all employee
+     * It is used to get all employee
      * @return all employee details  
      */
-    public List<String> getAllEmployee() throws SQLException, ClassNotFoundException;
+    public List<String> getAllEmployee() 
+            throws SQLException, ClassNotFoundException;
 
     /**
-     * Method to update employee details
+     * It is used to update employee details
      * @param name employee name
      * @desgination employee desgination
      * @email employee email
@@ -61,36 +68,74 @@ public interface EmployeeService {
      * @id employee id
      * @return boolean value
      */
-    public boolean updateEmployee(String name, String desgination, String email, long phoneNumber,
-                                  long salary, Date dob, int id) throws SQLException, ClassNotFoundException;
+    public boolean updateEmployee(String name, String desgination, String email, 
+            long phoneNumber,long salary, Date dob, int id) 
+            throws SQLException, ClassNotFoundException;
 
-    /**
-     * Method to update employee address details
+   /**
+     * It is used to update employee address details 
      * @param id employee id
-     * @param addressDetails array of address details
-     * @return boolean value  
+     * @param address employee address details
+     * @param addressOption address type option
+     * @return boolean value
      */
-    public boolean updateEmployeeAddress(int id, String[] addressDetails) throws SQLException, ClassNotFoundException; 
+    public boolean updateEmployeeAddress(int id, String[] addressDetails, int addressOption) 
+            throws SQLException, ClassNotFoundException; 
 
     /**
-     * Method to check wheather the employee type is exist or not
+     * It is used to add employee address details
+     * @param id employee id
+     * @param addressDetails employee address details
+     * @return boolean value
+     */
+    public boolean addEmployeeAddress(int employeeId, String[] addressDetails) 
+            throws SQLException, ClassNotFoundException;
+
+    /**
+     * It is used to check wheather the employee type is exist or not
      * @param id employee id
      * @param addressType type of address
      * @return boolean value
      */
-    public boolean isExistAddressType(int id, String addressType) throws SQLException, ClassNotFoundException;
+    public boolean isExistAddressType(int id, String addressType) 
+            throws SQLException, ClassNotFoundException;
 
     /**
-     * Method to validate phone number
+     * It is used to validate phone number
      * @param phone number Employee phone number
      * @return boolean value
      */
-    public boolean validatePhoneNumber(long phoneNumber) throws SQLException, ClassNotFoundException;
+    public boolean validatePhoneNumber(long phoneNumber) 
+            throws SQLException, ClassNotFoundException;
 
      /**
-     * Method to validate email-id
+     * It is used to validate email-id
      * @param emailId Employee email-id
      * @return boolean value
      */
-    public boolean validateEmail(String emailId) throws SQLException, ClassNotFoundException;
+    public boolean validateEmail(String emailId) 
+            throws SQLException, ClassNotFoundException;
+
+    /**
+     * It is used to get specific address details
+     * @param id employee id
+     * @return address details
+     */
+    public List<String> getAddressDetails(int id) 
+            throws SQLException, ClassNotFoundException;
+
+    /**
+     * It is used to get delete employee details
+     * @return employee details
+     */
+    public List<String> getDeletedEmployee() 
+            throws SQLException, ClassNotFoundException;
+
+    /**
+     * It is used to restore the deleted employee details
+     * @param id employee id
+     * @return boolean value
+     */
+    public boolean restoreEmployee(int id) 
+            throws SQLException, ClassNotFoundException;
 }
