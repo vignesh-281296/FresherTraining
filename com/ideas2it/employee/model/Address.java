@@ -10,6 +10,7 @@ import java.sql.Date;
  */
 public class Address {
     
+    private int id;
     private int empId;
     private String doorNo;
     private String streetName;
@@ -30,6 +31,14 @@ public class Address {
         this.state = state;
         this.country = country;
         this.addressMode = addressMode;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getEmpId() {

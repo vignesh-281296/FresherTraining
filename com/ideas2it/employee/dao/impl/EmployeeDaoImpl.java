@@ -104,36 +104,44 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public Employee getSpecificEmployee(int id) 
             throws SQLException, ClassNotFoundException {
          Connection connection = DatabaseConnection.getInstance().getConnection();
-         List<Address> addressDetails = new ArrayList<Address>();
          PreparedStatement prepareStatement = connection.prepareStatement
-                 ("select * from address where employee_id = ? and is_delete = '0'");
-         prepareStatement.setInt(1, id);
-         ResultSet addressResultSet = prepareStatement.executeQuery();
-         while (addressResultSet.next()) {
-             Address address = new Address(addressResultSet.getInt(2),
-                                           addressResultSet.getString(3),
-                                           addressResultSet.getString(4),
-                                           addressResultSet.getString(5),
-                                           addressResultSet.getString(6),
-                                           addressResultSet.getString(7),
-                                           addressResultSet.getString(8),
-                                           addressResultSet.getString(9));
-                                           addressDetails.add(address);
-         }
-         prepareStatement = connection.prepareStatement
-                 ("select * from employee where id = ? and is_delete = '0'");
+                 ("select emp.id, emp.name, emp.desgination, emp.email, emp.phone_number, "
+                 + "emp.salary, emp.dob, a.employee_id, a.door_no, a.street_name, a.city, "
+                 + "a.district, a.state, a.country, a.address_mode from employee as emp "
+                 + "Inner join address as a on emp.id = a.employee_id where emp.id = ? "
+                 + "and emp.is_delete = '0'");
          prepareStatement.setInt(1, id);
          ResultSet resultSet = prepareStatement.executeQuery();
-         resultSet.next();
-         Employee employee = new Employee(resultSet.getInt(1),
+         if (resultSet.next()) {
+             Employee employee = new Employee(resultSet.getInt(1),
                                           resultSet.getString(2),
                                           resultSet.getString(3),
                                           resultSet.getString(4),
                                           resultSet.getLong(5),
                                           resultSet.getLong(6),
                                           resultSet.getDate(7),
-                                          addressDetails);
-         return employee; 	        
+                                          null);
+             int employeeId = resultSet.getInt(1);
+             List<Address> addressDetails = new ArrayList<Address>();
+             while (employeeId == resultSet.getInt(1)) {
+                 Address address = new Address(resultSet.getInt(8),
+                                           resultSet.getString(9),
+                                           resultSet.getString(10),
+                                           resultSet.getString(11),
+                                           resultSet.getString(12),
+                                           resultSet.getString(13),
+                                           resultSet.getString(14),
+                                           resultSet.getString(15));
+               addressDetails.add(address);
+               if (!resultSet.next()) {
+                   break;
+               }
+             }
+             employee.setAddress(addressDetails);
+             return employee;
+         } else {
+             return null;
+           } 	        
     }
 
     /**
@@ -162,8 +170,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                                              resultSet.getLong(5),
                                              resultSet.getLong(6),
                                              resultSet.getDate(7), null);
-            int employee_id = resultSet.getInt(1);
-            while (employee_id == resultSet.getInt(1)) {
+            int employeeId = resultSet.getInt(1);
+            while (employeeId == resultSet.getInt(1)) {
                 Address address =  new Address(resultSet.getInt(8),
                                                resultSet.getString(9),
                                                resultSet.getString(10),

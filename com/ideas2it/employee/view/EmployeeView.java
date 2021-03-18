@@ -293,10 +293,14 @@ public class EmployeeView {
             if (1 == restoreChoice) {
                 System.out.println("Enter you Employee id");
                 int empId = scanner.nextInt();
-                if (employeeController.restoreEmployee(empId)) {
-                    System.out.println("Restore Successfully");
+                if (employeeController.isEmpIdExist(empId)){
+                    if (employeeController.restoreEmployee(empId)) {
+                        System.out.println("Restore Successfully");
+                    } else {
+                        System.out.println("Unsuccessful");
+                      }
                 } else {
-                    System.out.println("Unsuccessful");
+                    System.out.println("Employee id doesn't exists");
                   }
             } else if(2 == restoreChoice) {
                 System.out.println("Thank you");    
@@ -312,7 +316,7 @@ public class EmployeeView {
     public void operation() throws SQLException, ClassNotFoundException {
         int choice = 0;
         String choiceDetails = "Enter 1 to create employee \nEnter 2 to Update employee \nEnter 3 to Delete employee"
-                + "\n Enter 4 to Display Individual Employee \n Enter 5 to Display Employee"
+                + "\nEnter 4 to Display Individual Employee \nEnter 5 to Display Employee"
                 + "\nEnter 6 restore  \nEnter 7 to Exit \nEnter your choice";    
         while(7 != choice) {
             System.out.println(choiceDetails);
