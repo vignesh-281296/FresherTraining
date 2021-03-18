@@ -3,6 +3,8 @@ package com.ideas2it.employee.service;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * It contains the method signature
@@ -40,7 +42,8 @@ public interface EmployeeService {
      * @param id employee id
      * @return boolean  
      */
-    public boolean deleteEmployee(int id) throws SQLException, ClassNotFoundException;
+    public boolean deleteEmployee(int id) 
+            throws SQLException, ClassNotFoundException;
 
     /**
      * It is used to get individual employee details
@@ -79,7 +82,7 @@ public interface EmployeeService {
      * @param addressOption address type option
      * @return boolean value
      */
-    public boolean updateEmployeeAddress(int id, String[] addressDetails, int addressOption) 
+    public boolean updateEmployeeAddress(int addressId, String[] addressDetails) 
             throws SQLException, ClassNotFoundException; 
 
     /**
@@ -121,7 +124,7 @@ public interface EmployeeService {
      * @param id employee id
      * @return address details
      */
-    public List<String> getAddressDetails(int id) 
+    public Map<Integer, String> getAddressDetails(int id) 
             throws SQLException, ClassNotFoundException;
 
     /**
@@ -137,5 +140,21 @@ public interface EmployeeService {
      * @return boolean value
      */
     public boolean restoreEmployee(int id) 
+            throws SQLException, ClassNotFoundException;
+
+    /**
+     * It is used to check wheather deleted employee id is exist or not
+     * @param id employee id
+     * @return boolean value
+     */
+    public boolean checkDeletedEmpId(int id) 
+            throws SQLException, ClassNotFoundException;
+
+    /**
+     * It is used to delete address based upon address id
+     * @param id address id
+     * @return boolean value 
+     */
+    public boolean deleteAddress(int id) 
             throws SQLException, ClassNotFoundException;
 }

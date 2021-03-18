@@ -20,9 +20,10 @@ public class Address {
     private String country;
     private String addressMode;
 
-    public Address(int empId, String doorNo, String streetName,
+    public Address(int id, int empId, String doorNo, String streetName,
                    String city, String district, String state, 
                    String country, String addressMode) {
+        this.id = id;
         this.empId = empId;
         this.doorNo = doorNo;
         this.streetName = streetName;
@@ -107,8 +108,8 @@ public class Address {
     }
 
     public String toString() {
-        return "\n Employee-Id - " + empId + "\n Door No - " + doorNo + "- " + streetName + "\n City - "
-                + city + "\n District - " + district + "\n State - " + state + "\n Country -" 
-                + country + "\n Address Mode= " + addressMode;
+        return "Employee-Id - " + empId + "\n Door No - " + doorNo  
+                + "\n street name - " + streetName + "\n City - " + city + "\n District - " + district  
+                + "\n State - " + state + "\n Country -" + country + "\n Address Mode= " + addressMode;
     }
 } 

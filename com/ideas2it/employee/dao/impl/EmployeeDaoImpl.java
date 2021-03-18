@@ -73,7 +73,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             throws SQLException, ClassNotFoundException {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         PreparedStatement prepareStatement = connection.prepareStatement
-                ("select id from employee Where id = ? and is_delete = '0'");
+                ("select id from employee Where id = ? and is_delete = true");
         prepareStatement.setInt(1, id);
         ResultSet resultSet = prepareStatement.executeQuery();
         return resultSet.next();            
@@ -87,11 +87,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
             throws SQLException, ClassNotFoundException {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         PreparedStatement prepareStatement = connection.prepareStatement
-                ("update employee set is_delete = '1' where id = ?");
+                ("update employee set is_delete = false where id = ?");
         prepareStatement.setInt(1, id);
         prepareStatement.executeUpdate();
         prepareStatement = connection.prepareStatement
-                ("update address set is_delete = '1' where employee_id = ?");
+                ("update address set is_delete = false where employee_id = ?");
         prepareStatement.setInt(1, id);
         int count = prepareStatement.executeUpdate();
         return 0 != count;     
@@ -106,36 +106,39 @@ public class EmployeeDaoImpl implements EmployeeDao {
          Connection connection = DatabaseConnection.getInstance().getConnection();
          PreparedStatement prepareStatement = connection.prepareStatement
                  ("select emp.id, emp.name, emp.desgination, emp.email, emp.phone_number, "
-                 + "emp.salary, emp.dob, a.employee_id, a.door_no, a.street_name, a.city, "
+                 + "emp.salary, emp.dob, a.id, a.employee_id, a.door_no, a.street_name, a.city, "
                  + "a.district, a.state, a.country, a.address_mode from employee as emp "
-                 + "Inner join address as a on emp.id = a.employee_id where emp.id = ? "
-                 + "and emp.is_delete = '0'");
+                 + "left join address as a on emp.id = a.employee_id and a.is_delete = true "
+                 + "where emp.id = ? and emp.is_delete = true");
          prepareStatement.setInt(1, id);
          ResultSet resultSet = prepareStatement.executeQuery();
          if (resultSet.next()) {
              Employee employee = new Employee(resultSet.getInt(1),
-                                          resultSet.getString(2),
-                                          resultSet.getString(3),
-                                          resultSet.getString(4),
-                                          resultSet.getLong(5),
-                                          resultSet.getLong(6),
-                                          resultSet.getDate(7),
-                                          null);
+                                              resultSet.getString(2),
+                                              resultSet.getString(3),
+                                              resultSet.getString(4),
+                                              resultSet.getLong(5),
+                                              resultSet.getLong(6),
+                                              resultSet.getDate(7),
+                                               null);
              int employeeId = resultSet.getInt(1);
              List<Address> addressDetails = new ArrayList<Address>();
              while (employeeId == resultSet.getInt(1)) {
-                 Address address = new Address(resultSet.getInt(8),
-                                           resultSet.getString(9),
-                                           resultSet.getString(10),
-                                           resultSet.getString(11),
-                                           resultSet.getString(12),
-                                           resultSet.getString(13),
-                                           resultSet.getString(14),
-                                           resultSet.getString(15));
-               addressDetails.add(address);
-               if (!resultSet.next()) {
-                   break;
-               }
+                 if (0 != resultSet.getInt(8)) {
+                     Address address = new Address(resultSet.getInt(8),
+                                                   resultSet.getInt(9),
+                                                   resultSet.getString(10),
+                                                   resultSet.getString(11),
+                                                   resultSet.getString(12),
+                                                   resultSet.getString(13),
+                                                   resultSet.getString(14),
+                                                   resultSet.getString(15),
+                                                  resultSet.getString(16));
+                    addressDetails.add(address);
+                 }
+                 if (!resultSet.next()) {
+                     break;
+                 }
              }
              employee.setAddress(addressDetails);
              return employee;
@@ -154,12 +157,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
         List<Employee> employees = new ArrayList<Employee>();
         PreparedStatement prepareStatement = connection.prepareStatement
                 ("select emp.id, emp.name, emp.desgination, emp.email," 
-                 + "emp.phone_number, emp.salary, emp.dob,"
+                 + "emp.phone_number, emp.salary, emp.dob, a.id, "
                  + "a.employee_id, a.door_no, a.street_name, a.city, " 
                  + "a.district, a.state, a.country," 
                  + "a.address_mode from employee as emp "
-                 + "inner join address as a on emp.id = a.employee_id "
-                 + "where emp.is_delete = '0'");
+                 + "left join address as a on emp.id = a.employee_id "
+                 + "and a.is_delete = true where emp.is_delete = true");
         ResultSet resultSet = prepareStatement.executeQuery();
         while (resultSet.next()) {
             List<Address> addressDetails = new ArrayList<Address>();
@@ -172,15 +175,18 @@ public class EmployeeDaoImpl implements EmployeeDao {
                                              resultSet.getDate(7), null);
             int employeeId = resultSet.getInt(1);
             while (employeeId == resultSet.getInt(1)) {
-                Address address =  new Address(resultSet.getInt(8),
-                                               resultSet.getString(9),
-                                               resultSet.getString(10),
-                                               resultSet.getString(11),
-                                               resultSet.getString(12),
-                                               resultSet.getString(13),
-                                               resultSet.getString(14),
-                                               resultSet.getString(15));
-                addressDetails.add(address);
+                if (0 != resultSet.getInt(8)) {
+                    Address address = new Address(resultSet.getInt(8),
+                                                  resultSet.getInt(9),
+                                                  resultSet.getString(10),
+                                                  resultSet.getString(11),
+                                                  resultSet.getString(12),
+                                                  resultSet.getString(13),
+                                                  resultSet.getString(14),
+                                                  resultSet.getString(15),
+                                                  resultSet.getString(16));
+                    addressDetails.add(address);
+                }
                 if (resultSet.next()) { 
                     continue; 
                 } else { 
@@ -220,40 +226,22 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {inheritDoc}
      */
     @Override
-    public boolean updateEmployeeAddress(int id, Address address, int addressOption)
+    public boolean updateEmployeeAddress(int addressId, Address address)
             throws SQLException, ClassNotFoundException {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         PreparedStatement prepareStatement = connection.prepareStatement
-                ("select id from address where employee_id = ? "
-                + "and is_delete = '0'", ResultSet.TYPE_SCROLL_SENSITIVE, 
-                ResultSet.CONCUR_UPDATABLE);
-        prepareStatement.setInt(1, id);
-        ResultSet resultSet = prepareStatement.executeQuery();
-        resultSet.last();
-        if (resultSet.getRow() >= addressOption) {
-            System.out.println("Enter");
-            resultSet.first();
-            while (1 < addressOption) {
-                resultSet.next();
-                addressOption--;
-            }
-            int addressId = resultSet.getInt(1);
-            prepareStatement = connection.prepareStatement
-                    ("update address set door_no = ?, street_name = ?,"
-                    + "city = ?, district = ?, state = ?, country = ? "
-                    + "where id = ?");
-            prepareStatement.setString(1, address.getDoorNo());
-            prepareStatement.setString(2, address.getStreetName());
-            prepareStatement.setString(3, address.getCity());
-            prepareStatement.setString(4, address.getDistrict());
-            prepareStatement.setString(5, address.getState());
-            prepareStatement.setString(6, address.getCountry());
-            prepareStatement.setInt(7, addressId);
-            prepareStatement.executeUpdate();
-            return true;
-        } else {
-            return false;
-            }
+                ("update address set door_no = ?, street_name = ?,"
+                 + "city = ?, district = ?, state = ?, country = ? "
+                 + "where id = ?");
+        prepareStatement.setString(1, address.getDoorNo());
+        prepareStatement.setString(2, address.getStreetName());
+        prepareStatement.setString(3, address.getCity());
+        prepareStatement.setString(4, address.getDistrict());
+        prepareStatement.setString(5, address.getState());
+        prepareStatement.setString(6, address.getCountry());
+        prepareStatement.setInt(7, addressId);
+        int count = prepareStatement.executeUpdate();
+        return 0 != count;
     }
 
     /**
@@ -265,7 +253,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         PreparedStatement prepareStatement = connection.prepareStatement
                 ("select count(id) from address where employee_id = ? and " 
-                + "address_mode = ? and is_delete = '0'");
+                + "address_mode = ? and is_delete = true");
         prepareStatement.setInt(1, id);
         prepareStatement.setString(2, addressType);
         ResultSet resultSet = prepareStatement.executeQuery();
@@ -277,38 +265,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {inheritDoc}
      */
     @Override
-    public List<Address> getAddressDetails(int id) 
-            throws SQLException, ClassNotFoundException{
-        Connection connection = DatabaseConnection.getInstance().getConnection();
-        List<Address> addressDetails = new ArrayList<Address>();
-        PreparedStatement prepareStatement = connection.prepareStatement
-                ("select * from address where employee_id = ? and is_delete = '0'");
-        prepareStatement.setInt(1, id);
-        ResultSet resultSet = prepareStatement.executeQuery();
-        while (resultSet.next()) {
-            Address address =  new Address(resultSet.getInt(2),
-                                           resultSet.getString(3),
-                                           resultSet.getString(4),
-                                           resultSet.getString(5),
-                                           resultSet.getString(6),
-                                           resultSet.getString(7),
-                                           resultSet.getString(8),
-                                           resultSet.getString(9));
-            addressDetails.add(address);
-        }
-        return addressDetails; 
-    }
-
-    /**
-     * {inheritDoc}
-     */
-    @Override
     public List<Employee> getDeletedEmployee() 
             throws SQLException, ClassNotFoundException {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         List<Employee> employees = new ArrayList<Employee>();
         PreparedStatement prepareStatement = connection.prepareStatement
-                ("select * from employee where is_delete = '1'");
+                ("select * from employee where is_delete = false");
         ResultSet resultSet = prepareStatement.executeQuery();
         while (resultSet.next()) {
             Employee employee =  new Employee(resultSet.getInt(1),
@@ -331,11 +293,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
             throws SQLException, ClassNotFoundException {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         PreparedStatement prepareStatement = connection.prepareStatement
-                ("update employee set is_delete = '0' where id = ?");
+                ("update employee set is_delete = true where id = ?");
         prepareStatement.setInt(1, id);
         prepareStatement.executeUpdate();
         prepareStatement = connection.prepareStatement
-                ("update address set is_delete = '0' where employee_id = ?");
+                ("update address set is_delete = true where employee_id = ?");
         prepareStatement.setInt(1, id);
         int count = prepareStatement.executeUpdate();
         return 0 != count;    
@@ -362,5 +324,61 @@ public class EmployeeDaoImpl implements EmployeeDao {
         prepareStatement.setString(8, address.getAddressMode());
         int addressResult = prepareStatement.executeUpdate();
         return 0 != addressResult;
-    }   
+    }
+    
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public boolean checkDeletedEmpId(int id) 
+            throws SQLException, ClassNotFoundException {
+        Connection connection = DatabaseConnection.getInstance().getConnection();
+        PreparedStatement prepareStatement = connection.prepareStatement
+                ("select id from employee Where id = ? and is_delete = true");
+        prepareStatement.setInt(1, id);
+        ResultSet resultSet = prepareStatement.executeQuery();
+        return resultSet.next();            
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override   
+    public List<Address> getAddressDetails(int id) 
+            throws SQLException, ClassNotFoundException {
+        Connection connection = DatabaseConnection.getInstance().getConnection();
+        PreparedStatement prepareStatement = connection.prepareStatement
+                ("select * from address where employee_id = ? and is_delete = true");
+        prepareStatement.setInt(1, id);
+        ResultSet resultSet = prepareStatement.executeQuery();
+        List<Address> addressDetails =  new ArrayList<Address>();
+        while (resultSet.next()) {
+            Address address =  new Address(resultSet.getInt(1),
+                                           resultSet.getInt(2),
+                                           resultSet.getString(3),
+                                           resultSet.getString(4),
+                                           resultSet.getString(5),
+                                           resultSet.getString(6),
+                                           resultSet.getString(7),
+                                           resultSet.getString(8),
+                                           resultSet.getString(9));
+            addressDetails.add(address);
+        }
+        return addressDetails;  	        
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public boolean deleteAddress(int id) 
+            throws SQLException, ClassNotFoundException {
+        Connection connection = DatabaseConnection.getInstance().getConnection();
+        PreparedStatement prepareStatement = connection.prepareStatement
+                ("update address set is_delete = false where id = ?");
+        prepareStatement.setInt(1, id);
+        int count = prepareStatement.executeUpdate();
+        return 0 != count;     
+    }
+   
 }

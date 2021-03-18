@@ -3,6 +3,8 @@ package com.ideas2it.employee.controller;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.ideas2it.employee.service.impl.EmployeeServiceImpl;
 
@@ -86,9 +88,9 @@ public class EmployeeController {
      * @param addressDetails employee address details
      * @return boolean value 
      */
-    public boolean updateEmployeeAddress(int id, String[] addressDetails, int addressOption) 
+    public boolean updateEmployeeAddress(int addressId, String[] addressDetails) 
             throws SQLException, ClassNotFoundException {
-        return employeeService.updateEmployeeAddress(id, addressDetails, addressOption);
+        return employeeService.updateEmployeeAddress(addressId, addressDetails);
     }
 
     /**
@@ -127,7 +129,7 @@ public class EmployeeController {
      * @param id employee id
      * @return specific address details 
      */
-    public List<String> getAddressDetails(int id) 
+    public Map<Integer, String> getAddressDetails(int id) 
             throws SQLException, ClassNotFoundException {
         return employeeService.getAddressDetails(id);
     }
@@ -160,5 +162,23 @@ public class EmployeeController {
     public boolean addEmployeeAddress(int employeeId, String[] addressDetails) 
             throws SQLException, ClassNotFoundException {
         return employeeService.addEmployeeAddress(employeeId, addressDetails);
-    }    
+    }
+
+    /**
+     * It is used to check wheather deleted employee id is exist or not
+     * @param id employee id
+     * @return boolean value
+     */
+    public boolean checkDeletedEmpId(int id) 
+            throws SQLException, ClassNotFoundException {
+        return employeeService.checkDeletedEmpId(id);
+    } 
+
+     /** It is used to specific address details 
+     * @param id address id
+     * @return boolean value
+     */
+    public boolean deleteAddress(int id) throws SQLException, ClassNotFoundException {
+        return employeeService.deleteAddress(id);
+    }   
 }

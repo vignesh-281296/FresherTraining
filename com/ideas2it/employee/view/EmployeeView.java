@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.ideas2it.employee.controller.EmployeeController;
@@ -157,7 +159,8 @@ public class EmployeeView {
         String updateChoiceDetail = "Enter 1 to update employee details" 
                 + "\nEnter 2 to update address details"
                 + "\nEnter 3 to add address"
-                + "\nEnter 4 to quit";
+                + "\nEnter 4 to delete address"
+                + "\nEnter 5 to quit";
         while (4 != updateChoice) {
             System.out.println(updateChoiceDetail);
             updateChoice = scanner.nextInt();
@@ -172,6 +175,9 @@ public class EmployeeView {
                     addEmployeeAddress();
                     break;
                 case 4 :
+                    deleteAddress();
+                    break;
+                case 5 :
                     System.out.println("Thank you");
                     break;
                 default :
@@ -217,24 +223,33 @@ public class EmployeeView {
      * It is used to update employee address details
      */
     private void updateEmployeeAddress() throws SQLException, ClassNotFoundException {
-        int index = 1;
         System.out.println("Enter your employee id");
         int empId = scanner.nextInt();
-        if (employeeController.isEmpIdExist(empId)) {
-            for (String addressDetails : employeeController.getAddressDetails(empId)) {
-                System.out.println("Address No- "+ index + addressDetails);
-                index++;
-            }
-            System.out.println("select your address to update ?");
-            int addressOption = scanner.nextInt();
-            String[] addressDetails = getAddressDetails(null);
-            if (employeeController.updateEmployeeAddress(empId, addressDetails, addressOption)) {
-                System.out.println("Update your address successfully");
+        if (employeeController.getAddressDetails(empId).size() > 0) {
+            if (employeeController.isEmpIdExist(empId)) {
+                employeeController.getAddressDetails(empId).forEach((addressId, address) -> {
+                    System.out.println(address);
+                });
+                Map<Integer, String> addresses = employeeController.getAddressDetails(empId);
+                List<Integer> addressIds = new ArrayList<>(addresses.keySet());
+                System.out.println("select your address to update ?");
+                int addressOption = scanner.nextInt();
+                int addressId = addressIds.get(addressOption - 1);
+                if (addressId >= addressId) {
+                    String[] addressDetails = getAddressDetails(null);
+                    if (employeeController.updateEmployeeAddress(addressId, addressDetails)) {
+                        System.out.println("Update your address successfully");
+                    } else {
+                        System.out.println("Unsuccessful");
+                      }
+                } else {
+                    System.out.println("You Entered invalid option");
+                  }
             } else {
-                System.out.println("Unsuccessful");    
+                System.out.println("Employee id doesn't exist");
               }
         } else {
-            System.out.println("Employee id doesn't exist");
+            System.out.println("No records exists");
           }	
     }
 
@@ -244,12 +259,46 @@ public class EmployeeView {
     private void addEmployeeAddress() throws SQLException, ClassNotFoundException {
         System.out.println("Enter your employee id");
         int empId = scanner.nextInt();
-        String[] addressDetails = getAddressDetails("temporaryaddress");
-        if (employeeController.addEmployeeAddress(empId, addressDetails)) {
-            System.out.println("Address Added successfully");
+        if (employeeController.isEmpIdExist(empId)) {
+            String[] addressDetails = getAddressDetails("temporaryaddress");
+            if (employeeController.addEmployeeAddress(empId, addressDetails)) {
+                System.out.println("Address Added successfully");
+            } else {
+                System.out.println("Unsuccessful");
+              }
         } else {
-            System.out.println("Unsuccessful");
-          }
+            System.out.println("Employee id doesn't exist");
+          }    
+    }
+
+    private void deleteAddress() throws SQLException, ClassNotFoundException {
+        System.out.println("Enter your employee id");
+        int empId = scanner.nextInt();
+        if (employeeController.getAddressDetails(empId).size() > 0) {
+            if (employeeController.isEmpIdExist(empId)) {
+                employeeController.getAddressDetails(empId).forEach((addressId, address) -> {
+                    System.out.println(address);
+                });
+                Map<Integer, String> addresses = employeeController.getAddressDetails(empId);
+                List<Integer> addressIds = new ArrayList<>(addresses.keySet());
+                System.out.println("select your address to update ?");
+                int addressOption = scanner.nextInt();
+                int addressId = addressIds.get(addressOption - 1);
+                if (addressId >= addressId) {
+                    if (employeeController.deleteAddress(addressId)) {
+                        System.out.println("Deleted your address successfully");
+                    } else {
+                        System.out.println("Unsuccessful");
+                      }
+                } else {
+                    System.out.println("You Entered invalid option");
+                  }
+            } else {
+                System.out.println("Employee id doesn't exist");
+              }
+        } else {
+            System.out.println("No records exists");
+          }	
     }
 
     /**
@@ -293,7 +342,7 @@ public class EmployeeView {
             if (1 == restoreChoice) {
                 System.out.println("Enter you Employee id");
                 int empId = scanner.nextInt();
-                if (employeeController.isEmpIdExist(empId)){
+                if (employeeController.checkDeletedEmpId(empId)){
                     if (employeeController.restoreEmployee(empId)) {
                         System.out.println("Restore Successfully");
                     } else {

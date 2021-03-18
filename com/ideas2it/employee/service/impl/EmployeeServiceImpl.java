@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.ideas2it.employee.dao.impl.EmployeeDaoImpl;
 import com.ideas2it.employee.model.Address;
@@ -30,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         
         List<Address> addressDetails = new ArrayList<Address>();
         for (int i = 0; i < employeeAddressDetails.size(); i++) {
-            Address address = new Address(0, employeeAddressDetails.get(i)[0], 
+            Address address = new Address(0, 0, employeeAddressDetails.get(i)[0], 
                     employeeAddressDetails.get(i)[1], employeeAddressDetails.get(i)[2], 
                     employeeAddressDetails.get(i)[3], employeeAddressDetails.get(i)[4],
                     employeeAddressDetails.get(i)[5], employeeAddressDetails.get(i)[6]);
@@ -104,12 +106,12 @@ public class EmployeeServiceImpl implements EmployeeService {
      * {inheritDoc}
      */
     @Override
-    public boolean updateEmployeeAddress(int id, String[] addressDetails, int addressOption) 
+    public boolean updateEmployeeAddress(int addressId, String[] addressDetails) 
             throws SQLException, ClassNotFoundException {
-        Address address = new Address(0, addressDetails[0], addressDetails[1], 
+        Address address = new Address(0, 0, addressDetails[0], addressDetails[1], 
                 addressDetails[2],addressDetails[3], addressDetails[4], 
                 addressDetails[5], addressDetails[6]);
-        return employeeDao.updateEmployeeAddress(id, address, addressOption);
+        return employeeDao.updateEmployeeAddress(addressId, address);
     }
 
     /** 
@@ -118,7 +120,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public boolean addEmployeeAddress(int employeeId, String[] addressDetails) 
             throws SQLException, ClassNotFoundException {
-        Address address = new Address(employeeId, addressDetails[0], addressDetails[1], 
+        Address address = new Address(0, employeeId, addressDetails[0], addressDetails[1], 
                 addressDetails[2],addressDetails[3], addressDetails[4], 
                 addressDetails[5], addressDetails[6]);
         return employeeDao.addEmployeeAddress(address);
@@ -156,12 +158,14 @@ public class EmployeeServiceImpl implements EmployeeService {
      * {inheritDoc}
      */
     @Override 
-    public List<String> getAddressDetails(int id) 
+    public Map<Integer, String> getAddressDetails(int id) 
            throws SQLException, ClassNotFoundException {
-        List<String> addressDetails = new ArrayList<String>();
-        for (Address addresses : employeeDao.getAddressDetails(id)) {
-            addressDetails.add(addresses.toString());
-        }
+        Map<Integer, String> addressDetails = new LinkedHashMap<Integer, String>();
+        int index = 0;
+        for (Address address : employeeDao.getAddressDetails(id)) {
+            index++;
+            addressDetails.put(address.getId(), Integer.toString(index) + address.toString());     
+        } 
         return addressDetails;
     }
 
@@ -185,5 +189,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     public boolean restoreEmployee(int id) 
            throws SQLException, ClassNotFoundException {
         return employeeDao.restoreEmployee(id);
-    }  
+    }
+
+     /**
+     * {inheritDoc}
+     */
+    @Override
+    public boolean checkDeletedEmpId(int id) 
+            throws SQLException, ClassNotFoundException {
+        return employeeDao.checkDeletedEmpId(id);
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public boolean deleteAddress(int id) 
+            throws SQLException, ClassNotFoundException {
+        return employeeDao.deleteAddress(id);
+    }
+  
 }

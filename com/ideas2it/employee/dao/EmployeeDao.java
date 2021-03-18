@@ -3,6 +3,8 @@ package com.ideas2it.employee.dao;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.ideas2it.employee.model.Address;
 import com.ideas2it.employee.model.Employee;
@@ -73,7 +75,7 @@ public interface EmployeeDao {
      * @param addressOption address type option
      * @return boolean value
      */
-    public boolean updateEmployeeAddress(int id, Address address, int addressOption) 
+    public boolean updateEmployeeAddress(int addressId, Address address) 
             throws SQLException, ClassNotFoundException;
 
     /**
@@ -114,6 +116,23 @@ public interface EmployeeDao {
      * @param id employee id
      * @return boolean value
      */
-    public boolean restoreEmployee(int id) throws SQLException, ClassNotFoundException;	
+    public boolean restoreEmployee(int id) 
+            throws SQLException, ClassNotFoundException;
+
+    /**
+     * It is used to check wheather deleted employee id is exist or not
+     * @param id employee id
+     * @return boolean value
+     */
+    public boolean checkDeletedEmpId(int id) 
+            throws SQLException, ClassNotFoundException;
+
+    /**
+     * It is used to delete address details 
+     * @param id address id
+     * @return boolean value
+     */
+    public boolean deleteAddress(int id) 
+            throws SQLException, ClassNotFoundException;	
 	  
 }
