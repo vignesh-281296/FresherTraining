@@ -64,8 +64,7 @@ public interface EmployeeDao {
      * @id employee id
      * @return boolean value
      */
-    public boolean updateEmployee(String name, String desgination, String email, 
-            long phoneNumber, long salary, Date dob, int id) 
+    public boolean updateEmployee(int id, Employee employee) 
             throws SQLException, ClassNotFoundException; 
 
     /**
@@ -133,6 +132,14 @@ public interface EmployeeDao {
      * @return boolean value
      */
     public boolean deleteAddress(int id) 
+            throws SQLException, ClassNotFoundException;
+
+    /**
+     * It is used to get single employee details only
+     * @param id employee id
+     * @return single employee details
+     */
+    public Employee getEmployee(int id) 
             throws SQLException, ClassNotFoundException;	
 	  
 }

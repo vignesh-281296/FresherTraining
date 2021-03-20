@@ -27,9 +27,10 @@ public class EmployeeController {
      * @return boolean value
      */
     public boolean createEmployee(String name, String desgination, String emailId,
-            long phoneNumber, long salary, Date dob, List<String[]> employeeAddressDetails) 
+            long phoneNumber, float salary, Date dob, List<String[]> employeeAddressDetails) 
             throws SQLException, ClassNotFoundException {
-        return employeeService.insertEmployee(name, desgination, emailId, phoneNumber, salary, dob, employeeAddressDetails);	
+        return employeeService.insertEmployee(name, desgination, emailId, phoneNumber, salary, 
+            dob, employeeAddressDetails);	
     }
 
     /**
@@ -37,7 +38,8 @@ public class EmployeeController {
      * @param id employee id
      * @return boolean value
      */
-    public boolean isEmpIdExist(int id) throws SQLException, ClassNotFoundException {
+    public boolean isEmpIdExist(int id) 
+           throws SQLException, ClassNotFoundException {
         return employeeService.isEmpIdExist(id);
     }
 
@@ -45,7 +47,8 @@ public class EmployeeController {
      * @param id employee id
      * @return boolean value
      */
-    public boolean deleteEmployee(int id) throws SQLException, ClassNotFoundException {
+    public boolean deleteEmployee(int id) 
+            throws SQLException, ClassNotFoundException {
         return employeeService.deleteEmployee(id);
     }
 
@@ -54,7 +57,8 @@ public class EmployeeController {
      * @param id employee id
      * @return individual employee detail
      */
-    public String getSpecificEmployee(int id) throws SQLException, ClassNotFoundException {
+    public String getSpecificEmployee(int id) 
+            throws SQLException, ClassNotFoundException {
         return employeeService.getSpecificEmployee(id);
     }
 
@@ -62,7 +66,8 @@ public class EmployeeController {
      * It is used to get all employee details
      * @return all employee details
      */
-    public List<String> getAllEmployee() throws SQLException, ClassNotFoundException {
+    public List<String> getAllEmployee() 
+            throws SQLException, ClassNotFoundException {
         return employeeService.getAllEmployee();
     }
 
@@ -77,9 +82,9 @@ public class EmployeeController {
      * @id employee id
      * @return boolean value
      */
-    public boolean updateEmployee(String name, String desgination, String email, long phoneNumber,
-            long salary, Date dob, int id) throws SQLException, ClassNotFoundException {
-        return employeeService.updateEmployee(name, desgination, email, phoneNumber, salary, dob, id); 
+    public boolean updateEmployee(int id, String[] employeeDetails) 
+            throws SQLException, ClassNotFoundException {
+        return employeeService.updateEmployee(id, employeeDetails); 
     }
 
     /**
@@ -178,7 +183,8 @@ public class EmployeeController {
      * @param id address id
      * @return boolean value
      */
-    public boolean deleteAddress(int id) throws SQLException, ClassNotFoundException {
+    public boolean deleteAddress(int id) 
+            throws SQLException, ClassNotFoundException {
         return employeeService.deleteAddress(id);
     }   
 }

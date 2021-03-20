@@ -37,7 +37,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         prepareStatement.setString(2, employee.getDesgination());
         prepareStatement.setString(3, employee.getEmail());
         prepareStatement.setLong(4, employee.getPhoneNumber());
-        prepareStatement.setLong(5, employee.getSalary());
+        prepareStatement.setFloat(5, employee.getSalary());
         prepareStatement.setDate(6, employee.getDob());
         int employeeResult = prepareStatement.executeUpdate();
         if (0 != employeeResult) {
@@ -49,8 +49,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
             for (Address address : employee.getAddress()) {
                 prepareStatement = connection.prepareStatement
                         ("insert into address (employee_id, door_no, street_name," 
-                        + "city, district, state, country, address_mode)" 
-                        + "values (?, ?, ?, ?, ?, ?, ?, ?)");
+                        + "city, district, state, country, address_mode, is_delete)" 
+                        + "values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 prepareStatement.setInt(1, employeeId);
                 prepareStatement.setString(2, address.getDoorNo());
                 prepareStatement.setString(3, address.getStreetName());
@@ -59,6 +59,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 prepareStatement.setString(6, address.getState());
                 prepareStatement.setString(7, address.getCountry());
                 prepareStatement.setString(8, address.getAddressMode());
+                prepareStatement.setBoolean(9, true);
                 addressResult = prepareStatement.executeUpdate();
             } 
         }
@@ -118,9 +119,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                                               resultSet.getString(3),
                                               resultSet.getString(4),
                                               resultSet.getLong(5),
-                                              resultSet.getLong(6),
-                                              resultSet.getDate(7),
-                                               null);
+                                              resultSet.getFloat(6),
+                                              resultSet.getDate(7));
              int employeeId = resultSet.getInt(1);
              List<Address> addressDetails = new ArrayList<Address>();
              while (employeeId == resultSet.getInt(1)) {
@@ -164,38 +164,40 @@ public class EmployeeDaoImpl implements EmployeeDao {
                  + "left join address as a on emp.id = a.employee_id "
                  + "and a.is_delete = true where emp.is_delete = true");
         ResultSet resultSet = prepareStatement.executeQuery();
-        while (resultSet.next()) {
-            List<Address> addressDetails = new ArrayList<Address>();
-            Employee employee = new Employee(resultSet.getInt(1),
-                                             resultSet.getString(2),
-                                             resultSet.getString(3),
-                                             resultSet.getString(4),
-                                             resultSet.getLong(5),
-                                             resultSet.getLong(6),
-                                             resultSet.getDate(7), null);
-            int employeeId = resultSet.getInt(1);
-            while (employeeId == resultSet.getInt(1)) {
-                if (0 != resultSet.getInt(8)) {
-                    Address address = new Address(resultSet.getInt(8),
-                                                  resultSet.getInt(9),
-                                                  resultSet.getString(10),
-                                                  resultSet.getString(11),
-                                                  resultSet.getString(12),
-                                                  resultSet.getString(13),
-                                                  resultSet.getString(14),
-                                                  resultSet.getString(15),
-                                                  resultSet.getString(16));
-                    addressDetails.add(address);
+        boolean flag = true;
+        if(resultSet.next()) { 
+            while (flag) {
+                List<Address> addressDetails = new ArrayList<Address>();
+                Employee employee = new Employee(resultSet.getInt(1),
+                                                 resultSet.getString(2),
+                                                 resultSet.getString(3),
+                                                 resultSet.getString(4),
+                                                 resultSet.getLong(5),
+                                                 resultSet.getFloat(6),
+                                                 resultSet.getDate(7));
+                int employeeId = resultSet.getInt(1);
+                while (employeeId == resultSet.getInt(1)) {
+                    if (0 != resultSet.getInt(8)) {
+                        Address address = new Address(resultSet.getInt(8),
+                                                      resultSet.getInt(9),
+                                                      resultSet.getString(10),
+                                                      resultSet.getString(11),
+                                                      resultSet.getString(12),
+                                                      resultSet.getString(13),
+                                                      resultSet.getString(14),
+                                                      resultSet.getString(15),
+                                                      resultSet.getString(16));
+                        addressDetails.add(address);
+                    }
+                    if (!resultSet.next()) {
+                        flag = false;
+                        break;
+                    }
                 }
-                if (resultSet.next()) { 
-                    continue; 
-                } else { 
-                    break; 
-                  }
+                employee.setAddress(addressDetails);
+                employees.add(employee);
             }
-            employee.setAddress(addressDetails);
-            employees.add(employee);
-        }
+        } 
         return employees;
     }
 
@@ -203,20 +205,19 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {inheritDoc}
      */
     @Override
-    public boolean updateEmployee(String name, String desgination, String email, 
-            long phoneNumber,long salary, Date dob, int id) 
+    public boolean updateEmployee(int id, Employee employee) 
             throws SQLException, ClassNotFoundException {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         PreparedStatement prepareStatement = connection.prepareStatement
-                ("update employee set name = ?, desgination = ?,"
-                + "email = ?, phone_number = ?, salary = ?,"
+                ("update employee set name = ?, desgination = ?, "
+                + "email = ?, phone_number = ?, salary = ?, "
                 + "dob = ? where id = ?");
-        prepareStatement.setString(1, name);
-        prepareStatement.setString(2, desgination);
-        prepareStatement.setString(3, email);
-        prepareStatement.setLong(4, phoneNumber);
-        prepareStatement.setLong(5, salary);
-        prepareStatement.setDate(6, dob);
+        prepareStatement.setString(1, employee.getName());
+        prepareStatement.setString(2, employee.getDesgination());
+        prepareStatement.setString(3, employee.getEmail());
+        prepareStatement.setLong(4, employee.getPhoneNumber());
+        prepareStatement.setFloat(5, employee.getSalary());
+        prepareStatement.setDate(6, employee.getDob());
         prepareStatement.setInt(7, id);
         int count = prepareStatement.executeUpdate();
         return 0 != count;
@@ -278,8 +279,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                                                resultSet.getString(3),
                                                resultSet.getString(4),
                                                resultSet.getLong(5),
-                                               resultSet.getLong(6),
-                                               resultSet.getDate(7), null);
+                                               resultSet.getFloat(6),
+                                               resultSet.getDate(7));
             employees.add(employee);    
         }  
         return employees;
@@ -334,7 +335,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             throws SQLException, ClassNotFoundException {
         Connection connection = DatabaseConnection.getInstance().getConnection();
         PreparedStatement prepareStatement = connection.prepareStatement
-                ("select id from employee Where id = ? and is_delete = true");
+                ("select id from employee Where id = ? and is_delete = false");
         prepareStatement.setInt(1, id);
         ResultSet resultSet = prepareStatement.executeQuery();
         return resultSet.next();            
@@ -380,5 +381,26 @@ public class EmployeeDaoImpl implements EmployeeDao {
         int count = prepareStatement.executeUpdate();
         return 0 != count;     
     }
-   
+
+    /**
+     * {inheritDoc}
+     */
+    @Override   
+    public Employee getEmployee(int id) 
+            throws SQLException, ClassNotFoundException {
+        Connection connection = DatabaseConnection.getInstance().getConnection();
+        PreparedStatement prepareStatement = connection.prepareStatement
+                ("select * from employee where id = ? and is_delete = true");
+        prepareStatement.setInt(1, id);
+        ResultSet resultSet = prepareStatement.executeQuery();
+        resultSet.next();
+        Employee employee =  new Employee(resultSet.getInt(1),
+                                          resultSet.getString(2),
+                                          resultSet.getString(3),
+                                          resultSet.getString(4),
+                                          resultSet.getLong(5),
+                                          resultSet.getFloat(6),
+                                          resultSet.getDate(7));
+        return employee;  	        
+    } 
 }

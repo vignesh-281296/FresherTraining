@@ -27,18 +27,18 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public boolean insertEmployee(String name, String desgination, String emailId,
-            long phoneNumber, long salary, Date dob, List<String[]> employeeAddressDetails) 
+            long phoneNumber, float salary, Date dob, List<String[]> employeeAddressDetails) 
             throws SQLException, ClassNotFoundException {
         
         List<Address> addressDetails = new ArrayList<Address>();
         for (int i = 0; i < employeeAddressDetails.size(); i++) {
-            Address address = new Address(0, 0, employeeAddressDetails.get(i)[0], 
+            Address address = new Address(employeeAddressDetails.get(i)[0], 
                     employeeAddressDetails.get(i)[1], employeeAddressDetails.get(i)[2], 
                     employeeAddressDetails.get(i)[3], employeeAddressDetails.get(i)[4],
                     employeeAddressDetails.get(i)[5], employeeAddressDetails.get(i)[6]);
             addressDetails.add(address);
         }
-        Employee employee = new Employee(0, name, desgination, emailId, phoneNumber, 
+        Employee employee = new Employee(name, desgination, emailId, phoneNumber, 
                 salary, dob, addressDetails); 
         return employeeDao.insertEmployee(employee); 
     }
@@ -81,25 +81,66 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<String> getAllEmployee() 
             throws SQLException, ClassNotFoundException {
-        List<String> employeeDetails = new ArrayList<String>();
-        for (Employee employees : employeeDao.getAllEmployee()) {
-            employeeDetails.add(employees.toString());
-            for (Address addresses : employees.getAddress()) {
-                employeeDetails.add(addresses.toString());
+        List<String> employees = new ArrayList<String>();
+        for (Employee employee : employeeDao.getAllEmployee()) {
+            String employeeDetails = employee.toString();
+            for (Address addresses : employee.getAddress()) {
+                employeeDetails =  employeeDetails + addresses.toString();
             }
+            employees.add(employeeDetails);
         }
-        return employeeDetails;         
+        return employees;         
     }
 
     /** 
      * {inheritDoc}
      */
     @Override
-    public boolean updateEmployee(String name, String desgination, 
-            String email, long phoneNumber, long salary, Date dob, int id) 
+    public boolean updateEmployee(int id, String[] employeeDetails) 
             throws SQLException, ClassNotFoundException {
-        return employeeDao.updateEmployee(name, desgination, email, phoneNumber, 
-                salary, dob, id);     
+        Employee employee = employeeDao.getEmployee(id);
+        employee.setId(id);
+        if (null == employeeDetails[0]) {
+            employee.setName(employee.getName());
+        } else {
+            employee.setName(employeeDetails[0]);
+          }
+ 
+        if (null == employeeDetails[1]) {
+            employee.setDesgination(employee.getDesgination());
+        } else {
+            employee.setDesgination(employeeDetails[1]);
+          }
+
+        if (null == employeeDetails[2]) {
+            employee.setEmail(employee.getEmail());
+        } else {
+            employee.setEmail(employeeDetails[2]);
+          }
+
+        if (null == employeeDetails[3]) { 
+            employee.setPhoneNumber(employee.getPhoneNumber());
+        } else {
+            long phoneNumber = Long.parseLong(employeeDetails[3]);
+            employee.setPhoneNumber(phoneNumber);
+          }
+
+        if (null == employeeDetails[4]) { 
+            employee.setSalary(employee.getSalary());
+        } else {
+            float salary  = Float.parseFloat(employeeDetails[4]);
+            employee.setSalary(salary);
+          }
+        if (null == employeeDetails[5]) { 
+            employee.setDob(employee.getDob());
+        } else {
+            Date dob = Date.valueOf(employeeDetails[5]);
+            employee.setDob(dob);
+          }
+        Employee employees = new Employee(employee.getId(), employee.getName(), employee.getDesgination(),
+               employee.getEmail(), employee.getPhoneNumber(), employee.getSalary(),
+               employee.getDob());
+        return employeeDao.updateEmployee(id, employees);       
     }
 
     /** 
@@ -108,7 +149,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public boolean updateEmployeeAddress(int addressId, String[] addressDetails) 
             throws SQLException, ClassNotFoundException {
-        Address address = new Address(0, 0, addressDetails[0], addressDetails[1], 
+        Address address = new Address(addressDetails[0], addressDetails[1], 
                 addressDetails[2],addressDetails[3], addressDetails[4], 
                 addressDetails[5], addressDetails[6]);
         return employeeDao.updateEmployeeAddress(addressId, address);
@@ -120,7 +161,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public boolean addEmployeeAddress(int employeeId, String[] addressDetails) 
             throws SQLException, ClassNotFoundException {
-        Address address = new Address(0, employeeId, addressDetails[0], addressDetails[1], 
+        Address address = new Address(employeeId, addressDetails[0], addressDetails[1], 
                 addressDetails[2],addressDetails[3], addressDetails[4], 
                 addressDetails[5], addressDetails[6]);
         return employeeDao.addEmployeeAddress(address);
@@ -208,5 +249,4 @@ public class EmployeeServiceImpl implements EmployeeService {
             throws SQLException, ClassNotFoundException {
         return employeeDao.deleteAddress(id);
     }
-  
 }

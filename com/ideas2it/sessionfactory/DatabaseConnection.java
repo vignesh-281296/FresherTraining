@@ -14,7 +14,7 @@ public class DatabaseConnection {
       private static DatabaseConnection databaseConnection = null;
     
       /**
-       * Method to establich connection to SQL database
+       * It is used to  establish connection to SQL database
        */
       public Connection getConnection() throws SQLException, ClassNotFoundException {
               Class.forName("com.mysql.cj.jdbc.Driver");

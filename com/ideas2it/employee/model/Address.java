@@ -1,4 +1,4 @@
-	package com.ideas2it.employee.model;
+package com.ideas2it.employee.model;
 
 import java.sql.Date;
 
@@ -25,6 +25,31 @@ public class Address {
                    String country, String addressMode) {
         this.id = id;
         this.empId = empId;
+        this.doorNo = doorNo;
+        this.streetName = streetName;
+        this.city = city;
+        this.district = district;
+        this.state = state;
+        this.country = country;
+        this.addressMode = addressMode;
+    }
+
+    public Address(int empId, String doorNo, String streetName,
+                   String city, String district, String state, 
+                   String country, String addressMode) {
+        this.empId = empId;
+        this.doorNo = doorNo;
+        this.streetName = streetName;
+        this.city = city;
+        this.district = district;
+        this.state = state;
+        this.country = country;
+        this.addressMode = addressMode;
+    }
+
+    public Address(String doorNo, String streetName,
+                   String city, String district, String state, 
+                   String country, String addressMode) {
         this.doorNo = doorNo;
         this.streetName = streetName;
         this.city = city;
@@ -108,8 +133,9 @@ public class Address {
     }
 
     public String toString() {
-        return "Employee-Id - " + empId + "\n Door No - " + doorNo  
-                + "\n street name - " + streetName + "\n City - " + city + "\n District - " + district  
-                + "\n State - " + state + "\n Country -" + country + "\n Address Mode= " + addressMode;
+        return "\nEmployee-Id - " + empId + "\n Door No - " + doorNo  
+                + "\n street name - " + streetName + "\n City - " + city 
+                + "\n District - " + district + "\n State - " + state   
+                + "\n Country -" + country + "\n Address Mode - " + addressMode;
     }
 } 

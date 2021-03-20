@@ -35,14 +35,13 @@ public class EmployeeView {
         System.out.println("Enter your phone number");
         long phoneNumber = validatePhoneNumber(scanner.nextLong());
         System.out.println("Enter your salary");
-        long salary = scanner.nextLong();
+        float salary = scanner.nextFloat();
         scanner.nextLine();
         System.out.println("Enter Date Of Birth in given format yyyy-MM-dd");
-        String date = scanner.next(); 
-        Date dob = Date.valueOf(date);
+        Date dob = Date.valueOf(validateDate());
         List<String[]> addressDetails = createAddress();
-        boolean employee = employeeController.createEmployee(name, desgination, email, phoneNumber, 
-                salary, dob, addressDetails);
+        boolean employee = employeeController.createEmployee(name, desgination, 
+                email, phoneNumber, salary, dob, addressDetails);
         if (employee) {
             System.out.println("Employee created successfully");         
         } else {
@@ -77,7 +76,12 @@ public class EmployeeView {
                     addressess.add(getAddressDetails("temporaryaddress"));
                     break;
                 case 3 :
-                    System.out.println("Thank you");
+                    if (flag == 1) {
+                        System.out.println("Thank you");
+                    } else {
+                        System.out.println("Atleast you need to give permanent address");
+                        addressess.add(getAddressDetails("permanentaddress"));
+                      } 
                     break;
                 default :
                     System.out.println("Invalid choice");
@@ -91,7 +95,8 @@ public class EmployeeView {
      * @param addressMode type of employee address
      * @return employee address details
      */
-    private String[] getAddressDetails(String addressMode) throws SQLException, ClassNotFoundException {
+    private String[] getAddressDetails(String addressMode) 
+            throws SQLException, ClassNotFoundException {
         String[] addressDetails = new String[7];
         scanner.nextLine();
         System.out.println("Enter your door no");
@@ -161,7 +166,7 @@ public class EmployeeView {
                 + "\nEnter 3 to add address"
                 + "\nEnter 4 to delete address"
                 + "\nEnter 5 to quit";
-        while (4 != updateChoice) {
+        while (5 != updateChoice) {
             System.out.println(updateChoiceDetail);
             updateChoice = scanner.nextInt();
             switch (updateChoice) {
@@ -193,30 +198,79 @@ public class EmployeeView {
         System.out.println("Enter your employee id");
         int empId = scanner.nextInt();
         if (employeeController.isEmpIdExist(empId)) {
-            scanner.nextLine();
-            System.out.println("Enter your name");
-            String name = scanner.nextLine();
-            System.out.println("Entr your desgination");
-            String desgination = scanner.nextLine();
-            System.out.println("Enter your email id");
-            String email = scanner.nextLine();
-            System.out.println("Enter your phone number");
-            long phoneNumber = scanner.nextLong();
-            System.out.println("Enter your salary");
-            long salary = scanner.nextLong();
-            System.out.println("Enter Date Of Birth in given format yyyy-MM-dd");
-            String date = scanner.next(); 
-            Date dob = Date.valueOf(date);
-            boolean updateEmployeeResult = employeeController.updateEmployee(name, desgination, email, phoneNumber, 
-                    salary, dob, empId);  
-            if (updateEmployeeResult) {
-                System.out.println("Updated Successfully");
-            } else {
-                System.out.println("Unsuccessful");
-              }
+           String[] employeeDetails = getEmployeeDetails();
+           if (employeeController.updateEmployee(empId, employeeDetails)) {
+               System.out.println("Updated successfully");
+           } else {
+               System.out.println("Unsuccessful");
+             }
         } else {
             System.out.println("Employee id doesn't exist");
           }
+    }
+
+    /**
+     * It is used to get employee details to update specific employee
+     */
+    private String[] getEmployeeDetails() throws SQLException, ClassNotFoundException {
+        String[] employeeDetails = new String[6];
+        employeeDetails[0] = null;
+        employeeDetails[1] = null;
+        employeeDetails[2] = null;
+        employeeDetails[3] = null;
+        employeeDetails[4] = null;
+        employeeDetails[5] = null;
+        System.out.println("Please select your update choice");
+        int updateEmployeeDetailChoice = 0;
+        String updateEmployeeChoiceDetail = "Enter 1 to update employee name" 
+                + "\nEnter 2 to update desgination"
+                + "\nEnter 3 to update email"
+                + "\nEnter 4 to update phone number"
+                + "\nEnter 5 to update salary"
+                + "\nEnter 6 to update date of birth"
+                + "\nEnter 7 to quit";
+        while (7 != updateEmployeeDetailChoice) {
+            System.out.println(updateEmployeeChoiceDetail);
+            updateEmployeeDetailChoice = scanner.nextInt();
+            switch (updateEmployeeDetailChoice) {
+                case 1 :
+                    scanner.nextLine();
+                    System.out.println("Enter your name");
+                    employeeDetails[0] = scanner.nextLine();
+                    break;
+                case 2 :
+                    scanner.nextLine();
+                    System.out.println("Enter your desgination");
+                    employeeDetails[1] = scanner.nextLine();
+                    break;
+                case 3 :
+                    scanner.nextLine();
+                    System.out.println("Enter your Email");
+                    employeeDetails[2] = scanner.nextLine();
+                    break;
+                case 4 :
+                    scanner.nextLine();
+                    System.out.println("Enter your phone number");
+                    employeeDetails[3] = scanner.nextLine();
+                    break;
+                case 5 :
+                    scanner.nextLine();
+                    System.out.println("Enter your salary");
+                    employeeDetails[4] = scanner.nextLine();
+                    break;
+                case 6 :
+                    scanner.nextLine();
+                    System.out.println("Enter valid date format (yyyy-MM-dd)");
+                    employeeDetails[5] = scanner.nextLine();
+                    break;
+                case 7 :
+                    System.out.println("Thank you");
+                    break;
+                default :
+                    System.out.println("Invalid choice");
+            }
+        } 
+        return employeeDetails;   
     }
 
     /**
@@ -234,8 +288,8 @@ public class EmployeeView {
                 List<Integer> addressIds = new ArrayList<>(addresses.keySet());
                 System.out.println("select your address to update ?");
                 int addressOption = scanner.nextInt();
-                int addressId = addressIds.get(addressOption - 1);
-                if (addressId >= addressId) {
+                if (addressIds.size() >= addressOption) {
+                    int addressId = addressIds.get(addressOption - 1);
                     String[] addressDetails = getAddressDetails(null);
                     if (employeeController.updateEmployeeAddress(addressId, addressDetails)) {
                         System.out.println("Update your address successfully");
@@ -271,6 +325,9 @@ public class EmployeeView {
           }    
     }
 
+    /**
+     * It is used to delete specific address
+     */
     private void deleteAddress() throws SQLException, ClassNotFoundException {
         System.out.println("Enter your employee id");
         int empId = scanner.nextInt();
@@ -283,8 +340,8 @@ public class EmployeeView {
                 List<Integer> addressIds = new ArrayList<>(addresses.keySet());
                 System.out.println("select your address to update ?");
                 int addressOption = scanner.nextInt();
-                int addressId = addressIds.get(addressOption - 1);
-                if (addressId >= addressId) {
+                if (addressIds.size() >= addressOption) {
+                    int addressId = addressIds.get(addressOption - 1);
                     if (employeeController.deleteAddress(addressId)) {
                         System.out.println("Deleted your address successfully");
                     } else {
@@ -327,6 +384,18 @@ public class EmployeeView {
                     + "Enter Valid Email ID: ");
             return validateEmail(scanner.next());
           }
+    }
+
+    /**
+     * It is used to validate date
+     */
+    private String validateDate() {
+        String dob = scanner.next();
+        if (!dob.matches("^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$")) {
+            System.out.println("Enter valid date format (yyyy-MM-dd)");
+            return validateDate();
+        }
+        return dob;
     }
 
     /**

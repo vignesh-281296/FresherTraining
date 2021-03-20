@@ -26,7 +26,7 @@ public interface EmployeeService {
      * @return boolean value
      */
     public boolean insertEmployee(String name, String desgination, String emailId,
-            long phoneNumber, long salary, Date dob, List<String[]> employeeAddressDetails)
+            long phoneNumber, float salary, Date dob, List<String[]> employeeAddressDetails)
             throws SQLException, ClassNotFoundException;
 
     /**
@@ -71,8 +71,7 @@ public interface EmployeeService {
      * @id employee id
      * @return boolean value
      */
-    public boolean updateEmployee(String name, String desgination, String email, 
-            long phoneNumber,long salary, Date dob, int id) 
+    public boolean updateEmployee(int id, String[] employeeDetails) 
             throws SQLException, ClassNotFoundException;
 
    /**
