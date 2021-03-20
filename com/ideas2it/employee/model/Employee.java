@@ -122,9 +122,9 @@ public class Employee {
     }
 
     public String toString() {
-        return "Employee-Id - " + id + "\n Name - " + name
-                + "\n Desgination - " + desgination + "\n Email - "
-                + email + "\n Phone Number - " + phoneNumber 
-                + "\n Salary - " + salary + "\n DOB -" + dob;      
+        return "Employee-Id - " + id + "\nName - " + name
+                + "\nDesgination - " + desgination + "\nEmail - "
+                + email + "\nPhone Number - " + phoneNumber 
+                + "\nSalary - " + salary + "\nDOB -" + dob;      
     }      
 } 

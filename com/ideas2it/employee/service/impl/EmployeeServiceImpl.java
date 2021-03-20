@@ -3,8 +3,8 @@ package com.ideas2it.employee.service.impl;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.ideas2it.employee.dao.impl.EmployeeDaoImpl;
@@ -18,8 +18,7 @@ import com.ideas2it.employee.service.EmployeeService;
  * @author vignesh r
  * @created at 13-03-2021
  */
-public class EmployeeServiceImpl implements EmployeeService {
-    
+public class EmployeeServiceImpl implements EmployeeService { 
     private EmployeeDaoImpl employeeDao = new EmployeeDaoImpl(); 
 
     /**
@@ -28,14 +27,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public boolean insertEmployee(String name, String desgination, String emailId,
             long phoneNumber, float salary, Date dob, List<String[]> employeeAddressDetails) 
-            throws SQLException, ClassNotFoundException {
-        
+            throws SQLException, ClassNotFoundException {  
         List<Address> addressDetails = new ArrayList<Address>();
-        for (int i = 0; i < employeeAddressDetails.size(); i++) {
-            Address address = new Address(employeeAddressDetails.get(i)[0], 
-                    employeeAddressDetails.get(i)[1], employeeAddressDetails.get(i)[2], 
-                    employeeAddressDetails.get(i)[3], employeeAddressDetails.get(i)[4],
-                    employeeAddressDetails.get(i)[5], employeeAddressDetails.get(i)[6]);
+        for (int index = 0; index < employeeAddressDetails.size(); index++) {
+            Address address = new Address(employeeAddressDetails.get(index)[0], 
+                    employeeAddressDetails.get(index)[1], employeeAddressDetails.get(index)[2], 
+                    employeeAddressDetails.get(index)[3], employeeAddressDetails.get(index)[4],
+                    employeeAddressDetails.get(index)[5], employeeAddressDetails.get(index)[6]);
             addressDetails.add(address);
         }
         Employee employee = new Employee(name, desgination, emailId, phoneNumber, 
@@ -99,45 +97,44 @@ public class EmployeeServiceImpl implements EmployeeService {
     public boolean updateEmployee(int id, String[] employeeDetails) 
             throws SQLException, ClassNotFoundException {
         Employee employee = employeeDao.getEmployee(id);
-        employee.setId(id);
         if (null == employeeDetails[0]) {
             employee.setName(employee.getName());
         } else {
             employee.setName(employeeDetails[0]);
-          }
+        }
  
         if (null == employeeDetails[1]) {
             employee.setDesgination(employee.getDesgination());
         } else {
             employee.setDesgination(employeeDetails[1]);
-          }
+        }
 
         if (null == employeeDetails[2]) {
             employee.setEmail(employee.getEmail());
         } else {
             employee.setEmail(employeeDetails[2]);
-          }
+        }
 
         if (null == employeeDetails[3]) { 
             employee.setPhoneNumber(employee.getPhoneNumber());
         } else {
             long phoneNumber = Long.parseLong(employeeDetails[3]);
             employee.setPhoneNumber(phoneNumber);
-          }
+        }
 
         if (null == employeeDetails[4]) { 
             employee.setSalary(employee.getSalary());
         } else {
             float salary  = Float.parseFloat(employeeDetails[4]);
             employee.setSalary(salary);
-          }
+        }
         if (null == employeeDetails[5]) { 
             employee.setDob(employee.getDob());
         } else {
             Date dob = Date.valueOf(employeeDetails[5]);
             employee.setDob(dob);
-          }
-        Employee employees = new Employee(employee.getId(), employee.getName(), employee.getDesgination(),
+        }
+        Employee employees = new Employee(id, employee.getName(), employee.getDesgination(),
                employee.getEmail(), employee.getPhoneNumber(), employee.getSalary(),
                employee.getDob());
         return employeeDao.updateEmployee(id, employees);       
@@ -205,7 +202,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         int index = 0;
         for (Address address : employeeDao.getAddressDetails(id)) {
             index++;
-            addressDetails.put(address.getId(), Integer.toString(index) + address.toString());     
+            addressDetails.put(address.getId(), "Address-no- " + Integer.toString(index) 
+                   + address.toString());     
         } 
         return addressDetails;
     }

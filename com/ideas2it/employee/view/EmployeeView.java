@@ -17,7 +17,6 @@ import com.ideas2it.employee.controller.EmployeeController;
  * @version 1.0 13-03-2021
  */ 
 public class EmployeeView {
-
     private Scanner scanner = new Scanner(System.in);
     private EmployeeController employeeController = new EmployeeController();
     
@@ -25,7 +24,7 @@ public class EmployeeView {
      * It used to create new employee
      */
     private void createEmployee() throws SQLException, ClassNotFoundException {
-        scanner.nextLine();
+        scanner.skip("\r\n");
         System.out.println("Enter Your name");
         String name = scanner.nextLine();
         System.out.println("Enter your desgination");
@@ -36,7 +35,7 @@ public class EmployeeView {
         long phoneNumber = validatePhoneNumber(scanner.nextLong());
         System.out.println("Enter your salary");
         float salary = scanner.nextFloat();
-        scanner.nextLine();
+        //scanner.nextLine();
         System.out.println("Enter Date Of Birth in given format yyyy-MM-dd");
         Date dob = Date.valueOf(validateDate());
         List<String[]> addressDetails = createAddress();
@@ -46,7 +45,7 @@ public class EmployeeView {
             System.out.println("Employee created successfully");         
         } else {
             System.out.println("Unsuccessful");
-          }            
+        }            
     }
 
     /**
@@ -70,7 +69,7 @@ public class EmployeeView {
                         flag = 1;
                     } else {
                         System.out.println("Permanent address already entered");
-                      }
+                    }
                     break;
                 case 2 :
                     addressess.add(getAddressDetails("temporaryaddress"));
@@ -81,7 +80,7 @@ public class EmployeeView {
                     } else {
                         System.out.println("Atleast you need to give permanent address");
                         addressess.add(getAddressDetails("permanentaddress"));
-                      } 
+                    } 
                     break;
                 default :
                     System.out.println("Invalid choice");
@@ -98,7 +97,7 @@ public class EmployeeView {
     private String[] getAddressDetails(String addressMode) 
             throws SQLException, ClassNotFoundException {
         String[] addressDetails = new String[7];
-        scanner.nextLine();
+        scanner.skip("\r\n");
         System.out.println("Enter your door no");
         addressDetails[0] = scanner.nextLine();
         System.out.println("Enter your street name");
@@ -126,10 +125,10 @@ public class EmployeeView {
                 System.out.println("Deleted Successfully");
             } else {
                 System.out.println("Unsuccessful");
-              }
+            }
         } else {
             System.out.println("Employee id doesn't exist");
-          }
+        }
     }
 
     /**
@@ -140,10 +139,10 @@ public class EmployeeView {
         int empId = scanner.nextInt();
         if (employeeController.isEmpIdExist(empId)) {
             System.out.println("==== Employee =====");
-            System.out.println(employeeController.getSpecificEmployee(empId));
+            System.out.println(employeeController.getSpecificEmployee(empId) + "\n");
         } else {
             System.out.println("Employee id doesn't exist");
-          }
+        }
     } 
 
      /**
@@ -151,7 +150,7 @@ public class EmployeeView {
      */
     private void displayAllEmployee() throws SQLException, ClassNotFoundException {
         for (String employees : employeeController.getAllEmployee()) {
-            System.out.println(employees + "\n");
+            System.out.println(employees + "\n \n");
         }   
     }
 
@@ -159,7 +158,7 @@ public class EmployeeView {
      * It performs update operation 
      */
     private void updateOperation() throws SQLException, ClassNotFoundException {
-        System.out.println("Please select your type of address");
+        System.out.println("Please select your which employee details need to update?");
         int updateChoice = 0;
         String updateChoiceDetail = "Enter 1 to update employee details" 
                 + "\nEnter 2 to update address details"
@@ -203,10 +202,10 @@ public class EmployeeView {
                System.out.println("Updated successfully");
            } else {
                System.out.println("Unsuccessful");
-             }
+           }
         } else {
             System.out.println("Employee id doesn't exist");
-          }
+        }
     }
 
     /**
@@ -234,32 +233,32 @@ public class EmployeeView {
             updateEmployeeDetailChoice = scanner.nextInt();
             switch (updateEmployeeDetailChoice) {
                 case 1 :
-                    scanner.nextLine();
+                    scanner.skip("\r\n");
                     System.out.println("Enter your name");
                     employeeDetails[0] = scanner.nextLine();
                     break;
                 case 2 :
-                    scanner.nextLine();
+                    scanner.skip("\r\n");
                     System.out.println("Enter your desgination");
                     employeeDetails[1] = scanner.nextLine();
                     break;
                 case 3 :
-                    scanner.nextLine();
+                    scanner.skip("\r\n");
                     System.out.println("Enter your Email");
                     employeeDetails[2] = scanner.nextLine();
                     break;
                 case 4 :
-                    scanner.nextLine();
+                    scanner.skip("\r\n");
                     System.out.println("Enter your phone number");
                     employeeDetails[3] = scanner.nextLine();
                     break;
                 case 5 :
-                    scanner.nextLine();
+                    scanner.skip("\r\n");
                     System.out.println("Enter your salary");
                     employeeDetails[4] = scanner.nextLine();
                     break;
                 case 6 :
-                    scanner.nextLine();
+                    scanner.skip("\r\n");
                     System.out.println("Enter valid date format (yyyy-MM-dd)");
                     employeeDetails[5] = scanner.nextLine();
                     break;
@@ -281,12 +280,12 @@ public class EmployeeView {
         int empId = scanner.nextInt();
         if (employeeController.getAddressDetails(empId).size() > 0) {
             if (employeeController.isEmpIdExist(empId)) {
-                employeeController.getAddressDetails(empId).forEach((addressId, address) -> {
+                Map<Integer, String> addresses = employeeController.getAddressDetails(empId);
+                addresses.forEach((addressId, address) -> {
                     System.out.println(address);
                 });
-                Map<Integer, String> addresses = employeeController.getAddressDetails(empId);
                 List<Integer> addressIds = new ArrayList<>(addresses.keySet());
-                System.out.println("select your address to update ?");
+                System.out.println("select your address no to update ?");
                 int addressOption = scanner.nextInt();
                 if (addressIds.size() >= addressOption) {
                     int addressId = addressIds.get(addressOption - 1);
@@ -295,16 +294,16 @@ public class EmployeeView {
                         System.out.println("Update your address successfully");
                     } else {
                         System.out.println("Unsuccessful");
-                      }
+                    }
                 } else {
                     System.out.println("You Entered invalid option");
-                  }
+                }
             } else {
                 System.out.println("Employee id doesn't exist");
-              }
+            }
         } else {
             System.out.println("No records exists");
-          }	
+        }	
     }
 
     /**
@@ -319,10 +318,10 @@ public class EmployeeView {
                 System.out.println("Address Added successfully");
             } else {
                 System.out.println("Unsuccessful");
-              }
+            }
         } else {
             System.out.println("Employee id doesn't exist");
-          }    
+        }    
     }
 
     /**
@@ -333,12 +332,12 @@ public class EmployeeView {
         int empId = scanner.nextInt();
         if (employeeController.getAddressDetails(empId).size() > 0) {
             if (employeeController.isEmpIdExist(empId)) {
-                employeeController.getAddressDetails(empId).forEach((addressId, address) -> {
-                    System.out.println(address);
-                });
                 Map<Integer, String> addresses = employeeController.getAddressDetails(empId);
+                addresses.forEach((addressId, address) -> {
+                    System.out.println(address);
+                }); 
                 List<Integer> addressIds = new ArrayList<>(addresses.keySet());
-                System.out.println("select your address to update ?");
+                System.out.println("select your address no to delete ?");
                 int addressOption = scanner.nextInt();
                 if (addressIds.size() >= addressOption) {
                     int addressId = addressIds.get(addressOption - 1);
@@ -346,16 +345,16 @@ public class EmployeeView {
                         System.out.println("Deleted your address successfully");
                     } else {
                         System.out.println("Unsuccessful");
-                      }
+                    }
                 } else {
                     System.out.println("You Entered invalid option");
-                  }
+                }
             } else {
                 System.out.println("Employee id doesn't exist");
-              }
+            }
         } else {
             System.out.println("No records exists");
-          }	
+        }	
     }
 
     /**
@@ -369,7 +368,7 @@ public class EmployeeView {
             System.out.print("Invalid Phone Number\n"
                     + "Enter Valid Phone Number: ");
             return validatePhoneNumber(scanner.nextLong());
-          }
+        }
     }
 
     /**
@@ -383,7 +382,7 @@ public class EmployeeView {
             System.out.print("Invalid EmailID\n"
                     + "Enter Valid Email ID: ");
             return validateEmail(scanner.next());
-          }
+        }
     }
 
     /**
@@ -416,16 +415,16 @@ public class EmployeeView {
                         System.out.println("Restore Successfully");
                     } else {
                         System.out.println("Unsuccessful");
-                      }
+                    }
                 } else {
                     System.out.println("Employee id doesn't exists");
-                  }
+                }
             } else if(2 == restoreChoice) {
                 System.out.println("Thank you");    
-              }
+            }
         } else {
             System.out.println("No Employee to restore");
-          }
+        }
     }    
 
     /**

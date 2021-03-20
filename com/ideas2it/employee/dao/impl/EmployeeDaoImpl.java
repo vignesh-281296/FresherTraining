@@ -115,25 +115,25 @@ public class EmployeeDaoImpl implements EmployeeDao {
          ResultSet resultSet = prepareStatement.executeQuery();
          if (resultSet.next()) {
              Employee employee = new Employee(resultSet.getInt(1),
-                                              resultSet.getString(2),
-                                              resultSet.getString(3),
-                                              resultSet.getString(4),
-                                              resultSet.getLong(5),
-                                              resultSet.getFloat(6),
-                                              resultSet.getDate(7));
+                     resultSet.getString(2),
+                     resultSet.getString(3),
+                     resultSet.getString(4),
+                     resultSet.getLong(5),
+                     resultSet.getFloat(6),
+                     resultSet.getDate(7));
              int employeeId = resultSet.getInt(1);
              List<Address> addressDetails = new ArrayList<Address>();
              while (employeeId == resultSet.getInt(1)) {
                  if (0 != resultSet.getInt(8)) {
                      Address address = new Address(resultSet.getInt(8),
-                                                   resultSet.getInt(9),
-                                                   resultSet.getString(10),
-                                                   resultSet.getString(11),
-                                                   resultSet.getString(12),
-                                                   resultSet.getString(13),
-                                                   resultSet.getString(14),
-                                                   resultSet.getString(15),
-                                                  resultSet.getString(16));
+                             resultSet.getInt(9),
+                             resultSet.getString(10),
+                             resultSet.getString(11),
+                             resultSet.getString(12),
+                             resultSet.getString(13),
+                             resultSet.getString(14),
+                             resultSet.getString(15),
+                             resultSet.getString(16));
                     addressDetails.add(address);
                  }
                  if (!resultSet.next()) {
@@ -144,7 +144,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
              return employee;
          } else {
              return null;
-           } 	        
+         } 	        
     }
 
     /**
@@ -169,24 +169,24 @@ public class EmployeeDaoImpl implements EmployeeDao {
             while (flag) {
                 List<Address> addressDetails = new ArrayList<Address>();
                 Employee employee = new Employee(resultSet.getInt(1),
-                                                 resultSet.getString(2),
-                                                 resultSet.getString(3),
-                                                 resultSet.getString(4),
-                                                 resultSet.getLong(5),
-                                                 resultSet.getFloat(6),
-                                                 resultSet.getDate(7));
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(4),
+                        resultSet.getLong(5),
+                        resultSet.getFloat(6),
+                        resultSet.getDate(7));
                 int employeeId = resultSet.getInt(1);
                 while (employeeId == resultSet.getInt(1)) {
                     if (0 != resultSet.getInt(8)) {
                         Address address = new Address(resultSet.getInt(8),
-                                                      resultSet.getInt(9),
-                                                      resultSet.getString(10),
-                                                      resultSet.getString(11),
-                                                      resultSet.getString(12),
-                                                      resultSet.getString(13),
-                                                      resultSet.getString(14),
-                                                      resultSet.getString(15),
-                                                      resultSet.getString(16));
+                                resultSet.getInt(9),
+                                resultSet.getString(10),
+                                resultSet.getString(11),
+                                resultSet.getString(12),
+                                resultSet.getString(13),
+                                resultSet.getString(14),
+                                resultSet.getString(15),
+                                resultSet.getString(16));
                         addressDetails.add(address);
                     }
                     if (!resultSet.next()) {
@@ -275,12 +275,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
         ResultSet resultSet = prepareStatement.executeQuery();
         while (resultSet.next()) {
             Employee employee =  new Employee(resultSet.getInt(1),
-                                               resultSet.getString(2),
-                                               resultSet.getString(3),
-                                               resultSet.getString(4),
-                                               resultSet.getLong(5),
-                                               resultSet.getFloat(6),
-                                               resultSet.getDate(7));
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getLong(5),
+                    resultSet.getFloat(6),
+                    resultSet.getDate(7));
             employees.add(employee);    
         }  
         return employees;
@@ -355,14 +355,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
         List<Address> addressDetails =  new ArrayList<Address>();
         while (resultSet.next()) {
             Address address =  new Address(resultSet.getInt(1),
-                                           resultSet.getInt(2),
-                                           resultSet.getString(3),
-                                           resultSet.getString(4),
-                                           resultSet.getString(5),
-                                           resultSet.getString(6),
-                                           resultSet.getString(7),
-                                           resultSet.getString(8),
-                                           resultSet.getString(9));
+                    resultSet.getInt(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5),
+                    resultSet.getString(6),
+                    resultSet.getString(7),
+                    resultSet.getString(8),
+                    resultSet.getString(9));
             addressDetails.add(address);
         }
         return addressDetails;  	        
@@ -395,12 +395,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
         ResultSet resultSet = prepareStatement.executeQuery();
         resultSet.next();
         Employee employee =  new Employee(resultSet.getInt(1),
-                                          resultSet.getString(2),
-                                          resultSet.getString(3),
-                                          resultSet.getString(4),
-                                          resultSet.getLong(5),
-                                          resultSet.getFloat(6),
-                                          resultSet.getDate(7));
+                resultSet.getString(2),
+                resultSet.getString(3),
+                resultSet.getString(4),
+                resultSet.getLong(5),
+                resultSet.getFloat(6),
+                resultSet.getDate(7));
         return employee;  	        
     } 
 }

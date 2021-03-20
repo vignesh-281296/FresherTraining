@@ -133,9 +133,9 @@ public class Address {
     }
 
     public String toString() {
-        return "\nEmployee-Id - " + empId + "\n Door No - " + doorNo  
-                + "\n street name - " + streetName + "\n City - " + city 
-                + "\n District - " + district + "\n State - " + state   
-                + "\n Country -" + country + "\n Address Mode - " + addressMode;
+        return "\nEmployee-Id - " + empId + "\nDoor No - " + doorNo  
+                + "\nstreet name - " + streetName + "\nCity - " + city 
+                + "\nDistrict - " + district + "\nState - " + state   
+                + "\nCountry -" + country + "\nAddress Mode - " + addressMode;
     }
 } 
