@@ -12,14 +12,24 @@ import java.sql.SQLException;
  */
 public class DatabaseConnection {
       private static DatabaseConnection databaseConnection = null;
+
+      private DatabaseConnection() {
+          
+      }
     
       /**
        * It is used to  establish connection to SQL database
        */
-      public Connection getConnection() throws ClassNotFoundException {
-          Class.forName("com.mysql.cj.jdbc.Driver");
-          Connection connection = DriverManager
-                  .getConnection("jdbc:mysql://localhost:3306/employee_management","root","1234");  
+      public Connection getConnection() {
+          //Class.forName("com.mysql.cj.jdbc.Driver");
+          Connection connection = null;
+          try {
+              connection = DriverManager
+                  .getConnection("jdbc:mysql://localhost:3306/employee_management","root","1234");
+              connection.setAutoCommit(false);    
+          } catch(SQLException e) {
+              System.out.println("not connect");
+          }  
           return connection;
       }
       
@@ -27,9 +37,7 @@ public class DatabaseConnection {
        * It will used to create Instance 
        */
       public static DatabaseConnection getInstance() {
-          if (null == databaseConnection) {
-            return databaseConnection = new DatabaseConnection(); 
-          }
-          return databaseConnection;
+
+         return (null == databaseConnection) ? (databaseConnection = new DatabaseConnection()) : databaseConnection;
       }
 }

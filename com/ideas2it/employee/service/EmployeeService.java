@@ -1,7 +1,6 @@
 package com.ideas2it.employee.service;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,63 +25,50 @@ public interface EmployeeService {
      * @return boolean value
      */
     public boolean insertEmployee(String name, String desgination, String emailId,
-            long phoneNumber, float salary, Date dob, List<String[]> employeeAddressDetails)
-            throws SQLException, ClassNotFoundException;
+            long phoneNumber, float salary, Date dob, List<String[]> employeeAddressDetails);
 
     /**
      * It is used to check wheather employee id exist or not
      * @param id employeeId
      * @return boolean value
      */
-    public boolean isEmpIdExist(int id) 
-            throws SQLException, ClassNotFoundException;
+    public boolean isEmpIdExist(int id);
 
     /**
      * It is used to delete employee based upon employee id
      * @param id employee id
      * @return boolean  
      */
-    public boolean deleteEmployee(int id) 
-            throws SQLException, ClassNotFoundException;
+    public boolean deleteEmployee(int id);
 
     /**
      * It is used to get individual employee details
      * @param id employee id
      * @return individual employee details
      */
-    public String getSpecificEmployee(int id) 
-            throws SQLException, ClassNotFoundException;
+    public String getSpecificEmployee(int id);
 
     /**
      * It is used to get all employee
      * @return all employee details  
      */
-    public List<String> getAllEmployee() 
-            throws SQLException, ClassNotFoundException;
+    public List<String> getAllEmployee();
 
     /**
      * It is used to update employee details
-     * @param name employee name
-     * @desgination employee desgination
-     * @email employee email
-     * @phoneNumber employee phone number
-     * @salary employee salary
-     * @dob employee date of birth
      * @id employee id
+     * @employeeDetails
      * @return boolean value
      */
-    public boolean updateEmployee(int id, String[] employeeDetails) 
-            throws SQLException, ClassNotFoundException;
+    public boolean updateEmployee(int id, String[] employeeDetails);
 
    /**
      * It is used to update employee address details 
      * @param id employee id
-     * @param address employee address details
-     * @param addressOption address type option
+     * @param addressDetails employee address details
      * @return boolean value
      */
-    public boolean updateEmployeeAddress(int addressId, String[] addressDetails) 
-            throws SQLException, ClassNotFoundException; 
+    public boolean updateEmployeeAddress(int addressId, String[] addressDetails); 
 
     /**
      * It is used to add employee address details
@@ -90,70 +76,53 @@ public interface EmployeeService {
      * @param addressDetails employee address details
      * @return boolean value
      */
-    public boolean addEmployeeAddress(int employeeId, String[] addressDetails) 
-            throws SQLException, ClassNotFoundException;
-
-    /**
-     * It is used to check wheather the employee type is exist or not
-     * @param id employee id
-     * @param addressType type of address
-     * @return boolean value
-     */
-    public boolean isExistAddressType(int id, String addressType) 
-            throws SQLException, ClassNotFoundException;
+    public boolean addEmployeeAddress(int employeeId, String[] addressDetails);
 
     /**
      * It is used to validate phone number
      * @param phone number Employee phone number
      * @return boolean value
      */
-    public boolean validatePhoneNumber(long phoneNumber) 
-            throws SQLException, ClassNotFoundException;
+    public boolean validatePhoneNumber(long phoneNumber);
 
      /**
      * It is used to validate email-id
      * @param emailId Employee email-id
      * @return boolean value
      */
-    public boolean validateEmail(String emailId) 
-            throws SQLException, ClassNotFoundException;
+    public boolean validateEmail(String emailId);
 
     /**
      * It is used to get specific address details
      * @param id employee id
      * @return address details
      */
-    public Map<Integer, String> getAddressDetails(int id) 
-            throws SQLException, ClassNotFoundException;
+    public Map<Integer, String> getAddressDetails(int id);
 
     /**
      * It is used to get delete employee details
      * @return employee details
      */
-    public List<String> getDeletedEmployee() 
-            throws SQLException, ClassNotFoundException;
+    public List<String> getDeletedEmployee();
 
     /**
      * It is used to restore the deleted employee details
      * @param id employee id
      * @return boolean value
      */
-    public boolean restoreEmployee(int id) 
-            throws SQLException, ClassNotFoundException;
+    public boolean restoreEmployee(int id);
 
     /**
      * It is used to check wheather deleted employee id is exist or not
      * @param id employee id
      * @return boolean value
      */
-    public boolean checkDeletedEmpId(int id) 
-            throws SQLException, ClassNotFoundException;
+    public boolean checkDeletedEmpId(int id);
 
     /**
      * It is used to delete address based upon address id
      * @param id address id
      * @return boolean value 
      */
-    public boolean deleteAddress(int id) 
-            throws SQLException, ClassNotFoundException;
+    public boolean deleteAddress(int id);
 }

@@ -1,7 +1,6 @@
 package com.ideas2it.employee.view;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedHashMap;
@@ -23,7 +22,7 @@ public class EmployeeView {
     /**
      * It used to create new employee
      */
-    private void createEmployee() throws SQLException, ClassNotFoundException {
+    private void createEmployee() {
         scanner.skip("\r\n");
         System.out.println("Enter Your name");
         String name = scanner.nextLine();
@@ -31,7 +30,7 @@ public class EmployeeView {
         String desgination = scanner.nextLine();
         System.out.println("Enter your email");
         String email = validateEmail(scanner.next());
-        System.out.println("Enter your phone number");f
+        System.out.println("Enter your phone number");
         long phoneNumber = validatePhoneNumber(scanner.nextLong());
         System.out.println("Enter your salary");
         float salary = scanner.nextFloat();
@@ -51,7 +50,7 @@ public class EmployeeView {
     /**
      * It is used to  create new address 
      */
-    private List<String[]> createAddress() throws SQLException, ClassNotFoundException {
+    private List<String[]> createAddress() {
         System.out.println("Please select your type of address");
         int addressChoice = 0;
         String addressChoiceDetail = "Enter 1 to permanent address" 
@@ -94,8 +93,7 @@ public class EmployeeView {
      * @param addressMode type of employee address
      * @return employee address details
      */
-    private String[] getAddressDetails(String addressMode) 
-            throws SQLException, ClassNotFoundException {
+    private String[] getAddressDetails(String addressMode) {
         String[] addressDetails = new String[7];
         scanner.skip("\r\n");
         System.out.println("Enter your door no");
@@ -117,7 +115,7 @@ public class EmployeeView {
     /**
      * It is used to delete employee
      */
-    private void deleteEmployee() throws SQLException, ClassNotFoundException {
+    private void deleteEmployee() {
         System.out.println("Enter your Employee id");
         int empId = scanner.nextInt();
         if (employeeController.isEmpIdExist(empId)) {
@@ -134,7 +132,7 @@ public class EmployeeView {
     /**
      * It is used to display individual employee details
      */
-    private void getSpecificEmployee() throws SQLException, ClassNotFoundException {
+    private void getSpecificEmployee() {
         System.out.println("Enter your employee id");
         int empId = scanner.nextInt();
         if (employeeController.isEmpIdExist(empId)) {
@@ -148,7 +146,7 @@ public class EmployeeView {
      /**
      * It is used to display all employee details
      */
-    private void displayAllEmployee() throws SQLException, ClassNotFoundException {
+    private void displayAllEmployee() {
         for (String employees : employeeController.getAllEmployee()) {
             System.out.println(employees + "\n \n");
         }   
@@ -157,7 +155,7 @@ public class EmployeeView {
     /**
      * It performs update operation 
      */
-    private void updateOperation() throws SQLException, ClassNotFoundException {
+    private void updateOperation() {
         System.out.println("Please select your update choice");
         int updateChoice = 0;
         String updateChoiceDetail = "Enter 1 to update employee details" 
@@ -193,7 +191,7 @@ public class EmployeeView {
     /**
      * It is used to update employee details
      */
-    private void updateEmployeeDetails() throws SQLException, ClassNotFoundException {
+    private void updateEmployeeDetails() {
         System.out.println("Enter your employee id");
         int empId = scanner.nextInt();
         if (employeeController.isEmpIdExist(empId)) {
@@ -211,7 +209,7 @@ public class EmployeeView {
     /**
      * It is used to get employee details to update specific employee
      */
-    private String[] getEmployeeDetails() throws SQLException, ClassNotFoundException {
+    private String[] getEmployeeDetails() {
         String[] employeeDetails = new String[6];
         employeeDetails[0] = null;
         employeeDetails[1] = null;
@@ -275,7 +273,7 @@ public class EmployeeView {
     /**
      * It is used to update employee address details
      */
-    private void updateEmployeeAddress() throws SQLException, ClassNotFoundException {
+    private void updateEmployeeAddress() {
         System.out.println("Enter your employee id");
         int empId = scanner.nextInt();
         if (employeeController.getAddressDetails(empId).size() > 0) {
@@ -309,7 +307,7 @@ public class EmployeeView {
     /**
      * It is used to add employee address
      */
-    private void addEmployeeAddress() throws SQLException, ClassNotFoundException {
+    private void addEmployeeAddress() {
         System.out.println("Enter your employee id");
         int empId = scanner.nextInt();
         if (employeeController.isEmpIdExist(empId)) {
@@ -327,7 +325,7 @@ public class EmployeeView {
     /**
      * It is used to delete specific address
      */
-    private void deleteAddress() throws SQLException, ClassNotFoundException {
+    private void deleteAddress() {
         System.out.println("Enter your employee id");
         int empId = scanner.nextInt();
         if (employeeController.getAddressDetails(empId).size() > 0) {
@@ -361,7 +359,7 @@ public class EmployeeView {
      * It is used to validate phone number
      * @param phoneNumber employee phone number
      */
-    private long validatePhoneNumber(long phoneNumber) throws SQLException, ClassNotFoundException {
+    private long validatePhoneNumber(long phoneNumber) {
         if (employeeController.validatePhoneNumber(phoneNumber)) {
             return phoneNumber;
         } else {
@@ -375,7 +373,7 @@ public class EmployeeView {
      * It is used to  validate email id
      * @param emailId employee email-id
      */ 
-    private String validateEmail(String emailId) throws SQLException, ClassNotFoundException {
+    private String validateEmail(String emailId) {
         if (employeeController.validateEamil(emailId)) {
             return emailId;
         } else {
@@ -400,7 +398,7 @@ public class EmployeeView {
     /**
      * It is used to restore the deleted employee details
      */
-    private void restoreDeletedEmployeeDetails() throws SQLException, ClassNotFoundException { 
+    private void restoreDeletedEmployeeDetails() { 
         if (employeeController.getDeletedEmployee().size() > 0) {
             for (String employeeDetails : employeeController.getDeletedEmployee()) {
                 System.out.println(employeeDetails + "\n");
@@ -430,7 +428,7 @@ public class EmployeeView {
     /**
      * It performs CRUD operation
      */  
-    public void operation() throws SQLException, ClassNotFoundException {
+    public void operation() {
         int choice = 0;
         String choiceDetails = "Enter 1 to create employee \nEnter 2 to Update employee \nEnter 3 to Delete employee"
                 + "\nEnter 4 to Display Individual Employee \nEnter 5 to Display Employee"
