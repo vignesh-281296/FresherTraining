@@ -63,6 +63,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 addressResult = prepareStatement.executeUpdate();
             } 
         }
+        preparedStatement.close();
+        connection.close();
         return 0 != addressResult;             
     }
 
@@ -77,6 +79,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 ("select id from employee Where id = ? and is_delete = true");
         prepareStatement.setInt(1, id);
         ResultSet resultSet = prepareStatement.executeQuery();
+        preparedStatement.close();
+        connection.close();
         return resultSet.next();            
     }
 
@@ -95,6 +99,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 ("update address set is_delete = false where employee_id = ?");
         prepareStatement.setInt(1, id);
         int count = prepareStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
         return 0 != count;     
     }
 
@@ -141,6 +147,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                  }
              }
              employee.setAddress(addressDetails);
+             preparedStatement.close();
+             connection.close();
              return employee;
          } else {
              return null;
@@ -198,6 +206,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 employees.add(employee);
             }
         } 
+        preparedStatement.close();
+        connection.close();
         return employees;
     }
 
@@ -220,6 +230,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
         prepareStatement.setDate(6, employee.getDob());
         prepareStatement.setInt(7, id);
         int count = prepareStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
         return 0 != count;
     }
 
@@ -242,6 +254,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
         prepareStatement.setString(6, address.getCountry());
         prepareStatement.setInt(7, addressId);
         int count = prepareStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
         return 0 != count;
     }
 
@@ -259,6 +273,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
         prepareStatement.setString(2, addressType);
         ResultSet resultSet = prepareStatement.executeQuery();
         resultSet.next();
+        preparedStatement.close();
+        connection.close();
         return 0 != resultSet.getInt(1);     
     }
 
@@ -282,7 +298,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
                     resultSet.getFloat(6),
                     resultSet.getDate(7));
             employees.add(employee);    
-        }  
+        }
+        preparedStatement.close();
+        connection.close();  
         return employees;
     }
 
@@ -301,6 +319,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 ("update address set is_delete = true where employee_id = ?");
         prepareStatement.setInt(1, id);
         int count = prepareStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
         return 0 != count;    
     }
 
@@ -324,6 +344,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
         prepareStatement.setString(7, address.getCountry());
         prepareStatement.setString(8, address.getAddressMode());
         int addressResult = prepareStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
         return 0 != addressResult;
     }
     
@@ -338,6 +360,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 ("select id from employee Where id = ? and is_delete = false");
         prepareStatement.setInt(1, id);
         ResultSet resultSet = prepareStatement.executeQuery();
+        preparedStatement.close();
+        connection.close();
         return resultSet.next();            
     }
 
@@ -365,6 +389,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                     resultSet.getString(9));
             addressDetails.add(address);
         }
+        preparedStatement.close();
+        connection.close();
         return addressDetails;  	        
     }
 
@@ -379,6 +405,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 ("update address set is_delete = false where id = ?");
         prepareStatement.setInt(1, id);
         int count = prepareStatement.executeUpdate();
+        preparedStatement.close();
+        connection.close();
         return 0 != count;     
     }
 
@@ -401,6 +429,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 resultSet.getLong(5),
                 resultSet.getFloat(6),
                 resultSet.getDate(7));
+        preparedStatement.close();
+        connection.close();
         return employee;  	        
     } 
 }
