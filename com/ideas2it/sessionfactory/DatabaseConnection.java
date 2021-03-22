@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * This is singleton class 
+ * class provide database connectivity
  * 
  * @author vignesh r
  * @version 1.0 14-03-2021
@@ -16,15 +16,15 @@ public class DatabaseConnection {
       /**
        * It is used to  establish connection to SQL database
        */
-      public Connection getConnection() throws SQLException, ClassNotFoundException {
-              Class.forName("com.mysql.cj.jdbc.Driver");
-              Connection connection = DriverManager
-                      .getConnection("jdbc:mysql://localhost:3306/employee_management","root","1234");  
-              return connection;
+      public Connection getConnection() throws ClassNotFoundException {
+          Class.forName("com.mysql.cj.jdbc.Driver");
+          Connection connection = DriverManager
+                  .getConnection("jdbc:mysql://localhost:3306/employee_management","root","1234");  
+          return connection;
       }
       
       /**
-       * Method to create Instance 
+       * It will used to create Instance 
        */
       public static DatabaseConnection getInstance() {
           if (null == databaseConnection) {
