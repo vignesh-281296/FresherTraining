@@ -31,7 +31,7 @@ public class EmployeeView {
         String desgination = scanner.nextLine();
         System.out.println("Enter your email");
         String email = validateEmail(scanner.next());
-        System.out.println("Enter your phone number");
+        System.out.println("Enter your phone number");f
         long phoneNumber = validatePhoneNumber(scanner.nextLong());
         System.out.println("Enter your salary");
         float salary = scanner.nextFloat();
@@ -158,7 +158,7 @@ public class EmployeeView {
      * It performs update operation 
      */
     private void updateOperation() throws SQLException, ClassNotFoundException {
-        System.out.println("Please select your which employee details need to update?");
+        System.out.println("Please select your update choice");
         int updateChoice = 0;
         String updateChoiceDetail = "Enter 1 to update employee details" 
                 + "\nEnter 2 to update address details"
@@ -219,7 +219,7 @@ public class EmployeeView {
         employeeDetails[3] = null;
         employeeDetails[4] = null;
         employeeDetails[5] = null;
-        System.out.println("Please select your update choice");
+        System.out.println("Please select your which employee details need to update?");
         int updateEmployeeDetailChoice = 0;
         String updateEmployeeChoiceDetail = "Enter 1 to update employee name" 
                 + "\nEnter 2 to update desgination"
