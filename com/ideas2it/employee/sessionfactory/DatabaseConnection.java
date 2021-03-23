@@ -25,7 +25,7 @@ public class DatabaseConnection {
           Connection connection = null;
           try {
               connection = DriverManager
-                  .getConnection("jdbc:mysql://localhost:3306/employee_management","root","1234");
+                      .getConnection("jdbc:mysql://localhost:3306/employee_management","root","1234");
               connection.setAutoCommit(false);    
           } catch(SQLException e) {
               System.out.println("not connect");
@@ -37,7 +37,6 @@ public class DatabaseConnection {
        * It will used to create Instance 
        */
       public static DatabaseConnection getInstance() {
-
          return (null == databaseConnection) ? (databaseConnection = new DatabaseConnection()) : databaseConnection;
       }
 }
