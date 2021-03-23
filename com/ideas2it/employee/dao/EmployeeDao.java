@@ -49,30 +49,23 @@ public interface EmployeeDao {
 
     /**
      * It is used to update employee details
-     * @param name employee name
-     * @desgination employee desgination
-     * @email employee email
-     * @phoneNumber employee phone number
-     * @salary employee salary
-     * @dob employee date of birth
      * @id employee id
+     * @employee employee details 
      * @return boolean value
      */
     public boolean updateEmployee(int id, Employee employee); 
 
     /**
      * It is used to update employee address details 
-     * @param id employee id
+     * @param addressId employee id
      * @param address employee address details
-     * @param addressOption address type option
      * @return boolean value
      */
     public boolean updateEmployeeAddress(int addressId, Address address);
 
     /**
      * It is used to add your employee address details
-     * @param id employee id
-     * @param addressDetails employee address details
+     * @param address employee address details
      * @return boolean value
      */
     public boolean addEmployeeAddress(Address address);
