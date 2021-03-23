@@ -20,6 +20,7 @@ import com.ideas2it.employee.sessionfactory.DatabaseConnection;
  * @created at 13-03-2021 
  */  
 public class EmployeeDaoImpl implements EmployeeDao {
+    private DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
    
     /**
      * {inheritDoc}
@@ -28,7 +29,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public boolean insertEmployee(Employee employee) {
         boolean count = true;
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             connection.setAutoCommit(false);
             PreparedStatement prepareStatement = connection.prepareStatement
@@ -60,7 +60,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     private boolean insertAddress(List<Address> employeeAddress, Connection con) {
         int count = 0;
         try {
-            //DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = con; 
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("select max(id) from employee");
@@ -98,7 +97,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public boolean isEmpIdExist(int id) {
         boolean count = true;
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("select id from employee Where id = ? and is_delete = true");
@@ -119,7 +117,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public boolean deleteEmployee(int id) {
         boolean count = true;
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             connection.setAutoCommit(false);
             PreparedStatement prepareStatement = connection.prepareStatement
@@ -151,7 +148,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public Employee getSpecificEmployee(int id) {
          Employee employee = null;
          try {
-             DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
              Connection connection = databaseConnection.getConnection();
              PreparedStatement prepareStatement = connection.prepareStatement
                      ("select emp.id, emp.name, emp.desgination, emp.email, emp.phone_number, "
@@ -204,7 +200,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public List<Employee> getAllEmployee() {
         List<Employee> employees = new ArrayList<Employee>();
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("select emp.id, emp.name, emp.desgination, emp.email," 
@@ -263,7 +258,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public boolean updateEmployee(int id, Employee employee) {
         int count = 0;
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("update employee set name = ?, desgination = ?, "
@@ -291,7 +285,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public boolean updateEmployeeAddress(int addressId, Address address) {
         int count = 0;
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("update address set door_no = ?, street_name = ?,"
@@ -319,7 +312,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public List<Employee> getDeletedEmployee() {
         List<Employee> employees = new ArrayList<Employee>();
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                 ("select * from employee where is_delete = false");
@@ -348,7 +340,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public boolean restoreEmployee(int id) {
         int count = 0;
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("update employee set is_delete = true where id = ?");
@@ -372,7 +363,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public boolean addEmployeeAddress(Address address) {
         int addressResult = 0;
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("insert into address (employee_id, door_no, street_name," 
@@ -401,7 +391,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public boolean checkDeletedEmpId(int id) {
         boolean count = true;
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("select id from employee Where id = ? and is_delete = false");
@@ -422,7 +411,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public List<Address> getAddressDetails(int id) {
         List<Address> addressDetails =  new ArrayList<Address>();
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("select * from address where employee_id = ? and is_delete = true");
@@ -454,7 +442,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public boolean deleteAddress(int id) {
         int count = 0;
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("update address set is_delete = false where id = ?");
@@ -474,7 +461,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public Employee getEmployee(int id) {
         Employee employee = null;
         try {
-            DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("select * from employee where id = ? and is_delete = true");
