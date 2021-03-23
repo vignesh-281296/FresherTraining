@@ -121,6 +121,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         try {
             DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
             Connection connection = databaseConnection.getConnection();
+            connection.setAutoCommit(false);
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("update employee set is_delete = false where id = ?");
             prepareStatement.setInt(1, id);
