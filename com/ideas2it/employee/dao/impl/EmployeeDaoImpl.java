@@ -20,7 +20,7 @@ import com.ideas2it.employee.sessionfactory.DatabaseConnection;
  * @created at 13-03-2021 
  */  
 public class EmployeeDaoImpl implements EmployeeDao {
-    private DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
+   private DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
    
     /**
      * {inheritDoc}
@@ -122,17 +122,19 @@ public class EmployeeDaoImpl implements EmployeeDao {
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("update employee set is_delete = false where id = ?");
             prepareStatement.setInt(1, id);
-            int employeeDelete = prepareStatement.executeUpdate();
+            int employeeDetails = prepareStatement.executeUpdate();
             prepareStatement = connection.prepareStatement
                     ("update address set is_delete = false where employee_id = ?");
             prepareStatement.setInt(1, id);
             int addressDelete = prepareStatement.executeUpdate();
-            if (1 == employeeDelete && 1 == addressDelete) {
-                connection.commit();
-                count = true;
-            } else {
+            System.out.println(employeeDetails);
+            System.out.println(addressDelete);
+            if (0 == employeeDetails && 0 == addressDelete) {
                 connection.rollback();
                 count = false;
+            } else {
+                connection.commit();
+                count = true;
             }
             connection.close(); 
         } catch(SQLException e) {
@@ -366,8 +368,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("insert into address (employee_id, door_no, street_name," 
-                    + "city, district, state, country, address_mode)" 
-                    + "values (?, ?, ?, ?, ?, ?, ?, ?)");
+                    + "city, district, state, country, address_mode, is_delete)" 
+                    + "values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             prepareStatement.setInt(1, address.getEmpId());
             prepareStatement.setString(2, address.getDoorNo());
             prepareStatement.setString(3, address.getStreetName());
@@ -376,6 +378,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             prepareStatement.setString(6, address.getState());
             prepareStatement.setString(7, address.getCountry());
             prepareStatement.setString(8, address.getAddressMode());
+            prepareStatement.setBoolean(9, true);
             addressResult = prepareStatement.executeUpdate();
             connection.close();
         } catch(SQLException e) {

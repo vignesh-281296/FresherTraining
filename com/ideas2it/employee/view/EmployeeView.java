@@ -432,7 +432,7 @@ public class EmployeeView {
         int choice = 0;
         String choiceDetails = "Enter 1 to create employee \nEnter 2 to Update employee \nEnter 3 to Delete employee"
                 + "\nEnter 4 to Display Individual Employee \nEnter 5 to Display Employee"
-                + "\nEnter 6 restore  \nEnter 7 to Exit \nEnter your choice";    
+                + "\nEnter 6 to restore  \nEnter 7 to Exit \nEnter your choice";    
         while(7 != choice) {
             System.out.println(choiceDetails);
             choice = scanner.nextInt();
