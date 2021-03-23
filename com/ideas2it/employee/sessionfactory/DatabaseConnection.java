@@ -1,4 +1,4 @@
-package com.ideas2it.sessionfactory;
+package com.ideas2it.employee.sessionfactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

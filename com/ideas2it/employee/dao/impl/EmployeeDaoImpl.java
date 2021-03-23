@@ -5,14 +5,13 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.ideas2it.employee.dao.EmployeeDao;
 import com.ideas2it.employee.model.Address;
 import com.ideas2it.employee.model.Employee;
-import com.ideas2it.sessionfactory.DatabaseConnection;
+import com.ideas2it.employee.sessionfactory.DatabaseConnection;
 
 /**
  * It is used to store and retrives datas to database
@@ -51,11 +50,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 connection.rollback();
                 count = false;
             }
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
-        }     
-        //preparedStatement.close();
-        // connection.close(); 
+        }      
         return count;           
     }
 
@@ -63,7 +61,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         int count = 0;
         try {
             //DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
-            Connection connection = con;
+            Connection connection = con; 
             PreparedStatement prepareStatement = connection.prepareStatement
                     ("select max(id) from employee");
             ResultSet resultSet = prepareStatement.executeQuery();
@@ -107,11 +105,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
             count = resultSet.next();
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
-        }  
-        //preparedStatement.close();
-        //connection.close();
+        } 
         return count;            
     }
 
@@ -138,12 +135,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
             } else {
                 connection.rollback();
                 count = false;
-            } 
+            }
+            connection.close(); 
         } catch(SQLException e) {
             e.printStackTrace();
         } 
-       // preparedStatement.close();
-        //connection.close();
+       
         return count;     
     }
 
@@ -192,8 +189,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
                      }
                  }
                  employee.setAddress(addressDetails);
-             //preparedStatement.close();
-             //connection.close();
+                 connection.close();
              }
          } catch(SQLException e) {
              e.printStackTrace();
@@ -253,11 +249,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
                     employees.add(employee);
                 }
             }
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
         }  
-       // preparedStatement.close();
-        //connection.close();
         return employees;
     }
 
@@ -282,11 +277,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
             prepareStatement.setDate(6, employee.getDob());
             prepareStatement.setInt(7, id);
             count = prepareStatement.executeUpdate();
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
         }   
-        //preparedStatement.close();
-        //connection.close();
         return 0 != count;
     }
 
@@ -311,11 +305,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
             prepareStatement.setString(6, address.getCountry());
             prepareStatement.setInt(7, addressId);
             count = prepareStatement.executeUpdate();
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
         }  
-        //preparedStatement.close();
-        //connection.close();
         return 0 != count;
     }
 
@@ -341,11 +334,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
                         resultSet.getDate(7));
                 employees.add(employee);    
             }
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
-        }  
-        //preparedStatement.close();
-        //connection.close();  
+        }    
         return employees;
     }
 
@@ -366,11 +358,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
                     ("update address set is_delete = true where employee_id = ?");
             prepareStatement.setInt(1, id);
             count = prepareStatement.executeUpdate();
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
         } 
-        //preparedStatement.close();
-        //connection.close();
         return 0 != count;    
     }
 
@@ -396,11 +387,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
             prepareStatement.setString(7, address.getCountry());
             prepareStatement.setString(8, address.getAddressMode());
             addressResult = prepareStatement.executeUpdate();
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
         }  
-        //preparedStatement.close();
-        //connection.close();
         return 0 != addressResult;
     }
     
@@ -418,11 +408,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
             count = resultSet.next();
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
         }  
-        //preparedStatement.close();
-        //connection.close();
         return count;            
     }
 
@@ -451,11 +440,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
                         resultSet.getString(9));
                 addressDetails.add(address);
             }
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
         } 
-        //preparedStatement.close();
-        //connection.close();
         return addressDetails;  	        
     }
 
@@ -472,11 +460,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
                     ("update address set is_delete = false where id = ?");
             prepareStatement.setInt(1, id);
             count = prepareStatement.executeUpdate();
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
         } 
-        //preparedStatement.close();
-        //connection.close();
         return 0 != count;     
     }
 
@@ -501,11 +488,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
                     resultSet.getLong(5),
                     resultSet.getFloat(6),
                     resultSet.getDate(7));
+            connection.close();           
         } catch(SQLException e) {
             e.printStackTrace();
         } 
-        //preparedStatement.close();
-        //connection.close();
         return employee;  	        
     } 
 }
