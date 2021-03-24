@@ -1,4 +1,4 @@
-package com.ideas2it.employee.service;
+package com.ideas2it.employeemanagement.employee.service;
 
 import java.sql.Date;
 import java.util.List;

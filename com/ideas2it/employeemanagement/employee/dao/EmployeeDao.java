@@ -1,12 +1,12 @@
-package com.ideas2it.employee.dao;
+package com.ideas2it.employeemanagement.employee.dao;
 
 import java.sql.Date;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.ideas2it.employee.model.Address;
-import com.ideas2it.employee.model.Employee;
+import com.ideas2it.employeemanagement.employee.model.Address;
+import com.ideas2it.employeemanagement.employee.model.Employee;
 
 /**
  * It contain method signature

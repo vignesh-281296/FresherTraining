@@ -1,4 +1,4 @@
-package com.ideas2it.employee.view;
+package com.ideas2it.employeemanagement.employee.view;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import com.ideas2it.employee.controller.EmployeeController;
+import com.ideas2it.employeemanagement.employee.controller.EmployeeController;
 
 /**
  * It performs CRUD operations

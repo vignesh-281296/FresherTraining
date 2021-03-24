@@ -1,4 +1,4 @@
-package com.ideas2it.employee.service.impl;
+package com.ideas2it.employeemanagement.employee.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -6,10 +6,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ideas2it.employee.dao.impl.EmployeeDaoImpl;
-import com.ideas2it.employee.model.Address;
-import com.ideas2it.employee.model.Employee;
-import com.ideas2it.employee.service.EmployeeService;
+import com.ideas2it.employeemanagement.employee.dao.impl.EmployeeDaoImpl;
+import com.ideas2it.employeemanagement.employee.model.Address;
+import com.ideas2it.employeemanagement.employee.model.Employee;
+import com.ideas2it.employeemanagement.employee.service.EmployeeService;
 
 /**
  * This class for employee business logic

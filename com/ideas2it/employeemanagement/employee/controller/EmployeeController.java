@@ -1,11 +1,11 @@
-package com.ideas2it.employee.controller;
+package com.ideas2it.employeemanagement.employee.controller;
 
 import java.sql.Date;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.ideas2it.employee.service.impl.EmployeeServiceImpl;
+import com.ideas2it.employeemanagement.employee.service.impl.EmployeeServiceImpl;
 
 /**
  * It will send data to employee serivce

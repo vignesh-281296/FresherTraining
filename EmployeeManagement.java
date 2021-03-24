@@ -1,4 +1,4 @@
-import com.ideas2it.employee.view.EmployeeView;
+import com.ideas2it.employeemanagement.employee.view.EmployeeView;
 
 /**
  * CRUD operation using collection

@@ -1,4 +1,4 @@
-package com.ideas2it.employee.dao.impl;
+package com.ideas2it.employeemanagement.employee.dao.impl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -8,10 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ideas2it.employee.dao.EmployeeDao;
-import com.ideas2it.employee.model.Address;
-import com.ideas2it.employee.model.Employee;
-import com.ideas2it.employee.sessionfactory.DatabaseConnection;
+import com.ideas2it.employeemanagement.employee.dao.EmployeeDao;
+import com.ideas2it.employeemanagement.employee.model.Address;
+import com.ideas2it.employeemanagement.employee.model.Employee;
+import com.ideas2it.employeemanagement.employee.sessionfactory.DatabaseConnection;
 
 /**
  * It is used to store and retrives datas to database
