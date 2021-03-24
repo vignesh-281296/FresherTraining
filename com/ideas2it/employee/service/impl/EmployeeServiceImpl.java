@@ -172,6 +172,14 @@ public class EmployeeServiceImpl implements EmployeeService {
                               "(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
     }
 
+     /** 
+     * {inheritDoc}
+     */
+    @Override    
+    public boolean validateDob(String dob) {	
+        return dob.matches("^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$");
+    }
+
     /** 
      * {inheritDoc}
      */

@@ -36,7 +36,7 @@ public class EmployeeView {
         float salary = scanner.nextFloat();
         //scanner.nextLine();
         System.out.println("Enter Date Of Birth in given format yyyy-MM-dd");
-        Date dob = Date.valueOf(validateDate());
+        Date dob = Date.valueOf(validateDob());
         List<String[]> addressDetails = createAddress();
         boolean employee = employeeController.createEmployee(name, desgination, 
                 email, phoneNumber, salary, dob, addressDetails);
@@ -384,15 +384,22 @@ public class EmployeeView {
     }
 
     /**
-     * It is used to validate date
+     * It is used to validate date of birth
      */
-    private String validateDate() {
+    private String validateDob() {
         String dob = scanner.next();
-        if (!dob.matches("^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$")) {
+         if (employeeController.validateDob(dob)) {
+            return dob;
+        } else {
+            System.out.print("Invalid Date of birth\n"
+                    + "Enter Valid Date of birth: ");
+            return validateDob();
+        }
+        /*if (!dob.matches("^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$")) {
             System.out.println("Enter valid date format (yyyy-MM-dd)");
             return validateDate();
         }
-        return dob;
+        return dob;*/
     }
 
     /**

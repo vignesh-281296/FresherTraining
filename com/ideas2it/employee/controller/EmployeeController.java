@@ -104,6 +104,15 @@ public class EmployeeController {
     }
 
     /**
+     * It is used to check validate dob
+     * @param dob Employee date of birth
+     * @return boolean value
+     */
+    public boolean validateDob(String dob) {
+        return employeeService.validateDob(dob);
+    }
+
+    /**
      * It is used to  get specific address details
      * @param id employee id
      * @return specific address details 

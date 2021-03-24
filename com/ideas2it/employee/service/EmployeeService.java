@@ -92,6 +92,13 @@ public interface EmployeeService {
      */
     public boolean validateEmail(String emailId);
 
+     /**
+     * It is used to validate date
+     * @param dob Employee date of birth
+     * @return boolean value
+     */
+    public boolean validateDob(String dob);
+
     /**
      * It is used to get specific address details
      * @param id employee id
