@@ -1,4 +1,7 @@
+import java.util.Scanner;
+
 import com.ideas2it.employeemanagement.employee.view.EmployeeView;
+import com.ideas2it.employeemanagement.project.view.ProjectView;
 
 /**
  * CRUD operation using collection
@@ -8,7 +11,31 @@ import com.ideas2it.employeemanagement.employee.view.EmployeeView;
  */
 public class EmployeeManagement {
     public static void main(String[] args) {
-	EmployeeView employeeView = new EmployeeView();
-	employeeView.operation();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please select your type of address");
+        int option = 0;
+        String optionDetails = "Enter 1 to Employee" 
+                + "\nEnter 2 to Project"
+                + "\nEnter 3 to quit"; 
+        while (3 != option) {
+            System.out.println(optionDetails);
+            option = scanner.nextInt();
+            switch (option) {
+                case 1 :
+                    EmployeeView employeeView = new EmployeeView();
+	            employeeView.operation();
+                    break;
+                case 2 :
+                    ProjectView projectView = new ProjectView();
+	            projectView.operation();
+                    break;
+                case 3 :
+                    System.out.println("Thank you");
+                    break;
+                default :
+                    System.out.println("Invalid choice");
+            }
+        }
+	
     }
 }

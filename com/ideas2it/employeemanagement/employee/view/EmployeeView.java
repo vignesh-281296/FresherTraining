@@ -10,7 +10,7 @@ import java.util.Scanner;
 import com.ideas2it.employeemanagement.employee.controller.EmployeeController;
 
 /**
- * It performs CRUD operations
+ * employee view
  *
  * @author vignesh r
  * @version 1.0 13-03-2021
@@ -395,11 +395,6 @@ public class EmployeeView {
                     + "Enter Valid Date of birth: ");
             return validateDob();
         }
-        /*if (!dob.matches("^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$")) {
-            System.out.println("Enter valid date format (yyyy-MM-dd)");
-            return validateDate();
-        }
-        return dob;*/
     }
 
     /**

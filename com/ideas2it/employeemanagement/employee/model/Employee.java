@@ -7,7 +7,7 @@ import java.util.List;
 import com.ideas2it.employeemanagement.employee.model.Address;
 
 /** 
- * Employee of pojo class contain employee details.
+ * Employee for pojo.
  *
  * @author vignesh r.
  * version 1.0 01-03-2021.
@@ -21,7 +21,7 @@ public class Employee {
     private long phoneNumber;
     private float salary;
     private Date dob;
-    private List<Address> address = new ArrayList<Address>();
+    private List<Address> address;
 
     public Employee(int id, String name, String desgination, String email, 
                     long phoneNumber, float salary, Date dob) {

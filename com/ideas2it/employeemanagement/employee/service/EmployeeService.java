@@ -92,7 +92,7 @@ public interface EmployeeService {
      */
     public boolean validateEmail(String emailId);
 
-     /**
+    /**
      * It is used to validate date
      * @param dob Employee date of birth
      * @return boolean value
