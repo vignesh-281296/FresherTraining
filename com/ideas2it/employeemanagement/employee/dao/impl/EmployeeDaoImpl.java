@@ -11,7 +11,7 @@ import java.util.List;
 import com.ideas2it.employeemanagement.employee.dao.EmployeeDao;
 import com.ideas2it.employeemanagement.employee.model.Address;
 import com.ideas2it.employeemanagement.employee.model.Employee;
-import com.ideas2it.employeemanagement.employee.sessionfactory.DatabaseConnection;
+import com.ideas2it.employeemanagement.sessionfactory.DatabaseConnection;
 
 /**
  * It is used to store and retrives datas to database
@@ -322,7 +322,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         return employees;
     }
 
-     /**
+    /**
      * {inheritDoc}
      */
     @Override

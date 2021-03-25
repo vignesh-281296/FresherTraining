@@ -9,6 +9,12 @@ import com.ideas2it.employeemanagement.project.model.Project;
 import com.ideas2it.employeemanagement.project.dao.impl.ProjectDaoImpl;
 import com.ideas2it.employeemanagement.project.service.ProjectService;
 
+/**
+ * This class for project business logic
+ *
+ * @author vignesh  r
+ * @version 1.0 24-03-2021
+ */
 public class ProjectServiceImpl implements ProjectService {
     private ProjectDaoImpl projectDao = new ProjectDaoImpl();
 
@@ -65,5 +71,70 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public boolean deleteProject(int id) {
         return projectDao.deleteProject(id);
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public List<String> getDeletedProject() {
+        List<String> projectDetails = new ArrayList<String>();
+        for (Project projects : projectDao.getDeletedProject()) {
+            projectDetails.add(projects.toString());
+        }
+        return projectDetails;
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public boolean checkDeletedProjectId(int id) {
+        return projectDao.checkDeletedProjectId(id);
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public boolean restoreProject(int id) {
+        return projectDao.restoreProject(id);
+    }
+
+    /** 
+     * {inheritDoc}
+     */
+    @Override
+    public boolean updateProject(int id, String[] projectDetails) {
+        Project project = projectDao.getSpecificProject(id);
+        if (null == projectDetails[0]) {
+            project.setName(project.getName());
+        } else {
+            project.setName(projectDetails[0]);
+        }
+ 
+        if (null == projectDetails[1]) {
+            project.setManagerName(project.getManagerName());
+        } else {
+            project.setManagerName(projectDetails[1]);
+        }
+
+        if (null == projectDetails[2]) {
+            project.setStartDate(project.getStartDate());
+        } else {
+            Date startDate = Date.valueOf(projectDetails[2]);
+            project.setStartDate(startDate);
+        }
+
+        if (null == projectDetails[3]) { 
+            project.setEndDate(project.getEndDate());
+        } else {
+            Date endDate = Date.valueOf(projectDetails[3]);
+            project.setEndDate(endDate);
+        }
+
+        Project projectDetail = new Project(id, project.getName(), project.getManagerName(),
+               project.getStartDate(), project.getEndDate());
+        return projectDao.updateProject(id, projectDetail);       
     }
 }

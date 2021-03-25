@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.ideas2it.employeemanagement.project.service.impl.ProjectServiceImpl;
 
+/**
+ * This class send data to employee serivce
+ */
 public class ProjectController {
 
     private ProjectServiceImpl projectService = new ProjectServiceImpl(); 
@@ -15,7 +18,6 @@ public class ProjectController {
      * @param managerName project manager name
      * @param startDate project start date
      * @param endDate project end date
-     * @param employee list of employee details
      * @return boolean value
      */
     public boolean createProject(String name, String managerName, 
@@ -24,8 +26,8 @@ public class ProjectController {
     }
 
      /**
-     * It is used to check validate dob
-     * @param dob Employee date of birth
+     * It is used to check validate date
+     * @param date project date
      * @return boolean value
      */
     public boolean validateDate(String date) {
@@ -41,12 +43,18 @@ public class ProjectController {
         return projectService.isProjectIdExist(id);
     }
 
+     /**
+      * It is used to get specific project details
+      * @param id project id
+      * @return project details
+      */
      public String getSpecificProject(int id) {
         return projectService.getSpecificProject(id);
     }
 
     /**
      * It is used to get all project details
+     * @return project details
      */
     public List<String> getAllProject() {
         return projectService.getAllProject();
@@ -55,8 +63,46 @@ public class ProjectController {
     /**
      * It is used to delete specific employee
      * @param id project id
+     * @return boolean value
      */
     public boolean deleteProject(int id) {
         return projectService.deleteProject(id);
+    }
+
+    /**
+     * It is used to get all delete project details
+     * @return deleted project details
+     */
+    public List<String> getDeletedProject() {
+        return projectService.getDeletedProject();
+    }
+
+    /**
+     * It is used to check wheather the deleted
+     * project id is exist or not
+     * @param id project id
+     * @return boolean value
+     */
+    public boolean checkDeletedProjectId(int id) {
+        return projectService.checkDeletedProjectId(id);
+    }
+
+    /**
+     * It is used to restore the project
+     * @param id project id
+     * @return boolean value
+     */
+    public boolean restoreProject(int id) {
+        return projectService.restoreProject(id);
+    }
+
+    /**
+     * It is used to update specific project details
+     * @param id project id
+     * @param projectDetails
+     * @return boolean value
+     */
+    public boolean updateProject(int id, String[] projectDetails) {
+        return projectService.updateProject(id, projectDetails);
     }
 }

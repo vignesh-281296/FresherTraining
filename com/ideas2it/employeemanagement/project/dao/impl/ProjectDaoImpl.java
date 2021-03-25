@@ -10,8 +10,14 @@ import java.util.List;
 
 import com.ideas2it.employeemanagement.project.dao.ProjectDao;
 import com.ideas2it.employeemanagement.project.model.Project;
-import com.ideas2it.employeemanagement.employee.sessionfactory.DatabaseConnection;
+import com.ideas2it.employeemanagement.sessionfactory.DatabaseConnection;
 
+/**
+ * It is used to store and retrives datas to database
+ *
+ * @author vignesh r
+ * @version 1.0 24-03-2021
+ */
 public class ProjectDaoImpl implements ProjectDao {
 
      private DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
@@ -132,5 +138,97 @@ public class ProjectDaoImpl implements ProjectDao {
             e.printStackTrace();
         } 
         return count;     
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public List<Project> getDeletedProject() {
+        List<Project> projects = new ArrayList<Project>();
+        try {
+            Connection connection = databaseConnection.getConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement
+                ("select * from project where is_delete = false");
+            ResultSet resultSet = prepareStatement.executeQuery();
+            while (resultSet.next()) {
+                Project project =  new Project(resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getDate(4),
+                        resultSet.getDate(5));
+                projects.add(project);    
+            }
+            connection.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }    
+        return projects;
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public boolean checkDeletedProjectId(int id) {
+        boolean count = true;
+        try {
+            Connection connection = databaseConnection.getConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement
+                    ("select id from project Where id = ? and is_delete = false");
+            prepareStatement.setInt(1, id);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            count = resultSet.next();
+            connection.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }  
+        return count;            
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public boolean restoreProject(int id) {
+        int count = 0;
+        try {
+            Connection connection = databaseConnection.getConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement
+                    ("update Project set is_delete = true where id = ?");
+            prepareStatement.setInt(1, id);
+            int result = prepareStatement.executeUpdate();
+            if (1 == result) {
+                count = 1;
+            }
+            connection.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } 
+        return 0 != count;    
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public boolean updateProject(int id, Project project) {
+        int count = 0;
+        try {
+            Connection connection = databaseConnection.getConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement
+                    ("update project set name = ?, manager_name = ?, "
+                    + "start_date = ?, end_date = ?  where id = ?");
+            prepareStatement.setString(1, project.getName());
+            prepareStatement.setString(2, project.getManagerName());
+            prepareStatement.setDate(3, project.getStartDate());
+            prepareStatement.setDate(4, project.getEndDate());
+            prepareStatement.setInt(5, id);
+            count = prepareStatement.executeUpdate();
+            connection.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }   
+        return 0 != count;
     }
 }

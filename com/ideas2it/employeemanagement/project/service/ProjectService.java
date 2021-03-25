@@ -43,17 +43,48 @@ public interface ProjectService {
     /**
      * It is used to get specific project details
      * @param id project id
+     * @return project details
      */
     public String getSpecificProject(int id);
 
     /**
      * It is used to get all project details
+     * @return project details
      */
     public List<String> getAllProject();
 
     /**
      * It is used to delete specific employee
      * @param id project id
+     * @return boolean value
      */
     public boolean deleteProject(int id);
+
+     /**
+     * It is used to get deleted project details
+     * @return deleted project details
+     */
+    public List<String> getDeletedProject();
+
+    /**
+     * It is used to check wheather the deleted
+     * project id is exist or not
+     * @param id project id
+     * @return boolean value
+     */
+    public boolean checkDeletedProjectId(int id);
+
+    /**
+     * It is used to restore the project
+     * @param id project id
+     * @return boolean value
+     */
+    public boolean restoreProject(int id);
+
+    /**
+     * It is used to update specific project details
+     * @param id project id
+     * @return boolean value
+     */
+    public boolean updateProject(int projectId, String[] projectDetails);
 }
