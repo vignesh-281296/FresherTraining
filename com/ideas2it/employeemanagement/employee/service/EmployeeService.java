@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.ideas2it.employeemanagement.employee.model.Employee;
+
 /**
  * It contains the method signature
  *
@@ -132,4 +134,16 @@ public interface EmployeeService {
      * @return boolean value 
      */
     public boolean deleteAddress(int id);
+
+    /**
+     * It is used to get the employee details
+     * @return employee details
+     */
+    public List<Employee> getAllEmployeeDetails();
+
+    /**
+     * It is used to get specific employee details
+     * @return specific employee details
+     */
+    public Employee getSpecificEmployeeDetails(int id);
 }

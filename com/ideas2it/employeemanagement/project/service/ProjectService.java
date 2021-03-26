@@ -87,4 +87,32 @@ public interface ProjectService {
      * @return boolean value
      */
     public boolean updateProject(int projectId, String[] projectDetails);
+
+    /**
+     * It is used to get all employee detais
+     * @return employee details
+     */
+    public List<String> getAllEmployee();
+
+   /**
+    * It is used to assign project for employees
+    * @param id project id
+    * @param employeeIds employee id
+    * @return boolean value
+    */
+    public boolean assignProject(int id, List<Integer> employeeIds);
+
+   /**
+    * It is used to check wheather the employee id is exist or not
+    * @param empId employee id
+    * @return boolean value
+    */
+    public boolean isEmpIdExist(int employeeId);
+
+    /**
+     * It is used to get assigned project details
+     * @param id project id
+     * @return project detail
+     */
+    public List<String> getAssignProject(int id);
 }

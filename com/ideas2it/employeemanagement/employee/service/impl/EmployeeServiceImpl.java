@@ -230,4 +230,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     public boolean deleteAddress(int id) {
         return employeeDao.deleteAddress(id);
     }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public List<Employee> getAllEmployeeDetails() {
+        List<Employee> employees = employeeDao.getAllEmployee();
+        return employees;
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public Employee getSpecificEmployeeDetails(int id) {
+        Employee employee = employeeDao.getSpecificEmployee(id);
+        return employee;
+    }
 }

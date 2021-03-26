@@ -2,6 +2,8 @@ package com.ideas2it.employeemanagement.project.view;
 
 import java.sql.Date;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ideas2it.employeemanagement.project.controller.ProjectController;
 
@@ -195,14 +197,74 @@ public class ProjectView {
     }
 
     /**
+     * It is used to assign project to employees
+     */
+    private void assignProject() {
+        System.out.println("Employee List");
+        for (String employeeDetails : projectController.getAllEmployeeDetails()) {
+            System.out.println(employeeDetails + "\n");
+        }
+        System.out.println("Enter your project id");
+        int projectId = scanner.nextInt();
+        if (projectController.isProjectIdExist(projectId)) {
+            List<Integer> employeeIds = new ArrayList<Integer>();
+            String choiceDetails = "Enter 1 employee id \nEnter 2 exist";
+            int choice = 0;
+            while (2 != choice) {
+                System.out.println(choiceDetails);
+                choice = scanner.nextInt();
+                switch (choice) {
+                    case 1 :
+                        System.out.println("Enter your employee id");
+                        int employeeId = scanner.nextInt();
+                        if (projectController.isEmpIdExist(employeeId)) {
+                            employeeIds.add(employeeId);
+                        } else {
+                            System.out.println("Employee id doesn't exist");
+                        } 
+                        break;
+                    case 2 :
+                        System.out.println("Thank you");
+                        break;
+                    default :
+                        System.out.println("Invalid choice");
+                }
+            }
+            if (projectController.assignProject(projectId, employeeIds)) {
+                System.out.println("Assigned Successfully");
+            } else {
+                System.out.println("Unsuccessful");
+            }
+        } else {
+            System.out.println("Project Id doesn't exist");
+        }
+    }
+
+    /**
+     * It is used to get assigned project details
+     */
+    private void getAssignProject() {
+        System.out.println("Enter your project id");
+        int projectId = scanner.nextInt();
+        if (projectController.isProjectIdExist(projectId)) {
+            for (String projectDetails : projectController.getAssignProject(projectId)) {
+                System.out.println(projectDetails);
+            }
+        } else {
+            System.out.println("Project id doesn't exist");
+        }  
+    }
+
+    /**
      * It performs CRUD operation
      */  
     public void operation() {
         int choice = 0;
         String choiceDetails = "Enter 1 to create project \nEnter 2 to Update Project \nEnter 3 to Delete Project"
                 + "\nEnter 4 to Display Individual Project \nEnter 5 to Display Project"
-                + "\nEnter 6 to restore  \nEnter 7 to Exit \nEnter your choice";    
-        while(7 != choice) {
+                + "\nEnter 6 to restore \nEnter 7 to Assign project \nEnter 8 to Display assign project"
+                + " \nEnter 9 to Exit \nEnter your choice";    
+        while(9 != choice) {
             System.out.println(choiceDetails);
             choice = scanner.nextInt();
             switch (choice) {
@@ -223,8 +285,14 @@ public class ProjectView {
                     break;
                 case 6 : 
                     restoreProject();
-                    break; 
-                case 7 :
+                    break;
+                case 7 : 
+                    assignProject();
+                    break;
+                case 8 : 
+                    getAssignProject();
+                    break;   
+                case 9 :
                     System.out.println("Thank You");	
                     break;
                 default :

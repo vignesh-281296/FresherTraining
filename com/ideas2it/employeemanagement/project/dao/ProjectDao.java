@@ -74,4 +74,18 @@ public interface ProjectDao {
      * @return boolean value
      */
     public boolean updateProject(int id, Project project);
+
+    /**
+     * It is used to assign project to employee
+     * @param project
+     * @return boolean value
+     */
+    public boolean assignProject(Project project);
+
+    /**
+     * It is used to get assigned project details
+     * @param id project id
+     * @return project detail
+     */
+    public Project getAssignProject(int id);
 }

@@ -105,4 +105,40 @@ public class ProjectController {
     public boolean updateProject(int id, String[] projectDetails) {
         return projectService.updateProject(id, projectDetails);
     }
+
+    /** 
+     * It is used to get all employee details
+     * @return employee details
+     */
+    public List<String> getAllEmployeeDetails() {
+        return projectService.getAllEmployee();
+    }
+
+    /**
+     * It is used to assign project to employees
+     * @param projectId project id
+     * @param employeeIds employee id
+     * @return boolean value
+     */
+    public boolean assignProject(int projectId, List<Integer> employeeIds) {
+        return projectService.assignProject(projectId, employeeIds);
+    }
+
+    /**
+    * It is used to check wheather the employee id is exist or not
+    * @param empId employee id
+    * @return boolean value
+    */
+    public boolean isEmpIdExist(int employeeId) {
+        return projectService.isEmpIdExist(employeeId);
+    }
+
+    /**
+     * It is used to get assigned project details
+     * @param id project id
+     * @return project detail
+     */
+    public List<String> getAssignProject(int id) {
+        return projectService.getAssignProject(id);
+    }
 }

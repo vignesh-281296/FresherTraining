@@ -7,6 +7,7 @@ import java.util.List;
 import com.ideas2it.employeemanagement.employee.model.Employee;
 import com.ideas2it.employeemanagement.project.model.Project;
 import com.ideas2it.employeemanagement.project.dao.impl.ProjectDaoImpl;
+import com.ideas2it.employeemanagement.employee.service.impl.EmployeeServiceImpl;
 import com.ideas2it.employeemanagement.project.service.ProjectService;
 
 /**
@@ -136,5 +137,61 @@ public class ProjectServiceImpl implements ProjectService {
         Project projectDetail = new Project(id, project.getName(), project.getManagerName(),
                project.getStartDate(), project.getEndDate());
         return projectDao.updateProject(id, projectDetail);       
+    }
+
+    /** 
+     * {inheritDoc}
+     */
+    @Override
+    public List<String> getAllEmployee() {
+        EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
+        List<String> employeeDetails = new ArrayList<String>();
+        List<Employee> employee = employeeService.getAllEmployeeDetails();
+        for (Employee employees : employee) {
+            employeeDetails.add("\nEmployee Id - "  + employees.getId() + "\nEmployee Name - "
+                    + employees.getName() + "\nPhone Number - " + employees.getPhoneNumber());
+        }
+        return employeeDetails; 
+    }
+
+    /** 
+     * {inheritDoc}
+     */
+    @Override
+    public boolean assignProject(int id, List<Integer> employeeIds) {
+        EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
+        List<Employee> employeeDetails = new ArrayList<Employee>();
+        Project projectDetails = projectDao.getSpecificProject(id);
+        for (Integer employeeId : employeeIds) {
+            employeeDetails.add(employeeService.getSpecificEmployeeDetails(employeeId));    
+        } 
+        Project project = new Project(id, projectDetails.getName(),
+                projectDetails.getManagerName(), projectDetails.getStartDate(), projectDetails.getEndDate(),
+                employeeDetails);
+        return projectDao.assignProject(project);   
+    }
+
+    /** 
+     * {inheritDoc}
+     */
+    @Override
+    public boolean isEmpIdExist(int employeeId) {
+        EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
+        return employeeService.isEmpIdExist(employeeId);
+   }
+
+   /** 
+     * {inheritDoc}
+     */
+    @Override
+    public List<String> getAssignProject(int id) {
+        Project project = projectDao.getAssignProject(id);
+        List<String> projectDetails =  new ArrayList<String>();
+        projectDetails.add(project.toString());
+        List<Employee> employee = project.getEmployees();
+        for (Employee employees : employee) {
+            projectDetails.add(employees.toString());    
+        }       
+        return projectDetails;
     }
 }
