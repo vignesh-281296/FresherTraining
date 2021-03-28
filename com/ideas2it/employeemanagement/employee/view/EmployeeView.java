@@ -34,7 +34,6 @@ public class EmployeeView {
         long phoneNumber = validatePhoneNumber(scanner.nextLong());
         System.out.println("Enter your salary");
         float salary = scanner.nextFloat();
-        //scanner.nextLine();
         System.out.println("Enter Date Of Birth in given format yyyy-MM-dd");
         Date dob = Date.valueOf(validateDob());
         List<String[]> addressDetails = createAddress();
@@ -132,7 +131,7 @@ public class EmployeeView {
     /**
      * It is used to display individual employee details
      */
-    private void getSpecificEmployee() {
+    private void displaySpecificEmployee() {
         System.out.println("Enter your employee id");
         int empId = scanner.nextInt();
         if (employeeController.isEmpIdExist(empId)) {
@@ -449,7 +448,7 @@ public class EmployeeView {
                     deleteEmployee();
                     break;
                 case 4 :
-                    getSpecificEmployee(); 
+                    displaySpecificEmployee(); 
                     break;
                 case 5 : 
                     displayAllEmployee();

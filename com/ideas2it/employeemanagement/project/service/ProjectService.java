@@ -3,7 +3,7 @@ package com.ideas2it.employeemanagement.project.service;
 import java.sql.Date;
 import java.util.List;
 
-import com.ideas2it.employeemanagement.employee.model.Employee;
+//import com.ideas2it.employeemanagement.employee.model.Employee;
 
 /**
  * It contains the method signature
@@ -11,7 +11,6 @@ import com.ideas2it.employeemanagement.employee.model.Employee;
  * @author vignesh r 
  * @version 1.0 24-03-2021
  */
-
 public interface ProjectService {
 
     /**
@@ -114,5 +113,5 @@ public interface ProjectService {
      * @param id project id
      * @return project detail
      */
-    public List<String> getAssignProject(int id);
+    public List<String> getAssignedProject(int id);
 }

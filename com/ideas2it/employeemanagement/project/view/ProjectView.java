@@ -37,8 +37,7 @@ public class ProjectView {
             System.out.println("created Successfully");
         } else {
             System.out.println("Unsuccessful");
-        }
-        
+        } 
     }
 
     /**
@@ -106,7 +105,7 @@ public class ProjectView {
             for (String projects : projectController.getDeletedProject()) {
                 System.out.println(projects + "\n");
             }
-            System.out.println("Enter 1 to restore Employee Details \nEnter 2 to quit");
+            System.out.println("Enter 1 to restore Project Details \nEnter 2 to quit");
             int restoreChoice = scanner.nextInt();
             if (1 == restoreChoice) {
                 System.out.println("Enter your project id");
@@ -207,7 +206,21 @@ public class ProjectView {
         System.out.println("Enter your project id");
         int projectId = scanner.nextInt();
         if (projectController.isProjectIdExist(projectId)) {
-            List<Integer> employeeIds = new ArrayList<Integer>();
+            getAssignProjectDetails(projectId);    
+        } else {
+            System.out.println("Project Id doesn't exist");
+        }
+    }
+
+    /**
+     * It is used to get assign project details
+     */
+    private void getAssignProjectDetails(int projectId) {
+        List<Integer> employeeIds = new ArrayList<Integer>();
+        System.out.println("Enter your Employee id");
+        int employeeId = scanner.nextInt();
+        if (projectController.isEmpIdExist(employeeId)) {
+            employeeIds.add(employeeId);
             String choiceDetails = "Enter 1 employee id \nEnter 2 exist";
             int choice = 0;
             while (2 != choice) {
@@ -216,9 +229,9 @@ public class ProjectView {
                 switch (choice) {
                     case 1 :
                         System.out.println("Enter your employee id");
-                        int employeeId = scanner.nextInt();
-                        if (projectController.isEmpIdExist(employeeId)) {
-                            employeeIds.add(employeeId);
+                        int employeeId1 = scanner.nextInt();
+                        if (projectController.isEmpIdExist(employeeId1)) {
+                            employeeIds.add(employeeId1);
                         } else {
                             System.out.println("Employee id doesn't exist");
                         } 
@@ -236,19 +249,19 @@ public class ProjectView {
                 System.out.println("Unsuccessful");
             }
         } else {
-            System.out.println("Project Id doesn't exist");
-        }
+            System.out.println("Employee id doesn't exist");
+        }    
     }
 
     /**
-     * It is used to get assigned project details
+     * It is used to display assigned project details
      */
-    private void getAssignProject() {
+    private void displayAssignedProject() {
         System.out.println("Enter your project id");
         int projectId = scanner.nextInt();
         if (projectController.isProjectIdExist(projectId)) {
-            for (String projectDetails : projectController.getAssignProject(projectId)) {
-                System.out.println(projectDetails);
+            for (String projectDetails : projectController.getAssignedProject(projectId)) {
+                System.out.println(projectDetails + "\n");
             }
         } else {
             System.out.println("Project id doesn't exist");
@@ -290,7 +303,7 @@ public class ProjectView {
                     assignProject();
                     break;
                 case 8 : 
-                    getAssignProject();
+                   displayAssignedProject();
                     break;   
                 case 9 :
                     System.out.println("Thank You");	

@@ -64,7 +64,7 @@ public interface EmployeeService {
      */
     public boolean updateEmployee(int id, String[] employeeDetails);
 
-   /**
+    /**
      * It is used to update employee address details 
      * @param id employee id
      * @param addressDetails employee address details
@@ -87,7 +87,7 @@ public interface EmployeeService {
      */
     public boolean validatePhoneNumber(long phoneNumber);
 
-     /**
+    /**
      * It is used to validate email-id
      * @param emailId Employee email-id
      * @return boolean value

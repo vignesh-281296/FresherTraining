@@ -3,7 +3,7 @@ package com.ideas2it.employeemanagement.employee.model;
 import java.sql.Date;
 
 /** 
- * Address of pojo class contain employee address details.
+ * Address for pojo.
  *
  * @author vignesh r.
  * version 1.0 10-03-2021.

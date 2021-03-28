@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ideas2it.employeemanagement.employee.model.Employee;
-import com.ideas2it.employeemanagement.project.model.Project;
-import com.ideas2it.employeemanagement.project.dao.impl.ProjectDaoImpl;
 import com.ideas2it.employeemanagement.employee.service.impl.EmployeeServiceImpl;
+import com.ideas2it.employeemanagement.project.dao.impl.ProjectDaoImpl;
+import com.ideas2it.employeemanagement.project.model.Project;
 import com.ideas2it.employeemanagement.project.service.ProjectService;
 
 /**
@@ -178,20 +178,24 @@ public class ProjectServiceImpl implements ProjectService {
     public boolean isEmpIdExist(int employeeId) {
         EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
         return employeeService.isEmpIdExist(employeeId);
-   }
+    }
 
-   /** 
+    /** 
      * {inheritDoc}
      */
     @Override
-    public List<String> getAssignProject(int id) {
-        Project project = projectDao.getAssignProject(id);
+    public List<String> getAssignedProject(int id) {
+        Project project = projectDao.getAssignedProject(id);
         List<String> projectDetails =  new ArrayList<String>();
         projectDetails.add(project.toString());
-        List<Employee> employee = project.getEmployees();
-        for (Employee employees : employee) {
-            projectDetails.add(employees.toString());    
-        }       
+        List<Employee> employees = project.getEmployees();
+        if (!employees.isEmpty()){
+            for (Employee employee : employees) {
+                projectDetails.add(employee.toString());    
+            } 
+        } else {
+            projectDetails.add("No employee assigned to this project");
+        }      
         return projectDetails;
     }
 }

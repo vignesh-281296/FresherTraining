@@ -7,6 +7,9 @@ import com.ideas2it.employeemanagement.project.service.impl.ProjectServiceImpl;
 
 /**
  * This class send data to employee serivce
+ *
+ * @author vignesh r
+ * @version 1.0 25-03-2021
  */
 public class ProjectController {
 
@@ -25,7 +28,7 @@ public class ProjectController {
         return projectService.createProject(name, managerName, startDate, endDate);
     }
 
-     /**
+    /**
      * It is used to check validate date
      * @param date project date
      * @return boolean value
@@ -43,12 +46,12 @@ public class ProjectController {
         return projectService.isProjectIdExist(id);
     }
 
-     /**
+    /**
       * It is used to get specific project details
       * @param id project id
       * @return project details
       */
-     public String getSpecificProject(int id) {
+    public String getSpecificProject(int id) {
         return projectService.getSpecificProject(id);
     }
 
@@ -138,7 +141,7 @@ public class ProjectController {
      * @param id project id
      * @return project detail
      */
-    public List<String> getAssignProject(int id) {
-        return projectService.getAssignProject(id);
+    public List<String> getAssignedProject(int id) {
+        return projectService.getAssignedProject(id);
     }
 }

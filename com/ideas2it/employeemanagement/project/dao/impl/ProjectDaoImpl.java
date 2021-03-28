@@ -117,7 +117,7 @@ public class ProjectDaoImpl implements ProjectDao {
         return projects;
     }
 
-     /**
+    /**
      * {inheritDoc}
      */
     @Override
@@ -246,7 +246,7 @@ public class ProjectDaoImpl implements ProjectDao {
         try {
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
-                    ("insert into project_employee (employee_id, project_id)" 
+                    ("insert ignore into project_employee (employee_id, project_id)" 
                     + " values (?, ?)");
             for (Employee employee : project.getEmployees()) { 
                 prepareStatement.setInt(1, employee.getId());
@@ -267,7 +267,11 @@ public class ProjectDaoImpl implements ProjectDao {
         return count;           
     }
 
-    public Project getAssignProject(int id) {
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public Project getAssignedProject(int id) {
         Project project = null;
          try {
              Connection connection = databaseConnection.getConnection();

@@ -87,5 +87,5 @@ public interface ProjectDao {
      * @param id project id
      * @return project detail
      */
-    public Project getAssignProject(int id);
+    public Project getAssignedProject(int id);
 }
