@@ -146,8 +146,12 @@ public class EmployeeView {
      * It is used to display all employee details
      */
     private void displayAllEmployee() {
-        for (String employees : employeeController.getAllEmployee()) {
-            System.out.println(employees + "\n \n");
+        if (employeeController.getAllEmployee().size() > 0) {
+            for (String employees : employeeController.getAllEmployee()) {
+                System.out.println(employees + "\n \n");
+            }
+        } else {
+            System.out.println("No records");
         }   
     }
 
@@ -279,7 +283,7 @@ public class EmployeeView {
             if (employeeController.isEmpIdExist(empId)) {
                 Map<Integer, String> addresses = employeeController.getAddressDetails(empId);
                 addresses.forEach((addressId, address) -> {
-                    System.out.println(address);
+                    System.out.println(address + "\n");
                 });
                 List<Integer> addressIds = new ArrayList<>(addresses.keySet());
                 System.out.println("select your address no to update ?");
@@ -331,7 +335,7 @@ public class EmployeeView {
             if (employeeController.isEmpIdExist(empId)) {
                 Map<Integer, String> addresses = employeeController.getAddressDetails(empId);
                 addresses.forEach((addressId, address) -> {
-                    System.out.println(address);
+                    System.out.println(address + "\n");
                 }); 
                 List<Integer> addressIds = new ArrayList<>(addresses.keySet());
                 System.out.println("select your address no to delete ?");
@@ -424,6 +428,78 @@ public class EmployeeView {
         } else {
             System.out.println("No Employee to restore");
         }
+    }
+
+    /**
+     * It is used to assign employee to project
+     */
+    private void assignEmployee() {
+        System.out.println("Project details");
+        for (String projectDetails : employeeController.getAllProjectDetails()) {
+            System.out.println(projectDetails + "\n");
+        }
+        System.out.println("Enter your Employee id");
+        int empId = scanner.nextInt();
+        if (employeeController.isEmpIdExist(empId)) {
+            getAssignEmployeeDetails(empId);    
+        } else {
+            System.out.println("Employee Id doesn't exist");
+        }
+    }
+
+    /**
+     * It is used to get assign employee to project details
+     */
+    private void getAssignEmployeeDetails(int empId) {
+        List<Integer> projectIds = new ArrayList<Integer>();
+        String choiceDetails = "Enter 1 project id \nEnter 2 exist";
+        int choice = 0;
+        int flag = 0;
+        while (2 != choice) {
+            System.out.println(choiceDetails);
+            choice = scanner.nextInt();
+            switch (choice) {
+                case 1 :
+                    System.out.println("Enter your project id");
+                    int projectId = scanner.nextInt();
+                    if (employeeController.isProjectIdExist(projectId)) {
+                        flag = 1;
+                        projectIds.add(projectId);
+                    } else {
+                        System.out.println("Project id doesn't exist");
+                    } 
+                    break;
+                case 2 :
+                    if (0 == flag) {
+                        System.out.println("Project doesn't assigned");
+                    } else {
+                        System.out.println("Thank you");
+                    }
+                    break;
+                default :
+                        System.out.println("Invalid choice");
+            }
+        }
+        if (employeeController.assignEmployee(empId, projectIds)) {
+            System.out.println("Assigned Successfully");
+        } else {
+            System.out.println("Unsuccessful");
+        }    
+    }
+
+    /**
+     * It is used to display assigned employee details
+     */
+    private void displayAssignedEmployeeDetails() {
+        System.out.println("Enter your Employee id");
+        int empId = scanner.nextInt();
+        if (employeeController.isEmpIdExist(empId)) {
+            for (String employees : employeeController.getAssignedEmployee(empId)) {
+                System.out.println(employees + "\n");
+            }
+        } else {
+            System.out.println("Employee id doesn't exist");
+        }
     }    
 
     /**
@@ -432,9 +508,10 @@ public class EmployeeView {
     public void operation() {
         int choice = 0;
         String choiceDetails = "Enter 1 to create employee \nEnter 2 to Update employee \nEnter 3 to Delete employee"
-                + "\nEnter 4 to Display Individual Employee \nEnter 5 to Display Employee"
-                + "\nEnter 6 to restore  \nEnter 7 to Exit \nEnter your choice";    
-        while(7 != choice) {
+                + "\nEnter 4 to Display Individual Employee \nEnter 5 to Display All Employee"
+                + "\nEnter 6 to restore  \nEnter 7 to assign employee to project" 
+                + "\nEnter 8 to display assigned employee project \nEnter 9 to exit \nEnter your choice";    
+        while(9 != choice) {
             System.out.println(choiceDetails);
             choice = scanner.nextInt();
             switch (choice) {
@@ -455,8 +532,14 @@ public class EmployeeView {
                     break;
                 case 6 : 
                     restoreDeletedEmployeeDetails();
-                    break;     
-                case 7 :
+                    break;
+                case 7 : 
+                    assignEmployee();
+                    break;
+                case 8 : 
+                    displayAssignedEmployeeDetails();
+                    break;      
+                case 9 :
                     System.out.println("Thank You");	
                     break;
                 default :

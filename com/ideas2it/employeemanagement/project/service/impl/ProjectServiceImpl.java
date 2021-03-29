@@ -198,4 +198,21 @@ public class ProjectServiceImpl implements ProjectService {
         }      
         return projectDetails;
     }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public List<Project> getAllProjectDetails() {
+        return projectDao.getAllProject();
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public Project getSpecificProjectDetails(int id) {
+        return projectDao.getSpecificProject(id);
+    }
+
 }

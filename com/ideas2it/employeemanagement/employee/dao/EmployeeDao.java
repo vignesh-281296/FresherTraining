@@ -110,4 +110,18 @@ public interface EmployeeDao {
      * @return single employee details
      */
     public Employee getEmployee(int id);
+
+    /**
+     * It is used to assign employee to project
+     * @param employee employee details
+     * @return boolean value
+     */
+    public boolean assignEmployee(Employee employee);
+
+    /**
+     * It is used to get assigned employee details
+     * @param id employee id
+     * @return employee details
+     */
+    public Employee getAssignedEmployee(int id);
 }

@@ -217,39 +217,33 @@ public class ProjectView {
      */
     private void getAssignProjectDetails(int projectId) {
         List<Integer> employeeIds = new ArrayList<Integer>();
-        System.out.println("Enter your Employee id");
-        int employeeId = scanner.nextInt();
-        if (projectController.isEmpIdExist(employeeId)) {
-            employeeIds.add(employeeId);
-            String choiceDetails = "Enter 1 employee id \nEnter 2 exist";
-            int choice = 0;
-            while (2 != choice) {
-                System.out.println(choiceDetails);
-                choice = scanner.nextInt();
-                switch (choice) {
-                    case 1 :
-                        System.out.println("Enter your employee id");
-                        int employeeId1 = scanner.nextInt();
-                        if (projectController.isEmpIdExist(employeeId1)) {
-                            employeeIds.add(employeeId1);
-                        } else {
-                            System.out.println("Employee id doesn't exist");
-                        } 
-                        break;
-                    case 2 :
-                        System.out.println("Thank you");
-                        break;
-                    default :
-                        System.out.println("Invalid choice");
-                }
+        String choiceDetails = "Enter 1 employee id \nEnter 2 exist";
+        int choice = 0;
+        int flag = 0;
+        while (2 != choice) {
+            System.out.println(choiceDetails);
+            choice = scanner.nextInt();
+            switch (choice) {
+                case 1 :
+                    System.out.println("Enter your employee id");
+                    int employeeId = scanner.nextInt();
+                    if (projectController.isEmpIdExist(employeeId)) {
+                        employeeIds.add(employeeId);
+                    } else {
+                        System.out.println("Employee id doesn't exist");
+                    } 
+                    break;
+                 case 2 :
+                     System.out.println("Thank you");
+                     break;
+                 default :
+                     System.out.println("Invalid choice");
             }
-            if (projectController.assignProject(projectId, employeeIds)) {
-                System.out.println("Assigned Successfully");
-            } else {
-                System.out.println("Unsuccessful");
-            }
+        }
+        if (projectController.assignProject(projectId, employeeIds)) {
+            System.out.println("Assigned Successfully");
         } else {
-            System.out.println("Employee id doesn't exist");
+            System.out.println("Unsuccessful");
         }    
     }
 
@@ -274,8 +268,8 @@ public class ProjectView {
     public void operation() {
         int choice = 0;
         String choiceDetails = "Enter 1 to create project \nEnter 2 to Update Project \nEnter 3 to Delete Project"
-                + "\nEnter 4 to Display Individual Project \nEnter 5 to Display Project"
-                + "\nEnter 6 to restore \nEnter 7 to Assign project \nEnter 8 to Display assign project"
+                + "\nEnter 4 to Display Individual Project \nEnter 5 to Display All Project"
+                + "\nEnter 6 to restore \nEnter 7 to Assign project \nEnter 8 to Display assigned project employee"
                 + " \nEnter 9 to Exit \nEnter your choice";    
         while(9 != choice) {
             System.out.println(choiceDetails);

@@ -11,6 +11,7 @@ import java.util.List;
 import com.ideas2it.employeemanagement.employee.dao.EmployeeDao;
 import com.ideas2it.employeemanagement.employee.model.Address;
 import com.ideas2it.employeemanagement.employee.model.Employee;
+import com.ideas2it.employeemanagement.project.model.Project;
 import com.ideas2it.employeemanagement.sessionfactory.DatabaseConnection;
 
 /**
@@ -128,8 +129,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
                     ("update address set is_delete = false where employee_id = ?");
             prepareStatement.setInt(1, id);
             int addressDelete = prepareStatement.executeUpdate();
-            System.out.println(employeeDetails);
-            System.out.println(addressDelete);
             if (0 == employeeDetails && 0 == addressDelete) {
                 connection.rollback();
                 count = false;
@@ -472,5 +471,78 @@ public class EmployeeDaoImpl implements EmployeeDao {
             e.printStackTrace();
         } 
         return employee;  	        
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public boolean assignEmployee(Employee employee) {
+         boolean count = true;
+        try {
+            Connection connection = databaseConnection.getConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement
+                    ("insert ignore into project_employee (employee_id, project_id)" 
+                    + " values (?, ?)"); 
+            for (Project project : employee.getProject()) { 
+                prepareStatement.setInt(1, employee.getId());
+                prepareStatement.setInt(2, project.getId());
+                prepareStatement.addBatch();
+            }
+            int employeetResult[] = prepareStatement.executeBatch();
+            
+            if (0 != employeetResult.length) {
+                count = true;
+            } else {
+                count = false;
+            }
+            connection.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }      
+        return count;
+    } 
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public Employee getAssignedEmployee(int id) {
+        Employee employee = null;
+         try {
+             Connection connection = databaseConnection.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement
+                     ("select e.id as employee_id, e.name, e.desgination, e.email,e.phone_number, e.salary, e.dob, " 
+                      + "p.id as project_id, p.name, p.manager_name, p.start_date, p.end_date  "
+                      + "from employee e  "
+                      + "left join project_employee as pe on e.id = pe.employee_id "
+                      + "left join project p on p.id = pe.project_id where e.id =?");
+             prepareStatement.setInt(1, id);
+             ResultSet resultSet = prepareStatement.executeQuery();
+             if (resultSet.next()) {
+                 employee = new Employee(resultSet.getInt(1),
+                         resultSet.getString(2), resultSet.getString(3),
+                         resultSet.getString(4), resultSet.getLong(5),
+                         resultSet.getFloat(6), resultSet.getDate(7));
+                 int employeeId = resultSet.getInt(1);
+                 List<Project> projectDetails = new ArrayList<Project>();
+                 while (employeeId == resultSet.getInt(1)) {
+                    if (0 != resultSet.getInt(8)) {   
+                        Project project = new Project(resultSet.getInt(8),
+                                resultSet.getString(9), resultSet.getString(10),
+                                resultSet.getDate(11), resultSet.getDate(12));
+                         projectDetails.add(project);
+                    }
+                     if (!resultSet.next()) {
+                         break;
+                     }
+                 }
+                 employee.setProject(projectDetails);
+                 connection.close();
+             }
+         } catch(SQLException e) {
+             e.printStackTrace();
+        }
+        return employee; 
     } 
 }

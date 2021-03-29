@@ -14,8 +14,8 @@ public class EmployeeManagement {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please select your type of address");
         int option = 0;
-        String optionDetails = "Enter 1 to Employee" 
-                + "\nEnter 2 to Project"
+        String optionDetails = "Enter 1 to Employee Management" 
+                + "\nEnter 2 to Project Management"
                 + "\nEnter 3 to quit"; 
         while (3 != option) {
             System.out.println(optionDetails);

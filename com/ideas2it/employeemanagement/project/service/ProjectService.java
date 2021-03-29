@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 //import com.ideas2it.employeemanagement.employee.model.Employee;
+import com.ideas2it.employeemanagement.project.model.Project;
 
 /**
  * It contains the method signature
@@ -114,4 +115,17 @@ public interface ProjectService {
      * @return project detail
      */
     public List<String> getAssignedProject(int id);
+
+    /**
+     * It is used to get project details
+     * @return project
+     */
+    public List<Project> getAllProjectDetails();
+
+   /**
+    * It is used to get specific project details
+    * @param id project id
+    * @return project details
+    */
+    public Project getSpecificProjectDetails(int id);
 }

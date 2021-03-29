@@ -157,11 +157,47 @@ public class EmployeeController {
         return employeeService.checkDeletedEmpId(id);
     } 
 
-     /** It is used to specific address details 
+    /** It is used to specific address details 
      * @param id address id
      * @return boolean value
      */
     public boolean deleteAddress(int id) {
         return employeeService.deleteAddress(id);
+    }
+
+    /**
+     * It is used to get all project details
+     * @return project details
+     */
+    public List<String> getAllProjectDetails() {
+        return employeeService.getAllProjectDetails();
+    }
+
+    /**
+     * It is used to check project id is exist or not
+     * @param id project id
+     * @return boolean value
+     */
+    public boolean isProjectIdExist(int id) {
+        return employeeService.isProjectIdExist(id);
+    }
+
+    /**
+     * It is used to assign employee to project
+     * @param empId employee id
+     * @param projectIds project id
+     * @return boolean value
+     */
+    public boolean assignEmployee(int id, List<Integer> projectIds) {
+        return employeeService.assignEmployee(id, projectIds);
+    }
+
+    /**
+     * It is used to get assigned employee details
+     * @param id employee id
+     * @return employee details
+     */
+    public List<String> getAssignedEmployee(int id) {
+        return employeeService.getAssignedEmployee(id);
     }   
 }
