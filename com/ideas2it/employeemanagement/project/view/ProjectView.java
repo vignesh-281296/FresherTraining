@@ -49,7 +49,7 @@ public class ProjectView {
             return date;
         } else {
             System.out.print("Invalid Date of birth\n"
-                    + "Enter Valid Date of birth: ");
+                    + "Enter Valid Date: ");
             return validateDate();
         }
     }
@@ -228,13 +228,18 @@ public class ProjectView {
                     System.out.println("Enter your employee id");
                     int employeeId = scanner.nextInt();
                     if (projectController.isEmpIdExist(employeeId)) {
+                        flag = 1;
                         employeeIds.add(employeeId);
                     } else {
                         System.out.println("Employee id doesn't exist");
                     } 
                     break;
                  case 2 :
-                     System.out.println("Thank you");
+                      if (0 == flag) {
+                        System.out.println("Employee doesn't assigned");
+                    } else {
+                        System.out.println("Thank you");
+                    }
                      break;
                  default :
                      System.out.println("Invalid choice");
@@ -269,7 +274,7 @@ public class ProjectView {
         int choice = 0;
         String choiceDetails = "Enter 1 to create project \nEnter 2 to Update Project \nEnter 3 to Delete Project"
                 + "\nEnter 4 to Display Individual Project \nEnter 5 to Display All Project"
-                + "\nEnter 6 to restore \nEnter 7 to Assign project \nEnter 8 to Display assigned project employee"
+                + "\nEnter 6 to restore \nEnter 7 to Assign project to employee \nEnter 8 to Display assigned project employee"
                 + " \nEnter 9 to Exit \nEnter your choice";    
         while(9 != choice) {
             System.out.println(choiceDetails);
