@@ -174,4 +174,11 @@ public interface EmployeeService {
      * @return employee details
      */
     public List<String> getAssignedEmployee(int id);
+
+    /**
+     * It is used to unassign employee
+     * @param id employee id
+     * @return boolean value
+     */
+    public boolean unassignEmployee(int id);
 }

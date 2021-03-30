@@ -199,5 +199,14 @@ public class EmployeeController {
      */
     public List<String> getAssignedEmployee(int id) {
         return employeeService.getAssignedEmployee(id);
+    }
+
+    /**
+     * It is used to unassign employee
+     * @param id employee id
+     * @return boolean value
+     */
+    public boolean unassignEmployee(int id) {
+        return employeeService.unassignEmployee(id);
     }   
 }

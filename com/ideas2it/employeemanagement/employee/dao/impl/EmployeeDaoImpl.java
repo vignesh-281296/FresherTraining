@@ -544,5 +544,25 @@ public class EmployeeDaoImpl implements EmployeeDao {
              e.printStackTrace();
         }
         return employee; 
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public boolean unassignEmployee(int id) {
+        boolean count = true;
+        try {
+            Connection connection = databaseConnection.getConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement
+                    ("delete from project_employee where employee_id = ?");
+            prepareStatement.setInt(1, id);
+            int employeeDetails = prepareStatement.executeUpdate();
+            count = (1 == employeeDetails) ? true : false; 
+            connection.close(); 
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } 
+        return count;     
     } 
 }

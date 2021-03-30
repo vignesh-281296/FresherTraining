@@ -124,4 +124,11 @@ public interface EmployeeDao {
      * @return employee details
      */
     public Employee getAssignedEmployee(int id);
+
+    /**
+     * It is used to unassign employee
+     * @param id employee id
+     * @return boolean value
+     */
+    public boolean unassignEmployee(int id);
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import com.ideas2it.employeemanagement.project.model.Project;
 
 /**
- * It contains the method signature
+ * It will perform crud operation and interact with database
  *
  * @author vignesh r 
  * @version 1.0 24-03-2021
@@ -73,7 +73,7 @@ public interface ProjectDao {
      * @param project project details
      * @return boolean value
      */
-    public boolean updateProject(int id, Project project);
+    public boolean updateProject(Project project);
 
     /**
      * It is used to assign project to employee

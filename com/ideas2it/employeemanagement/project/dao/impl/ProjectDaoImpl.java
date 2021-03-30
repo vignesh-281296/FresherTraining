@@ -106,11 +106,11 @@ public class ProjectDaoImpl implements ProjectDao {
                     ("select * from project where is_delete = true");
             ResultSet resultSet = prepareStatement.executeQuery();
             while (resultSet.next()) {
-               Project project = new Project(resultSet.getInt(1),
-                        resultSet.getString(2), resultSet.getString(3),
-                        resultSet.getDate(4), resultSet.getDate(5));
-                projects.add(project);
+               projects.add(new Project(resultSet.getInt(1),
+                       resultSet.getString(2), resultSet.getString(3),
+                       resultSet.getDate(4), resultSet.getDate(5)));
             }
+            connection.close();
         } catch(SQLException e) {
             e.printStackTrace();
         } 
@@ -157,12 +157,12 @@ public class ProjectDaoImpl implements ProjectDao {
                 ("select * from project where is_delete = false");
             ResultSet resultSet = prepareStatement.executeQuery();
             while (resultSet.next()) {
-                Project project =  new Project(resultSet.getInt(1),
+                projects.add(new Project(resultSet.getInt(1),
                         resultSet.getString(2),
                         resultSet.getString(3),
                         resultSet.getDate(4),
-                        resultSet.getDate(5));
-                projects.add(project);    
+                        resultSet.getDate(5)));
+               //projects.add(project);    
             }
             connection.close();
         } catch(SQLException e) {
@@ -217,7 +217,7 @@ public class ProjectDaoImpl implements ProjectDao {
      * {inheritDoc}
      */
     @Override
-    public boolean updateProject(int id, Project project) {
+    public boolean updateProject(Project project) {
         int count = 0;
         try {
             Connection connection = databaseConnection.getConnection();
@@ -228,7 +228,7 @@ public class ProjectDaoImpl implements ProjectDao {
             prepareStatement.setString(2, project.getManagerName());
             prepareStatement.setDate(3, project.getStartDate());
             prepareStatement.setDate(4, project.getEndDate());
-            prepareStatement.setInt(5, id);
+            prepareStatement.setInt(5, project.getId());
             count = prepareStatement.executeUpdate();
             connection.close();
         } catch(SQLException e) {
@@ -291,11 +291,11 @@ public class ProjectDaoImpl implements ProjectDao {
                  List<Employee> employeeDetails = new ArrayList<Employee>();
                  while (projectId == resultSet.getInt(1)) {
                     if (0 != resultSet.getInt(6)) {   
-                        Employee employee = new Employee(resultSet.getInt(6),
+                        employeeDetails.add(new Employee(resultSet.getInt(6),
                                 resultSet.getString(7), resultSet.getString(8),
                                 resultSet.getString(9), resultSet.getLong(10),
-                                resultSet.getFloat(11), resultSet.getDate(12));
-                         employeeDetails.add(employee);
+                                resultSet.getFloat(11), resultSet.getDate(12)));
+                         //employeeDetails.add(employee);
                     }
                      if (!resultSet.next()) {
                          break;

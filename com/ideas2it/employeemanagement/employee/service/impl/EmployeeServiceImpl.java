@@ -306,4 +306,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         }      
         return employeeDetails;
     }
+
+    /** 
+     * {inheritDoc}
+     */
+    @Override
+    public boolean unassignEmployee(int id) {
+        return employeeDao.unassignEmployee(id); 
+    }
 }

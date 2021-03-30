@@ -500,6 +500,25 @@ public class EmployeeView {
         } else {
             System.out.println("Employee id doesn't exist");
         }
+    }
+
+    /**
+     * It is used to unassign employee
+     * @param id employee id
+     * @return boolean value
+     */
+    private void unassignEmployee() {
+        System.out.println("Enter your employee id");
+        int empId = scanner.nextInt();
+        if (employeeController.isEmpIdExist(empId)) {
+            if (employeeController.unassignEmployee(empId)) {
+                System.out.println("Deleted sucessfully");
+            } else {
+                System.out.println("Unsuccessful");
+            }
+        } else {
+            System.out.println("Employee id doesn't exist");
+        }
     }    
 
     /**
@@ -510,8 +529,9 @@ public class EmployeeView {
         String choiceDetails = "Enter 1 to create employee \nEnter 2 to Update employee \nEnter 3 to Delete employee"
                 + "\nEnter 4 to Display Individual Employee \nEnter 5 to Display All Employee"
                 + "\nEnter 6 to restore  \nEnter 7 to assign employee to project" 
-                + "\nEnter 8 to display assigned employee project \nEnter 9 to exit \nEnter your choice";    
-        while(9 != choice) {
+                + "\nEnter 8 to display assigned employee project \nEnter 9 to unassign employee"  
+                + "\nEnter 10 to Exit \nEnter your choice";    
+        while(10 != choice) {
             System.out.println(choiceDetails);
             choice = scanner.nextInt();
             switch (choice) {
@@ -538,8 +558,11 @@ public class EmployeeView {
                     break;
                 case 8 : 
                     displayAssignedEmployeeDetails();
-                    break;      
-                case 9 :
+                    break;
+                case 9 : 
+                    unassignEmployee();
+                    break;       
+                case 10 :
                     System.out.println("Thank You");	
                     break;
                 default :

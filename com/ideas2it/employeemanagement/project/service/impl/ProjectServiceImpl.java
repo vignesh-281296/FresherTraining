@@ -136,7 +136,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         Project projectDetail = new Project(id, project.getName(), project.getManagerName(),
                project.getStartDate(), project.getEndDate());
-        return projectDao.updateProject(id, projectDetail);       
+        return projectDao.updateProject(projectDetail);       
     }
 
     /** 
