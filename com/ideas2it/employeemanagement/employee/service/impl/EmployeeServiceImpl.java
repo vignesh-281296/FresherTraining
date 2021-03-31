@@ -311,7 +311,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * {inheritDoc}
      */
     @Override
-    public boolean unassignEmployee(int id) {
-        return employeeDao.unassignEmployee(id); 
+    public boolean unassignEmployee(int id, int projectId) {
+        return employeeDao.unassignEmployee(id, projectId); 
     }
 }

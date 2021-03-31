@@ -550,13 +550,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {inheritDoc}
      */
     @Override
-    public boolean unassignEmployee(int id) {
+    public boolean unassignEmployee(int id, int projectId) {
         boolean count = true;
         try {
             Connection connection = databaseConnection.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement
-                    ("delete from project_employee where employee_id = ?");
+                    ("delete from project_employee where employee_id = ? and project_id = ?");
             prepareStatement.setInt(1, id);
+            prepareStatement.setInt(2, projectId);
             int employeeDetails = prepareStatement.executeUpdate();
             count = (1 == employeeDetails) ? true : false; 
             connection.close(); 

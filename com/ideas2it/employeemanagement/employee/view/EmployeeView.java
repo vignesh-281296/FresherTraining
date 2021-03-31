@@ -508,16 +508,22 @@ public class EmployeeView {
      * @return boolean value
      */
     private void unassignEmployee() {
-        System.out.println("Enter your employee id");
-        int empId = scanner.nextInt();
-        if (employeeController.isEmpIdExist(empId)) {
-            if (employeeController.unassignEmployee(empId)) {
-                System.out.println("Deleted sucessfully");
+        System.out.println("Enter your project");
+        int projectId = scanner.nextInt();
+        if (employeeController.isProjectIdExist(projectId)) {
+            System.out.println("Enter your employee id");
+            int empId = scanner.nextInt();
+            if (employeeController.isEmpIdExist(empId)) {
+                if (employeeController.unassignEmployee(empId, projectId)) {
+                    System.out.println("Unassigned sucessfully");
+                } else {
+                    System.out.println("Unsuccessful");
+                }
             } else {
-                System.out.println("Unsuccessful");
+                System.out.println("Employee id doesn't exist");
             }
         } else {
-            System.out.println("Employee id doesn't exist");
+            System.out.println("Project id doesn't exists");
         }
     }    
 

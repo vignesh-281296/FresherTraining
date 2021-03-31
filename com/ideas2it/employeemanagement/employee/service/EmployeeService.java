@@ -178,7 +178,8 @@ public interface EmployeeService {
     /**
      * It is used to unassign employee
      * @param id employee id
+     * @param projectId project id
      * @return boolean value
      */
-    public boolean unassignEmployee(int id);
+    public boolean unassignEmployee(int id, int projectId);
 }

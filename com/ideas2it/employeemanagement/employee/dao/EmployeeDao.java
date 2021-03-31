@@ -130,5 +130,5 @@ public interface EmployeeDao {
      * @param id employee id
      * @return boolean value
      */
-    public boolean unassignEmployee(int id);
+    public boolean unassignEmployee(int id, int projectId);
 }
