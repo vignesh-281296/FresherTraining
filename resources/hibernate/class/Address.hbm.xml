@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.ideas2it.employeemanagement.employee.model.Address" table="address">
+        <id name="id" column="id" type="int">
+            <generator class="increment"/>
+        </id>
+        <property name="doorNo" column="door_no" type="string" />
+        <property name="streetName" column="street_name" type="string" />
+        <property name="city" column="city" type="string" />
+        <property name="district" column="district" type="string" />
+        <property name="state" column="state" type="string" />
+        <property name="country" column="country" type="string" />
+        <property name="addressMode" column="address_mode" type="string"/>
+        <property name="isDelete" column="is_delete" type="boolean"/>
+        <!--<property name="employeeId" column="employee_id" type="int"/>-->
+         <many-to-one name ="employee" class="com.ideas2it.employeemanagement.employee.model.Employee" column="employee_id" />
+    </class>  
+</hibernate-mapping>
