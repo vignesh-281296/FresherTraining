@@ -14,19 +14,21 @@ import org.hibernate.SessionFactory;
 public class DatabaseConnection {
       private static SessionFactory sessionFactory = null;
 
-      private DatabaseConnection() {
-          
+      private DatabaseConnection() {    
       }
     
       /**
        * It is used to  establish connection to SQL database
        */
       public static SessionFactory getSessionFactory() {
-          //Class.forName("com.mysql.cj.jdbc.Driver");
-         if (null == sessionFactory) {
-             Configuration configuration = new Configuration();
-	     configuration.configure("resources/hibernate/properties/hibernate.cfg.xml");
-	     sessionFactory = configuration.buildSessionFactory();
+          try {
+              if (null == sessionFactory) {
+                  Configuration configuration = new Configuration();
+	          configuration.configure("resources/hibernate/properties/hibernate.cfg.xml");
+	          sessionFactory = configuration.buildSessionFactory();
+              }
+          } catch(Exception e) {
+               e.printStackTrace();
           }
           return sessionFactory;
       }

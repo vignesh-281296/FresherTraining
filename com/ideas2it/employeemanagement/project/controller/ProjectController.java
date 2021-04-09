@@ -12,7 +12,6 @@ import com.ideas2it.employeemanagement.project.service.impl.ProjectServiceImpl;
  * @version 1.0 25-03-2021
  */
 public class ProjectController {
-
     private ProjectServiceImpl projectService = new ProjectServiceImpl(); 
    
     /**

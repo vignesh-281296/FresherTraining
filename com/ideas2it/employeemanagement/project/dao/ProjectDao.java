@@ -27,7 +27,7 @@ public interface ProjectDao {
     public boolean isProjectExist(int id);
 
     /**
-     * get individual project basic details
+     * get individual project details
      * @param id project id
      * @return basic project details
      */

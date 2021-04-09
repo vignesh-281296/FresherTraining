@@ -15,7 +15,7 @@
         <property name="country" column="country" type="string" />
         <property name="addressMode" column="address_mode" type="string"/>
         <property name="isDelete" column="is_delete" type="boolean"/>
-        <!--<property name="employeeId" column="employee_id" type="int"/>-->
-         <many-to-one name ="employee" class="com.ideas2it.employeemanagement.employee.model.Employee" column="employee_id" />
+     
+        <many-to-one name ="employee" class="com.ideas2it.employeemanagement.employee.model.Employee" column="employee_id" />
     </class>  
 </hibernate-mapping>

@@ -106,7 +106,7 @@ public interface EmployeeService {
     public boolean updateEmployee(int id, String[] employeeDetails); 
 
     /**
-     * It is used get employee address details
+     * It is used to get employee address details
      * @param id employee id
      * @return employee address details
      */
@@ -137,7 +137,7 @@ public interface EmployeeService {
     /**
      * It is used to assign employee to project
      * @param empId employee id
-     * @projectIds multiple project id
+     * @param projectIds multiple project id
      * @return boolean value
      */
     public boolean assignEmployee(int empId, List<Integer> projectIds);
@@ -158,7 +158,7 @@ public interface EmployeeService {
     public List<String> getAssignedEmployee(int id);
 
     /**
-     * It is used to un assign employee
+     * It is used to unassign employee
      * @param id employee id 
      * @paraam projectId project id
      * @return boolean value

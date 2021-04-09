@@ -32,7 +32,7 @@ public interface EmployeeDao {
     public Employee getSpecificEmployeeWithAddressess(int id);
 
     /**
-     * get specific employee basic details
+     * get specific employee details
      * @param id employee id
      * @return employee details
      */

@@ -10,8 +10,8 @@ import com.ideas2it.employeemanagement.employee.dao.impl.EmployeeDaoImpl;
 import com.ideas2it.employeemanagement.employee.model.Address;
 import com.ideas2it.employeemanagement.employee.model.Employee;
 import com.ideas2it.employeemanagement.employee.service.EmployeeService;
-import com.ideas2it.employeemanagement.project.service.impl.ProjectServiceImpl;
 import com.ideas2it.employeemanagement.project.model.Project;
+import com.ideas2it.employeemanagement.project.service.impl.ProjectServiceImpl;
 
 /**
  * This class for employee business logic
