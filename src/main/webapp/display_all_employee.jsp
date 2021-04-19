@@ -38,36 +38,36 @@
       </tr>
     </thead>
     <tbody>
-            <c:forEach items="${employees}" var="value">
-               <c:set var="empoyeeDetails" value="${fn:split(value,',')}" />
+            <c:forEach items="${employees}" var="employees">
+           
                 <tr>
-                <td><c:out value="${empoyeeDetails[0]}"></c:out></td>
-                <td><c:out value="${empoyeeDetails[1]}"></c:out></td>
-                <td><c:out value="${empoyeeDetails[2]}"></c:out></td>
-                <td><c:out value="${empoyeeDetails[3]}"></c:out></td>
-                <td><c:out value="${empoyeeDetails[4]}"></c:out></td>
-                <td><c:out value="${empoyeeDetails[5]}"></c:out></td>
-                <td><c:out value="${empoyeeDetails[6]}"></c:out></td>
+                <td><c:out value="${employees.getId()}"></c:out></td>
+                <td><c:out value="${employees.getName()}"></c:out></td>
+                <td><c:out value="${employees.getDesgination()}"></c:out></td>
+                <td><c:out value="${employees.getEmail()}"></c:out></td>
+                <td><c:out value="${employees.getPhoneNumber()}"></c:out></td>
+                <td><c:out value="${employees.getDob()}"></c:out></td>
+                <td><c:out value="${employees.getSalary()}"></c:out></td>
                 <c:choose>
-                 <c:when test="${empoyeeDetails[7] == 'true'}">
-                  <td><a href="employee?id=${empoyeeDetails[0]}&action=delete_employee" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a></td>
+                 <c:when test="${employees.getIsDelete() == 'true'}">
+                  <td><a href="employee?id=${employees.getId()}&action=delete_employee" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a></td>
                  </c:when>
                  <c:otherwise>
-                  <td><a href="employee?id=${empoyeeDetails[0]}&action=restore_employee" class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span> Restore</a></td>
+                  <td><a href="employee?id=${employees.getId()}&action=restore_employee" class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span> Restore</a></td>
                   </c:otherwise>
                  </c:choose>
                  <c:choose>
-                 <c:when test="${empoyeeDetails[7] == 'true'}">
-                   <td><a href="employee?id=${ empoyeeDetails[0]}&action=update_employee_details" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> edit</a></td>
+                 <c:when test="${employees.getIsDelete() == 'true'}">
+                   <td><a href="employee?id=${employees.getId()}&action=update_employee_details" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> edit</a></td>
                  </c:when>
                  <c:otherwise>
                   <td><a href="#" class="btn btn-primary disabled-link"><span class="glyphicon glyphicon-edit"></span> edit</a></td>
                   </c:otherwise>
                  </c:choose>
                  <c:choose>
-                 <c:when test="${empoyeeDetails[7] == 'true'}">
-                   <td><a href="employee?id=${ empoyeeDetails[0]}&action=assign_project_details" class="btn btn-primary">Assign</a></td>
-                   <td><a href="employee?id=${ empoyeeDetails[0]}&action=get_assigned_employee_details" class="btn btn-danger">UnAssign</a></td>
+                 <c:when test="${employees.getIsDelete() == 'true'}">
+                   <td><a href="employee?id=${employees.getId()}&action=assign_project_details" class="btn btn-primary">Assign</a></td>
+                   <td><a href="employee?id=${employees.getId()}&action=get_assigned_employee_details" class="btn btn-danger">UnAssign</a></td>
                  </c:when>
                  <c:otherwise>
                   <td><a href="#" class="btn btn-primary disabled-link">Assign</a></td>
@@ -75,8 +75,8 @@
                   </c:otherwise>
                  </c:choose>
                  <c:choose>
-                 <c:when test="${empoyeeDetails[7] == 'true'}">
-                   <td><a href="employee?id=${ empoyeeDetails[0]}&action=assigned_employee_details" class="btn btn-primary">Assign Project Details</a></td>
+                 <c:when test="${employees.getIsDelete() == 'true'}">
+                   <td><a href="employee?id=${employees.getId()}&action=assigned_employee_details" class="btn btn-primary">Assign Project Details</a></td>
                  </c:when>
                  <c:otherwise>
                   <td><a href="#" class="btn btn-primary disabled-link">Assign Project Details</a></td>

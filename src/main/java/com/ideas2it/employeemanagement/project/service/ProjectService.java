@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.ideas2it.employeemanagement.employee.model.Employee;
 import com.ideas2it.employeemanagement.project.model.Project;
 
 /**
@@ -45,13 +46,13 @@ public interface ProjectService {
      * @param id project id
      * @return project details
      */
-    public Map<String, String> getSpecificProject(int id);
+    public Project getSpecificProject(int id);
 
     /**
      * It is used to get all project details
      * @return project details
      */
-    public List<String> getAllProject();
+    public List<Project> getAllProject();
 
     /**
      * It is used to delete project
@@ -103,7 +104,7 @@ public interface ProjectService {
      * It is used to get all employee details
      * @return employee details
      */
-    public List<String> getAllEmployeeDetails();
+    public List<Employee> getAllEmployeeDetails();
 
     /**
      * It is used to check wheather the employee id is exist or not
@@ -139,5 +140,5 @@ public interface ProjectService {
      * @param id project id
      * @return
      */
-    public List<String> getAssignedProjectDetails(int id);
+    public List<Employee> getAssignedProjectDetails(int id);
 }

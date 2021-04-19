@@ -76,51 +76,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     /**
      * {inheritDoc}
      */ 
-    public Map<String, String> getSpecificEmployee(int id) {
-    	Map<String, String> employeeDetails = new LinkedHashMap<String, String>(); 
-        Employee employee = employeeDao.getSpecificEmployeeWithAddressess(id);
-        employeeDetails.put("employeeId", "" + employee.getId());
-        employeeDetails.put("name", "" + employee.getName());
-        employeeDetails.put("desgination", "" + employee.getDesgination());
-        employeeDetails.put("email", "" + employee.getEmail());
-        employeeDetails.put("phoneNumber", "" + employee.getPhoneNumber());
-        employeeDetails.put("salary", "" + employee.getSalary());
-        employeeDetails.put("dob", "" + employee.getDob());
-        employeeDetails.put("permanentAddressId", "" + employee.getAddressess().get(0).getId());
-        employeeDetails.put("permanentAddressDoorNo", "" + employee.getAddressess().get(0).getDoorNo());
-        employeeDetails.put("permanentAddressStreetName", "" + employee.getAddressess().get(0).getStreetName());
-        employeeDetails.put("permanentAddressCity", "" + employee.getAddressess().get(0).getCity());
-        employeeDetails.put("permanentAddressDistrict", "" + employee.getAddressess().get(0).getDistrict());
-        employeeDetails.put("permanentAddressState", "" + employee.getAddressess().get(0).getState());
-        employeeDetails.put("permanentAddressCountry", "" + employee.getAddressess().get(0).getCountry());
-        //employeeDetails.put("permanentAddress", "" + employee.getAddressess().get(0).toString());
-        if (employee.getAddressess().size() > 1) {
-        	 employeeDetails.put("temporaryAddressId", "" + employee.getAddressess().get(1).getId());
-        	 employeeDetails.put("temporaryAddressDoorNo", "" + employee.getAddressess().get(1).getDoorNo());
-        	 employeeDetails.put("temporaryAddressStreetName", "" + employee.getAddressess().get(1).getStreetName());
-        	 employeeDetails.put("temporaryAddressCity", "" + employee.getAddressess().get(1).getCity());
-        	 employeeDetails.put("temporaryAddressDistrict", "" + employee.getAddressess().get(1).getDistrict());
-        	 employeeDetails.put("temporaryAddressState", "" + employee.getAddressess().get(1).getState());
-        	 employeeDetails.put("temporaryAddressCountry", "" + employee.getAddressess().get(1).getCountry());
-        }
-        return  employeeDetails;
+    public Employee getSpecificEmployee(int id) {
+        return  employeeDao.getSpecificEmployeeWithAddressess(id);
     }
 
     /**
      * {inheritDoc}
      */ 
-    public List<String> getAllEmployee() {
+    public List<Employee> getAllEmployee() {
         
         //List<List<String>> employees = new ArrayList<List<String>>();
-    	List<String> employees = new ArrayList<String>();
-        employeeDao.getAllEmployee().forEach((employee) -> {
-        	   employees.add( employee.getId() + "," + employee.getName() + "," 
-        			   + employee.getDesgination() + "," + employee.getEmail()
-        			   + "," + employee.getPhoneNumber() + "," + employee.getDob()
-        			   + "," + employee.getSalary() + "," + employee.getIsDelete());
-	    });
+//    	List<String> employees = new ArrayList<String>();
+//        employeeDao.getAllEmployee().forEach((employee) -> {
+//        	   employees.add( employee.getId() + "," + employee.getName() + "," 
+//        			   + employee.getDesgination() + "," + employee.getEmail()
+//        			   + "," + employee.getPhoneNumber() + "," + employee.getDob()
+//        			   + "," + employee.getSalary() + "," + employee.getIsDelete());
+//	    });
 
-        return employees;
+        return employeeDao.getAllEmployee();
 }
 
     /**
@@ -254,10 +228,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     /**
      * {inheritDoc}
      */ 
-    public List<String> getAllProjectDetails() {
+    public List<Project> getAllProjectDetails() {
         ProjectServiceImpl projectService = new ProjectServiceImpl();
-        List<String> projects = projectService.getAllProject();
-        return projects;
+        return projectService.getAllProject();
     }
 
     /**
@@ -274,7 +247,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public boolean assignEmployee(int empId, List<Integer> projectIds) {
         ProjectServiceImpl projectService = new ProjectServiceImpl();
         Employee employeeDetails = employeeDao.getSpecificEmployeeWithProjects(empId);
-        List<Project> projectDetails = employeeDetails.getProjects();
+        //List<Project> projectDetails = employeeDetails.getProjects();
+        List<Project> projectDetails = new ArrayList<Project>();
         for (Integer projectId : projectIds) {
             projectDetails.add(projectService.getSpecificProjectDetails(projectId));
         }
@@ -309,19 +283,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDao.getAllEmployee();
     }
     
-    public List<String> getAssignedEmployeeDetails(int id) {
+    public List<Project> getAssignedEmployeeDetails(int id) {
         Employee employee = employeeDao.getSpecificEmployeeWithProjects(id);
         //List<String> employeeDetails =  new ArrayList<String>();
        // employeeDetails.add(employee.toString());
-        List<Project> projectDetails = employee.getProjects();
-        List<String> projects = new ArrayList<String>();
-        projectDetails.forEach((project) -> {
-        	projects.add(project.getId() + "," + project.getName() + "," 
-       			   + project.getManagerName() + "," + project.getStartDate()
-     			   + "," + project.getEndDate() + "," + project.getIsDelete());
-	    });
+//        List<Project> projectDetails = employee.getProjects();
+//        List<String> projects = new ArrayList<String>();
+//        projectDetails.forEach((project) -> {
+//        	projects.add(project.getId() + "," + project.getName() + "," 
+//       			   + project.getManagerName() + "," + project.getStartDate()
+//     			   + "," + project.getEndDate() + "," + project.getIsDelete());
+//	    });
            
-        return projects;
+        return employee.getProjects();
     }
 
     /** 

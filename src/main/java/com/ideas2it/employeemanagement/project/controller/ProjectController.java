@@ -29,7 +29,25 @@ public class ProjectController extends HttpServlet {
      * @param res provides HttpServletResponse information for HttpServlet
      */
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-    	doGet(req, res);
+    	//doGet(req, res);
+    	PrintWriter out =  res.getWriter();
+    	String action = req.getParameter("action");
+    	switch(action) {
+    	case "create_project" :   		
+    		createProject(req, res);
+    		break;
+    	case "specific_project" :   		
+    		specificProjectDetails(req, res);
+    		break;
+    	case "assign_employees" : 
+    		assignEmployee(req, res);
+    		break;
+    	case "update_project" : 
+    		updateProject(req, res);
+    		break;	
+    	 default :
+    		 errorPage(req, res);	 
+    	}	
     }
     
     /**
@@ -41,12 +59,6 @@ public class ProjectController extends HttpServlet {
     	PrintWriter out =  res.getWriter();
     	String action = req.getParameter("action");
     	switch(action) {
-    	case "create_project" :   		
-    		createProject(req, res);
-    		break;
-    	case "specific_project" :   		
-    		specificProjectDetails(req, res);
-    		break;
     	case "display_all_project" :   		
     		getAllprojectDetails(req, res);
     		break;	
@@ -59,14 +71,8 @@ public class ProjectController extends HttpServlet {
     	case "assign_employee_details" :   		
     		employeeDetails(req, res);
     		break;
-    	case "assign_employees" : 
-    		assignEmployee(req, res);
-    		break;
     	case "get_assigned_project_details" : 
     		getAssignedprojectDetails(req, res);
-    		break;
-    	case "unassign_project" : 
-    		unAssignEmployee(req, res);
     		break;
     	case "assigned_employee_details" : 
     		displayAssignedEmployeeDetails(req, res);
@@ -74,11 +80,8 @@ public class ProjectController extends HttpServlet {
     	case "update_project_detail" : 
     		updateProjectDetails(req, res);
     		break;
-    	case "update_project" : 
-    		updateProject(req, res);
-    		break;	
     	 default :
-    	     out.println("failure");	 
+    		 errorPage(req, res); 	 
     	}	
 	}
     
@@ -119,9 +122,7 @@ public class ProjectController extends HttpServlet {
     	int projectId = Integer.parseInt(req.getParameter("project_id"));
     	boolean isProjectExist = projectService.isProjectExist(projectId);
     	if (isProjectExist) {
-    	    Map<String, String> projectDetails = 	projectService.getSpecificProject(projectId);
-            req.setAttribute("message", "your details in below table");
-    	    req.setAttribute("projectDetails", projectDetails);
+    	    req.setAttribute("projectDetails", projectService.getSpecificProject(projectId));
     	}else {
     		req.setAttribute("message","Project Id doesn't exist");
     	}
@@ -182,7 +183,9 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void employeeDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	int projectId = Integer.parseInt(req.getParameter("id"));
     	req.setAttribute("employeeDetails", projectService.getAllEmployeeDetails());
+    	req.setAttribute("assignprojectDetails", projectService.getAssignedProjectDetails(projectId));
     	req.getRequestDispatcher("/assign_employee.jsp").forward(req, res);
     }
     
@@ -197,8 +200,10 @@ public class ProjectController extends HttpServlet {
     	int projectId = Integer.parseInt(req.getParameter("id"));
     	String[] employeeId = req.getParameterValues("employees");
     	List<Integer> employeeIds = new ArrayList<Integer>();
-    	for (int index=0; index < employeeId.length; index++) {
-    		employeeIds.add(Integer.parseInt(employeeId[index]));
+    	if (null != employeeId) {
+    	    for (int index=0; index < employeeId.length; index++) {
+    		    employeeIds.add(Integer.parseInt(employeeId[index]));
+    	    }
     	}
     	boolean result = projectService.assignProject(projectId, employeeIds);
     	if (result) {
@@ -207,7 +212,8 @@ public class ProjectController extends HttpServlet {
     	} else {
     		req.setAttribute("message","Unsuccessful");
     	}
-    	req.getRequestDispatcher("/project?action=assign_employee_details").forward(req, res);
+    	//req.getRequestDispatcher("/project?action=assign_employee_details").forward(req, res);
+    	req.getRequestDispatcher("/project.jsp").forward(req, res);
     }
     
     /**
@@ -263,8 +269,7 @@ public class ProjectController extends HttpServlet {
      */
     private void updateProjectDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     	int projectId = Integer.parseInt(req.getParameter("id"));
-    	Map<String, String> projectDetails = 	projectService.getSpecificProject(projectId);
-    	req.setAttribute("projectDetails", projectDetails);
+    	req.setAttribute("projectDetails", projectService.getSpecificProject(projectId));
     	req.getRequestDispatcher("/update_project.jsp").forward(req, res);
     }
     
@@ -291,5 +296,10 @@ public class ProjectController extends HttpServlet {
     		req.setAttribute("message", "Unsuccessful");
     	}
     	req.getRequestDispatcher("/project.jsp").forward(req, res);
+    }
+    
+    private void errorPage(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	System.out.println("here");
+    	res.sendRedirect("404_page.jsp");
     }
 }

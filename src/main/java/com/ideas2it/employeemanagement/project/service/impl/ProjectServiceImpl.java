@@ -52,30 +52,22 @@ public class ProjectServiceImpl implements ProjectService {
      * {inheritDoc}
      */
     @Override
-    public Map<String, String> getSpecificProject(int id) {
-    	Map<String, String> projectDetails = new LinkedHashMap<String, String>(); 
-        Project project = projectDao.getSpecificProject(id);
-        projectDetails.put("projectId", "" + project.getId());
-        projectDetails.put("projectname", "" + project.getName());
-        projectDetails.put("managername", "" + project.getManagerName());
-        projectDetails.put("startdate", "" + project.getStartDate());
-        projectDetails.put("enddate", "" + project.getEndDate()); 
-        projectDetails.put("isdelete", "" + project.getIsDelete());
-        return projectDetails;
+    public Project getSpecificProject(int id) {
+        return projectDao.getSpecificProject(id);
     }
 
     /**
      * {inheritDoc}
      */
     @Override
-    public List<String> getAllProject() {
-        List<String> projectDetails = new ArrayList<String>();
-        for (Project project : projectDao.getAllProject()) {
-                 projectDetails.add(project.getId() + "," + project.getName() + "," 
-           			   + project.getManagerName() + "," + project.getStartDate()
-         			   + "," + project.getEndDate() + "," + project.getIsDelete());
-        }
-        return projectDetails;
+    public List<Project> getAllProject() {
+//        List<String> projectDetails = new ArrayList<String>();
+//        for (Project project : projectDao.getAllProject()) {
+//                 projectDetails.add(project.getId() + "," + project.getName() + "," 
+//           			   + project.getManagerName() + "," + project.getStartDate()
+//         			   + "," + project.getEndDate() + "," + project.getIsDelete());
+//        }
+        return projectDao.getAllProject();
     }
 
     /**
@@ -150,9 +142,9 @@ public class ProjectServiceImpl implements ProjectService {
      * {inheritDoc}
      */
     @Override
-    public List<String> getAllEmployeeDetails() {
+    public List<Employee> getAllEmployeeDetails() {
         EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
-        List<String> employeeDetails = employeeService.getAllEmployee();
+        List<Employee> employeeDetails = employeeService.getAllEmployee();
         return employeeDetails;
     } 
 
@@ -172,7 +164,8 @@ public class ProjectServiceImpl implements ProjectService {
     public boolean assignProject(int id, List<Integer> employeeIds) {
         EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
         Project projectDetails = projectDao.getSpecificProjectWithEmployee(id);
-        List<Employee> employeeDetails = projectDetails.getEmployees();
+        //List<Employee> employeeDetails = projectDetails.getEmployees();
+        List<Employee> employeeDetails = new ArrayList<Employee>();
         for (Integer employeeId : employeeIds) {
             employeeDetails.add(employeeService.getSpecificEmployeeDetails(employeeId));    
         }
@@ -184,20 +177,20 @@ public class ProjectServiceImpl implements ProjectService {
      * {inheritDoc}
      */
     @Override
-    public List<String> getAssignedProjectDetails(int id) {
+    public List<Employee> getAssignedProjectDetails(int id) {
         Project project = projectDao.getSpecificProjectWithEmployee(id);
-        List<String> projectDetails =  new ArrayList<String>();
+       // List<String> projectDetails =  new ArrayList<String>();
         //projectDetails.add(project.toString());
-        List<Employee> employees = project.getEmployees();
-        if (!employees.isEmpty()){
-            for (Employee employee : employees) {
-                projectDetails.add(employee.getId() + "," + employee.getName() + "," 
-         			   + employee.getDesgination() + "," + employee.getEmail()
-         			   + "," + employee.getPhoneNumber() + "," + employee.getDob()
-         			   + "," + employee.getSalary() + "," + employee.getIsDelete());    
-            } 
-        }      
-        return projectDetails;
+//        List<Employee> employees = project.getEmployees();
+//        if (!employees.isEmpty()){
+//            for (Employee employee : employees) {
+//                projectDetails.add(employee.getId() + "," + employee.getName() + "," 
+//         			   + employee.getDesgination() + "," + employee.getEmail()
+//         			   + "," + employee.getPhoneNumber() + "," + employee.getDob()
+//         			   + "," + employee.getSalary() + "," + employee.getIsDelete());    
+//            } 
+//        }      
+        return project.getEmployees();
     }
 
     /** 

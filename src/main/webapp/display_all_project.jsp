@@ -38,33 +38,32 @@
     <tbody>
          
             <c:forEach items="${projects}" var="value">
-               <c:set var="projectDetails" value="${fn:split(value,',')}" />
                 <tr>
-                <td><c:out value="${projectDetails[0]}"></c:out></td>
-                <td><c:out value="${projectDetails[1]}"></c:out></td>
-                <td><c:out value="${projectDetails[2]}"></c:out></td>
-                <td><c:out value="${projectDetails[3]}"></c:out></td>
-                <td><c:out value="${projectDetails[4]}"></c:out></td>
+                <td><c:out value="${value.getId()}"></c:out></td>
+                <td><c:out value="${value.getName()}"></c:out></td>
+                <td><c:out value="${value.getManagerName()}"></c:out></td>
+                <td><c:out value="${value.getStartDate()}"></c:out></td>
+                <td><c:out value="${value.getEndDate()}"></c:out></td>
                 <c:choose>
-                 <c:when test="${projectDetails[5] == 'true'}">
-                  <td><a href="project?id=${projectDetails[0]}&action=delete_project" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a></td>
+                 <c:when test="${value.getIsDelete() == 'true'}">
+                  <td><a href="project?id=${value.getId()}&action=delete_project" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a></td>
                  </c:when>
                  <c:otherwise>
-                  <td><a href="project?id=${projectDetails[0]}&action=restore_project" class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span> Restore</a></td>
+                  <td><a href="project?id=${value.getId()}&action=restore_project" class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span> Restore</a></td>
                   </c:otherwise>
                  </c:choose>
                  <c:choose>
-                 <c:when test="${projectDetails[5] == 'true'}">
-                   <td><a href="project?id=${ projectDetails[0]}&action=update_project_detail" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> edit</a></td>
+                 <c:when test="${value.getIsDelete() == 'true'}">
+                   <td><a href="project?id=${value.getId()}&action=update_project_detail" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> edit</a></td>
                  </c:when>
                  <c:otherwise>
                   <td><a href="#" class="btn btn-primary disabled-link"><span class="glyphicon glyphicon-edit"></span> edit</a></td>
                   </c:otherwise>
                  </c:choose>
                  <c:choose>
-                 <c:when test="${projectDetails[5] == 'true'}">
-                   <td><a href="project?id=${ projectDetails[0]}&action=assign_employee_details" class="btn btn-primary">Assign</a></td>
-                   <td><a href="project?id=${ projectDetails[0]}&action=get_assigned_project_details" class="btn btn-danger">UnAssign</a></td>
+                 <c:when test="${value.getIsDelete() == 'true'}">
+                   <td><a href="project?id=${value.getId()}&action=assign_employee_details" class="btn btn-primary">Assign</a></td>
+                   <td><a href="project?id=${value.getId()}&action=get_assigned_project_details" class="btn btn-danger">UnAssign</a></td>
                  </c:when>
                  <c:otherwise>
                   <td><a href="#" class="btn btn-primary disabled-link">Assign</a></td>
@@ -72,8 +71,8 @@
                   </c:otherwise>
                  </c:choose>
                  <c:choose>
-                 <c:when test="${projectDetails[5] == 'true'}">
-                   <td><a href="project?id=${ projectDetails[0]}&action=assigned_employee_details" class="btn btn-primary">Assigned Employee Details</a></td>
+                 <c:when test="${value.getIsDelete() == 'true'}">
+                   <td><a href="project?id=${value.getId()}&action=assigned_employee_details" class="btn btn-primary">Assigned Employee Details</a></td>
                  </c:when>
                  <c:otherwise>
                   <td><a href="#" class="btn btn-primary disabled-link">Assigned Employee Details</a></td>

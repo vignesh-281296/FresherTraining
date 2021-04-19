@@ -15,12 +15,12 @@
 <h1 class="jumbotron" style="text-align: center; background-color: #00A693; color: #fff">Assign Employee To Project</h1>
 <div class="container">
 <div class="alert alert-success" role="alert">
-         <strong class="text-center">${message}</strong> 
+    <strong class="text-center">${message}</strong> 
  </div>
 <div class="row">
 <form action="project?action=assign_employees" method="post">
-<% String hidden = request.getParameter("id"); %>
-<input type="hidden" name="id" value="<%=hidden %>"/>
+    <% String hidden = request.getParameter("id"); %>
+    <input type="hidden" name="id" value="<%=hidden %>"/>
 
 <ul class="list-group list">
      <li class="list-group-item" style="background-color: #fffff;">                  
@@ -31,14 +31,23 @@
                  </div>
                  <div class="col-sm-6" style="margin-top: 5px;">
                  <c:forEach items="${employeeDetails}" var="value">
-                    <c:set var="employee" value="${fn:split(value,',')}" />
-                    <c:choose>
-                 <c:when test="${employee[7] == 'true'}">
-                  <input type="checkbox" name="employees" class="form-check-input" value="${employee[0]}" /> <span> ${employee[1]}</span><br>
-                 </c:when>
-                 </c:choose> 
+                   <c:set var="flag" value="true" />
+                   <c:forEach items="${assignprojectDetails }" var="assignedProject"> 
+                       <c:if test="${value.getIsDelete() == 'true'}">
+                           <c:if test="${assignedProject.getId() == value.getId()}">
+                               <input type="checkbox" name="employees" class="form-check-input" value="${value.getId()}" checked/> <span> ${value.getName()}</span><br>
+                               <c:set var="flag" value="false" />
+                           </c:if>
+                       </c:if>
+                 </c:forEach>
+                 <c:if test="${value.getIsDelete() == 'true' }">
+                     <c:if test="${flag == 'true' }">
+                         <input type="checkbox" name="employees" class="form-check-input" value="${value.getId()}" /> <span> ${value.getName()}</span><br>
+                     </c:if>
+                 </c:if>
                 </c:forEach> 
                 <span  style="font-family: Open Sans; font-size: 11px;color: #939393;font-style: italic;font-weight: 400;">Select Your Employee</span>
+                 <span style="color: red;" id="err_msg"></span> 
                  </div>       
              </div>
          </div>
@@ -46,8 +55,8 @@
        </li>
 </ul>
 <div class="text-center">
-<a href="project.jsp" class="btn btn-default"><span class="glyphicon glyphicon-home"></span> Home</a>
-<input type="submit" class="btn btn-primary" name="submit" id="submit-btn" />
+    <a href="project.jsp" class="btn btn-default"><span class="glyphicon glyphicon-home"></span> Home</a>
+    <input type="submit" class="btn btn-primary" name="submit" id="submit-btn" />
 </div>
 </form>
 </div>

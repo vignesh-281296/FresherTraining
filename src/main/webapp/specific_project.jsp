@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,17 +20,18 @@
  </div>
 <form action="project?action=specific_project" method="post">
   <div class="row">
-  <div class="col-md-6">
-  <label>Enter your project Id</label>
-  </div>
-  <div class="col-md-6 text-center">
-  <input type="number" class="form-control" name="project_id" required/> 
-  </div>
+      <div class="col-md-6">
+          <label>Enter your project Id</label>
+      </div>
+      <div class="col-md-6 text-center">
+          <input type="number" class="form-control" name="project_id" required/> 
+      </div>
   </div> 
   <br>
   <div class="text-center">
-  <input type="submit" class="btn btn-primary" id="individual-project-btn"/>
-  </div>           
+      <input type="submit" class="btn btn-primary" id="individual-project-btn"/>
+  </div>
+   <c:if test="${projectDetails != null}">            
   <table class="table table-hover">
     <thead>
       <tr>
@@ -42,14 +44,15 @@
     </thead>
     <tbody>
       <tr>
-        <td>${projectDetails.get("projectId")}</td> 
-        <td>${projectDetails.get("projectname")}</td>
-        <td>${projectDetails.get("managername")}</td>
-        <td>${projectDetails.get("startdate")}</td>
-        <td>${projectDetails.get("enddate")}</td>
+        <td>${projectDetails.getId()}</td> 
+        <td>${projectDetails.getName()}</td>
+        <td>${projectDetails.getManagerName()}</td>
+        <td>${projectDetails.getStartDate()}</td>
+        <td>${projectDetails.getEndDate()}</td>
       </tr>
     </tbody>
   </table>
+  </c:if>
   </form>
 </div>
 

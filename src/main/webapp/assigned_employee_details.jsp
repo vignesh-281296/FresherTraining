@@ -16,6 +16,8 @@
 <div class="container-fluid">
 <a href="employee.jsp" class="btn btn-success" style="color: #fff;"><span class="glyphicon glyphicon-home"> Home</span></a>
 </div>
+<c:choose>
+<c:when test="${assignedEmployeeDetails.size() > 0 }">
 <table class="table table-hover">
     <thead>
       <tr>
@@ -29,17 +31,24 @@
     <tbody>
          
             <c:forEach items="${assignedEmployeeDetails}" var="value">
-               <c:set var="assignedEmployee" value="${fn:split(value,',')}" />
                 <tr>
-                <td><c:out value="${assignedEmployee[0]}"></c:out></td>
-                <td><c:out value="${assignedEmployee[1]}"></c:out></td>
-                <td><c:out value="${assignedEmployee[2]}"></c:out></td>
-                <td><c:out value="${assignedEmployee[3]}"></c:out></td>
-                <td><c:out value="${assignedEmployee[4]}"></c:out></td>
+                <td><c:out value="${value.getId()}"></c:out></td>
+                <td><c:out value="${value.getName()}"></c:out></td>
+                <td><c:out value="${value.getManagerName()}"></c:out></td>
+                <td><c:out value="${value.getStartDate()}"></c:out></td>
+                <td><c:out value="${value.getEndDate()}"></c:out></td>
                  </tr> 
             </c:forEach>  
     </tbody>
   </table>
-  
+  </c:when>
+  <c:otherwise>
+  <div class="container">
+  <div class="alert alert-danger" role="alert">
+     <strong class="text-center">No Records</strong> 
+ </div>
+ </div>
+  </c:otherwise>
+  </c:choose>
 </body>
 </html>

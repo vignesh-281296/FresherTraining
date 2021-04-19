@@ -28,7 +28,7 @@
                      <label  style="margin-left: 10px; font-weight: bold;">Project Name<span style="color: red; font-size: 20px;">*</span></label>  
                  </div>
                  <div class="col-sm-6" style="margin-top: 5px;">
-                     <input type="text" name="project_name" class="form-control" value='${projectDetails.get("projectname")}' required="This is mandatory"/>
+                     <input type="text" name="project_name" class="form-control" value='${projectDetails.getName()}' required="This is mandatory"/>
                      <span  style="font-family: Open Sans; font-size: 11px;color: #939393;font-style: italic;font-weight: 400;">Enter your project name</span>
                  </div>       
              </div>
@@ -45,7 +45,7 @@
                      <label  style="margin-left: 10px; font-weight: bold;">Project Manager Name <span style="color: red; font-size: 20px;">*</span></label>  
                  </div>
                  <div class="col-sm-6" style="margin-top: 5px;">
-                     <input type="text" name="project_manager_name" class="form-control" value="${projectDetails.get('managername')}" required="This is mandatory"/>
+                     <input type="text" name="project_manager_name" class="form-control" value="${projectDetails.getManagerName()}" required="This is mandatory"/>
                      <span  style="font-family: Open Sans; font-size: 11px;color: #939393;font-style: italic;font-weight: 400;">Enter your project manager name</span>
                  </div>       
              </div>
@@ -62,7 +62,7 @@
                      <label  style="margin-left: 10px; font-weight: bold;">Start Date<span style="color: red; font-size: 20px;">*</span></label>  
                  </div>
                  <div class="col-sm-6" style="margin-top: 5px;">
-                     <input type="date" name="start_date" class="form-control" value="${projectDetails.get('startdate')}" required="This is mandatory"/>
+                     <input type="date" name="start_date" class="form-control" value="${projectDetails.getStartDate()}" required="This is mandatory"/>
                      <span  style="font-family: Open Sans; font-size: 11px;color: #939393;font-style: italic;font-weight: 400;">Enter your start date</span>
                  </div>       
              </div>
@@ -79,7 +79,7 @@
                      <label  style="margin-left: 10px; font-weight: bold;">End Date<span style="color: red; font-size: 20px;">*</span></label>  
                  </div>
                  <div class="col-sm-6" style="margin-top: 5px;">
-                     <input type="date" name="end_date" class="form-control" value="${projectDetails.get('enddate')}" required="This is mandatory"/>
+                     <input type="date" name="end_date" class="form-control" value="${projectDetails.getEndDate()}" required="This is mandatory"/>
                      <span  style="font-family: Open Sans; font-size: 11px;color: #939393;font-style: italic;font-weight: 400;">Enter your end date</span>
                  </div>       
              </div>

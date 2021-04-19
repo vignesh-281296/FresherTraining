@@ -14,13 +14,13 @@
 <body>
 <h1 class="jumbotron" style="text-align: center; background-color: #00A693; color: #fff">Employee</h1>
 <div class="container">
-<div class="add-section text-center">
-<a href="create_employee.jsp" style="color: #fff;" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span> Create Employee</a>
-<a href="employee?action=display_all_employee" style="color: #fff;" class="btn btn-primary">Display All Employee</a>
-<a href="specific_employee.jsp" style="color: #fff;" class="btn btn-primary">Display Specific Employee</a>
+    <div class="add-section text-center">
+        <a href="create_employee.jsp" style="color: #fff;" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span> Create Employee</a>
+        <a href="employee?action=display_all_employee" style="color: #fff;" class="btn btn-primary">Display All Employee</a>
+        <a href="specific_employee.jsp" style="color: #fff;" class="btn btn-primary">Display Specific Employee</a>
 <!-- <button type ="button" class="btn btn-danger"><a href="delete_employee.jsp" style="color: #fff;">Delete Employee</a>>
 <a href="restore_employee.jsp" style="color: #fff;">restore Employee</a></button>-->
-</div>
+    </div>
 <br>
 <br>
  <div class="alert alert-success" role="alert">
@@ -29,8 +29,8 @@
 </div> 
 
 <div class="text-center">
-<a href="index.jsp" class="btn btn-success">Welcome Page</a>
+    <a href="index.jsp" class="btn btn-success">Welcome Page</a>
 </div>
-</div>
+
 </body>
 </html>

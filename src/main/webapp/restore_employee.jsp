@@ -17,9 +17,9 @@
 <div class="alert alert-success">
     <strong class="text-center">${message}</strong> 
  </div>
-  <div class="text-center">
-  <a href="employee.jsp" class="btn btn-success"><span class="glyphicon glyphicon-home"></span> Home</a>
-  </div>   
+ <div class="text-center">
+     <a href="employee.jsp" class="btn btn-success"><span class="glyphicon glyphicon-home"></span> Home</a>
+</div>   
  
 </div>
 </body>

@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.ideas2it.employeemanagement.employee.model.Employee;
-
+import com.ideas2it.employeemanagement.project.model.Project;
 /**
  * It contains the method signature
  *
@@ -62,13 +62,13 @@ public interface EmployeeService {
      * @param id employee id
      * @return individual employee details
      */
-    public Map<String, String> getSpecificEmployee(int id);
+    public Employee getSpecificEmployee(int id);
  
     /**
      * get all employee details
      * @return employee details
      */
-    public List<String> getAllEmployee();
+    public List<Employee> getAllEmployee();
 
     /**
      * It is used to delete employee
@@ -132,7 +132,7 @@ public interface EmployeeService {
      * It is used to get all project details
      * @return all project details
      */    
-    public List<String> getAllProjectDetails();
+    public List<Project> getAllProjectDetails();
 
     /**
      * check wheather project id is exist or not
@@ -184,5 +184,5 @@ public interface EmployeeService {
      * @param id employee id
      * @return employee details
      */
-    public List<String> getAssignedEmployeeDetails(int id);
+    public List<Project> getAssignedEmployeeDetails(int id);
 }

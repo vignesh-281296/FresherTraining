@@ -13,10 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ideas2it.employeemanagement.employee.model.Address;
+import com.ideas2it.employeemanagement.employee.model.Employee;
 import com.ideas2it.employeemanagement.employee.service.impl.EmployeeServiceImpl;
 
+
 /**
- * It will send data to employee serivce
+ * It will send data to employee service
  */
 public class EmployeeController extends HttpServlet {
 
@@ -28,7 +31,24 @@ public class EmployeeController extends HttpServlet {
      * @param res provides HttpServletResponse information for HttpServlet
      */
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-    	doGet(req, res);
+    	PrintWriter out =  res.getWriter();
+    	String action = req.getParameter("action");
+    	switch(action) {
+    	case "create_employee" :
+    		createEmployee(req, res);
+    		break;
+    	case "specific_employee" :
+    		specificEmployeeDetails(req, res);
+    		break;
+    	case "assign_projects" :
+    		assignProject(req, res);
+    		break;
+    	case "update_employee" :
+    		updateEmployee(req, res);
+    		break;	
+    	 default :
+    		 errorPage(req, res);	 
+    	}
     	
     }
     
@@ -41,12 +61,6 @@ public class EmployeeController extends HttpServlet {
     	PrintWriter out =  res.getWriter();
     	String action = req.getParameter("action");
     	switch(action) {
-    	case "create_employee" :
-    		createEmployee(req, res);
-    		break;
-    	case "specific_employee" :
-    		specificEmployeeDetails(req, res);
-    		break;
     	case "delete_employee" :
     		deleteEmployee(req, res);
     		break;
@@ -59,14 +73,8 @@ public class EmployeeController extends HttpServlet {
     	case "assign_project_details" :
     		ProjectsDetails(req, res);
     		break;
-    	case "assign_projects" :
-    		assignProject(req, res);
-    		break;
     	case "get_assigned_employee_details" :
     		getAssignedEmployeeDetails(req, res);
-    		break;
-    	case "unassign_employee" :
-    		unAssignEmployee(req, res);
     		break;
     	case "assigned_employee_details" :
     		displayAssignedEmployeeDetails(req, res);
@@ -74,13 +82,9 @@ public class EmployeeController extends HttpServlet {
     	case "update_employee_details" :
     		updateEmployeeDetails(req, res);
     		break;
-    	case "update_employee" :
-    		updateEmployee(req, res);
-    		break;	
     	 default :
-    	     out.println("failure");	 
+    		errorPage(req, res);	 
     	}
-		
 	}
     
     /**
@@ -130,7 +134,6 @@ public class EmployeeController extends HttpServlet {
     	} else {
     		req.setAttribute("message","UnSuccessfully");
     	}
-    	
     	req.getRequestDispatcher("/employee.jsp").forward(req, res);
     }
     
@@ -145,21 +148,7 @@ public class EmployeeController extends HttpServlet {
     	int empId = Integer.parseInt(req.getParameter("employee_id"));
     	boolean isEmployeeExist = employeeService.isEmployeeExist(empId);
     	if (isEmployeeExist) {
-    	    Map<String, String> employeeDetails = 	employeeService.getSpecificEmployee(empId);
-    	    String permanentAddress = employeeDetails.remove("permanentAddressDoorNo")
-            		+ "\n" + employeeDetails.remove("permanentAddressStreetName") + "\n" + employeeDetails.remove("permanentAddressCity")
-            		+ "\n" + employeeDetails.remove("permanentAddressDistrict") + "\n" + employeeDetails.remove("permanentAddressState")
-            		+ employeeDetails.remove("permanentAddressCountry");
-            employeeDetails.put("permanentAddress", permanentAddress);
-            if (11 < employeeDetails.size()) {
-            	String temporaryAddress = employeeDetails.remove("temporaryAddressDoorNo")
-                		+ "\n" + employeeDetails.remove("temporaryAddressStreetName") + "\n" + employeeDetails.remove("temporaryAddressCity")
-                		+ "\n" + employeeDetails.remove("temporaryAddressDistrict") + "\n" + employeeDetails.remove("temporaryAddressState")
-                		+ employeeDetails.remove("temporaryAddressCountry");
-            	employeeDetails.put("temporaryAddress", temporaryAddress);
-            }
-            req.setAttribute("message", "your details in below table");
-    	    req.setAttribute("employeeDetails", employeeDetails);
+    	    req.setAttribute("employee", employeeService.getSpecificEmployee(empId));
     	}else {
     		req.setAttribute("message","Employee Id doesn't exist");
     	}
@@ -221,6 +210,8 @@ public class EmployeeController extends HttpServlet {
      */
     private void ProjectsDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     	req.setAttribute("projectDetails", employeeService.getAllProjectDetails());
+    	int empId = Integer.parseInt(req.getParameter("id"));
+    	req.setAttribute("assignProjectDetails", employeeService.getAssignedEmployeeDetails(empId));
     	req.getRequestDispatcher("/assign_project.jsp").forward(req, res);
     }
     
@@ -233,12 +224,15 @@ public class EmployeeController extends HttpServlet {
      */
     private void assignProject(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     	int empId = Integer.parseInt(req.getParameter("id"));
-    	System.out.println(empId);
+    	
     	String[] projectId = req.getParameterValues("projects");
     	List<Integer> projectIds = new ArrayList<Integer>();
-    	for (int index=0; index < projectId.length; index++) {
-    		projectIds.add(Integer.parseInt(projectId[index]));
-    	}
+    	if (null != projectId) {
+    		for (int index=0; index < projectId.length; index++) {
+        		projectIds.add(Integer.parseInt(projectId[index]));
+        	}	
+    	} 
+    	
     	boolean result = employeeService.assignEmployee(empId, projectIds);
     	if (result) {
     		req.setAttribute("message","Assigned Succesfully");
@@ -246,7 +240,8 @@ public class EmployeeController extends HttpServlet {
     	} else {
     		req.setAttribute("message","Unsuccessful");
     	}
-    	req.getRequestDispatcher("/employee?action=assign_project_details").forward(req, res);
+    	//req.getRequestDispatcher("/employee?action=assign_project_details").forward(req, res);
+    	req.getRequestDispatcher("/employee.jsp").forward(req, res);
     }
     
     /**
@@ -302,8 +297,12 @@ public class EmployeeController extends HttpServlet {
      */
     private void updateEmployeeDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     	int emptId = Integer.parseInt(req.getParameter("id"));
-    	Map<String, String> employeeDetails = 	employeeService.getSpecificEmployee(emptId);
-    	req.setAttribute("employeeDetails", employeeDetails);
+    	req.setAttribute("employee", employeeService.getSpecificEmployee(emptId));
+    	req.setAttribute("permanentAddress", employeeService.getSpecificEmployee(emptId).getAddressess().get(0));
+    	if (1 < employeeService.getSpecificEmployee(emptId).getAddressess().size()) {
+    	req.setAttribute("temporaryAddress", employeeService.getSpecificEmployee(emptId).getAddressess().get(1));
+    	}
+    	//System.out.println(employeeService.getSpecificEmployee(emptId).getAddressess().get(1));
     	req.getRequestDispatcher("/update_employee.jsp").forward(req, res);
     }
     
@@ -358,7 +357,11 @@ public class EmployeeController extends HttpServlet {
     	} else {
     		req.setAttribute("message","UnSuccessfully");
     	}
-    	
     	req.getRequestDispatcher("/employee.jsp").forward(req, res);
+    }
+    
+    private void errorPage(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	
+    	res.sendRedirect("404_page.jsp");
     }
 }

@@ -47,7 +47,7 @@
        </li>
 </ul>
 <div class="text-center">
-<a href="employee.jsp" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span> Home</a>
+<a href="employee.jsp" class="btn btn-default"><span class="glyphicon glyphicon-home"></span> Home</a>
 <input type="submit" class="btn btn-primary" name="submit" />
 </div>
 </form>

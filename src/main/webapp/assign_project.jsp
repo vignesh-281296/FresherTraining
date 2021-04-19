@@ -19,8 +19,8 @@
  </div>
 <div class="row">
 <form action="employee?action=assign_projects" method="post">
-<% String hidden = request.getParameter("id"); %>
-<input type="hidden" name="id" value="<%=hidden %>"/>
+    <% String hidden = request.getParameter("id"); %>
+    <input type="hidden" name="id" value="<%=hidden %>"/>
 
 
 <ul class="list-group list">
@@ -31,24 +31,38 @@
                      <label  style="margin-left: 10px; font-weight: bold;">Projects To Assign Employee</label>  
                  </div>
                  <div class="col-sm-6" style="margin-top: 5px;">
+                 
                  <c:forEach items="${projectDetails}" var="value">
-                    <c:set var="project" value="${fn:split(value,',')}" />
-                    <c:choose>
-                 <c:when test="${project[5] == 'true'}">
-                  <input type="checkbox" name="projects" class="form-check-input" value="${project[0]}" /> <span> ${project[1]}</span><br>
-                 </c:when>
-                 </c:choose> 
-                </c:forEach> 
+                    <c:set var="flag" value="true" />
+                    <c:forEach items="${assignProjectDetails}" var="assigned">
+                          <c:if test="${value.getIsDelete() == 'true'}">
+                             <c:choose>
+                               <c:when test="${value.getId() == assigned.getId()}">
+                                  <input type="checkbox" name="projects" class="form-check-input" value="${value.getId()}" checked/> <span> ${value.getName()}</span><br>
+                                  <c:set var="flag" value="false" />
+                                  </c:when>
+                              </c:choose>    
+                          </c:if>
+                       </c:forEach>
+                       <c:if test="${value.getIsDelete() == 'true'}">
+                           <c:if test="${flag == true }">
+                              <input type="checkbox" name="projects" class="form-check-input" value="${value.getId()}" /> <span> ${value.getName()}</span><br>
+                           </c:if>
+                       </c:if>  
+                 </c:forEach> 
                 <span  style="font-family: Open Sans; font-size: 11px;color: #939393;font-style: italic;font-weight: 400;">Select Your Projects</span>
+                <span style="color: red;" id="err_msg"></span> 
                  </div>       
              </div>
          </div>
                     
        </li>
 </ul>
+
+ 
 <div class="text-center">
-<a href="employee.jsp" class="btn btn-default"><span class="glyphicon glyphicon-home"></span> Home</a>
-<input type="submit" class="btn btn-primary" name="submit" id="create-btn" />
+    <a href="employee.jsp" class="btn btn-default"><span class="glyphicon glyphicon-home"></span> Home</a>
+    <input type="submit" class="btn btn-primary" name="submit" id="submit-btn" />
 </div>
 </form>
 </div>

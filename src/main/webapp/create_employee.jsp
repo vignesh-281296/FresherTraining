@@ -361,7 +361,7 @@
 
  <div class="alert alert-success" role="alert">
          <strong class="text-center">${message}</strong> 
-    </div>
+ </div>
 </div> 
 <div class="text-center">
 <a href="employee.jsp" class="btn btn-default">Cancel</a>

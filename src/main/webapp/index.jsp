@@ -17,10 +17,10 @@
 <div class="row">
 <div class="col-md-5"></div>
 <div class="col-md-1">
-<a href="employee.jsp" class="btn btn-primary" style="color: #fff;">Employee</a>
+    <a href="employee.jsp" class="btn btn-primary" style="color: #fff;">Employee</a>
 </div>
 <div class="col-md-3">
-<a href="project.jsp" class="btn btn-primary" style="color: #fff;">Project</a>
+    <a href="project.jsp" class="btn btn-primary" style="color: #fff;">Project</a>
 </div>
 </div>
 </div>
