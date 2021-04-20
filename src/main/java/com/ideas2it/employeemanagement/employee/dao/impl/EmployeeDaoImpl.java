@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import com.ideas2it.employeemanagement.employee.dao.EmployeeDao;
@@ -33,7 +34,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             session.beginTransaction();
             count = (Integer) session.save(employee);
             session.getTransaction().commit();
-        } catch(Exception e) {
+        } catch(HibernateException e) {
             e.printStackTrace();   
         } finally{
             if (null != session) {
@@ -56,7 +57,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             criteria.add(Restrictions.eq("id", id));
             criteria.add(Restrictions.eq("isDelete", true));
             employee = (Employee) criteria.uniqueResult();
-        } catch(Exception e) {
+        } catch(HibernateException e) {
             e.printStackTrace();
         } finally {
             if (null != session) {
@@ -77,7 +78,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             session = DatabaseConnection.getSessionFactory().openSession();
             employee = session.get(Employee.class, id);
             for (Address address : employee.getAddressess()) {}   
-        }catch(Exception e) {
+        }catch(HibernateException e) {
             e.printStackTrace();
         } finally {
             if (null != session) {
@@ -98,7 +99,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             session = DatabaseConnection.getSessionFactory().openSession();
             employee = session.get(Employee.class, id);
             for (Project project : employee.getProjects()) {}   
-        }catch(Exception e) {
+        }catch(HibernateException e) {
             e.printStackTrace();
         } finally {
             if (null != session) {
@@ -118,7 +119,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         try {
             session = DatabaseConnection.getSessionFactory().openSession();
             employee = session.get(Employee.class, id);   
-        }catch(Exception e) {
+        }catch(HibernateException e) {
             e.printStackTrace();
         } finally {
             if (null != session) {
@@ -141,7 +142,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             for (Employee employee : employees) {
                 for (Address addresses : employee.getAddressess()) {}   
             }            
-        } catch(Exception e) {
+        } catch(HibernateException e) {
             e.printStackTrace();
         } finally {
             if (null != session) {
@@ -164,7 +165,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             criteria.add(Restrictions.eq("id", id));
             criteria.add(Restrictions.eq("isDelete", false));
             employee = (Employee) criteria.uniqueResult();
-        } catch(Exception e) {
+        } catch(HibernateException e) {
             e.printStackTrace();
         } finally {
             if (null != session) {
@@ -187,7 +188,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             session.update(employee);
             session.getTransaction().commit();
             count = 1;
-        } catch(Exception e) {
+        } catch(HibernateException e) {
             e.printStackTrace();
             count = 0;
         } finally {

@@ -270,7 +270,7 @@ public class ProjectController extends HttpServlet {
     private void updateProjectDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     	int projectId = Integer.parseInt(req.getParameter("id"));
     	req.setAttribute("projectDetails", projectService.getSpecificProject(projectId));
-    	req.getRequestDispatcher("/update_project.jsp").forward(req, res);
+    	req.getRequestDispatcher("/create_project.jsp").forward(req, res);
     }
     
     /**

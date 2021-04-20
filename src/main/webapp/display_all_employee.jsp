@@ -33,7 +33,7 @@
         <th>Status</th>
         <th>Edit</th>
         <th>Assign Project</th>
-        <th>UnAssign Employee</th>
+        <!-- <th>UnAssign Employee</th> -->
         <th>Assigned Project Details</th>
       </tr>
     </thead>
@@ -67,11 +67,11 @@
                  <c:choose>
                  <c:when test="${employees.getIsDelete() == 'true'}">
                    <td><a href="employee?id=${employees.getId()}&action=assign_project_details" class="btn btn-primary">Assign</a></td>
-                   <td><a href="employee?id=${employees.getId()}&action=get_assigned_employee_details" class="btn btn-danger">UnAssign</a></td>
+                   <!-- <td><a href="employee?id=${employees.getId()}&action=get_assigned_employee_details" class="btn btn-danger">UnAssign</a></td>-->
                  </c:when>
                  <c:otherwise>
                   <td><a href="#" class="btn btn-primary disabled-link">Assign</a></td>
-                  <td><a href="#" class="btn btn-danger disabled-link">UnAssign</a></td>
+                  <!-- <td><a href="#" class="btn btn-danger disabled-link">UnAssign</a></td> -->
                   </c:otherwise>
                  </c:choose>
                  <c:choose>

@@ -303,7 +303,7 @@ public class EmployeeController extends HttpServlet {
     	req.setAttribute("temporaryAddress", employeeService.getSpecificEmployee(emptId).getAddressess().get(1));
     	}
     	//System.out.println(employeeService.getSpecificEmployee(emptId).getAddressess().get(1));
-    	req.getRequestDispatcher("/update_employee.jsp").forward(req, res);
+    	req.getRequestDispatcher("/create_employee.jsp").forward(req, res);
     }
     
     /**
