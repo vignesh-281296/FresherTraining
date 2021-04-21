@@ -12,6 +12,8 @@ import com.ideas2it.employeemanagement.employee.model.Employee;
 import com.ideas2it.employeemanagement.project.dao.ProjectDao;
 import com.ideas2it.employeemanagement.project.model.Project;
 import com.ideas2it.employeemanagement.sessionfactory.DatabaseConnection;
+import com.ideas2it.exceptions.EmployeeManagementException;
+
 
 /**
  * It is used to store and retrives datas to database
@@ -23,9 +25,10 @@ public class ProjectDaoImpl implements ProjectDao {
    
     /**
      * {inheritDoc}
+     * @throws CreationFailsException 
      */
     @Override
-    public boolean insertProject(Project project) {
+    public boolean insertProject(Project project) throws EmployeeManagementException {
         int count = 0;
         Session session = null; 
         try {
@@ -34,11 +37,15 @@ public class ProjectDaoImpl implements ProjectDao {
             count = (Integer) session.save(project);
             session.getTransaction().commit();
         } catch(HibernateException e) {
-            e.printStackTrace();   
+        	throw new EmployeeManagementException("create fails");  
         } finally{
-           if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return 0 != count;            
     }
@@ -59,38 +66,48 @@ public class ProjectDaoImpl implements ProjectDao {
         } catch(HibernateException e) {
             e.printStackTrace();
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return null != project;
     } 
 
     /**
      * {inheritDoc}
+     * @throws FetchException 
      */
     @Override
-    public Project getSpecificProject(int id) {
+    public Project getSpecificProject(int id) throws EmployeeManagementException {
         Project project = null;
         Session session = null;
         try {
             session = DatabaseConnection.getSessionFactory().openSession();
             project = session.get(Project.class, id);    
         }catch(HibernateException e) {
-            e.printStackTrace();
+            throw new EmployeeManagementException("can't fetch");
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return project;
     }
 
     /**
      * {inheritDoc}
+     * @throws FetchException 
      */
     @Override
-    public Project getSpecificProjectWithEmployee(int id) {
+    public Project getSpecificProjectWithEmployee(int id) throws EmployeeManagementException {
         Project project = null;
         Session session = null;
         try {
@@ -98,11 +115,15 @@ public class ProjectDaoImpl implements ProjectDao {
             project = session.get(Project.class, id);
             for (Employee employee : project.getEmployees()){}    
         }catch(HibernateException e) {
-            e.printStackTrace();
+        	throw new EmployeeManagementException("can't fetch");
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return project;
     }
@@ -111,18 +132,22 @@ public class ProjectDaoImpl implements ProjectDao {
      * {inheritDoc}
      */
     @Override
-    public List<Project> getAllProject() {
+    public List<Project> getAllProject() throws EmployeeManagementException {
         List<Project> projects = null;
         Session session = null;
         try {
             session = DatabaseConnection.getSessionFactory().openSession();
             projects = session.createCriteria(Project.class).list();   
         } catch(HibernateException e) {
-            e.printStackTrace();
+        	throw new EmployeeManagementException("can't fetch");
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return projects;
     }
@@ -143,9 +168,13 @@ public class ProjectDaoImpl implements ProjectDao {
         } catch(HibernateException e) {
             e.printStackTrace();
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return null != project;
     }
@@ -167,9 +196,13 @@ public class ProjectDaoImpl implements ProjectDao {
             e.printStackTrace();
             count = 0;    
         } finally{
-            if (null != session) {
-                session.close();
-            }    
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}   
         }
         return 0 != count;
     }

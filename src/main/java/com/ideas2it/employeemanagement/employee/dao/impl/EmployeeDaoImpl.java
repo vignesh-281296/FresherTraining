@@ -13,6 +13,8 @@ import com.ideas2it.employeemanagement.employee.model.Address;
 import com.ideas2it.employeemanagement.employee.model.Employee;
 import com.ideas2it.employeemanagement.project.model.Project;
 import com.ideas2it.employeemanagement.sessionfactory.DatabaseConnection;
+import com.ideas2it.exceptions.EmployeeManagementException;
+
 
 /**
  * It is used to store and retrives datas to database
@@ -26,22 +28,25 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {inheritDoc}
      */
     @Override           
-    public boolean insertEmployee(Employee employee) {
-        int count = 0;
+    public void insertEmployee(Employee employee) throws EmployeeManagementException {
+        
         Session session = null;
         try {
             session = DatabaseConnection.getSessionFactory().openSession();
             session.beginTransaction();
-            count = (Integer) session.save(employee);
+            session.save(employee);
             session.getTransaction().commit();
         } catch(HibernateException e) {
-            e.printStackTrace();   
+            throw new EmployeeManagementException("Unsuccessful");   
         } finally{
-            if (null != session) {
-                session.close();
-            }
+			try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
-        return 0 != count;
     }
 
     /**
@@ -60,9 +65,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
         } catch(HibernateException e) {
             e.printStackTrace();
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return null != employee;
     }
@@ -71,7 +80,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {inheritDoc}
      */
     @Override  
-    public Employee getSpecificEmployeeWithAddressess(int id) {
+    public Employee getSpecificEmployeeWithAddressess(int id) throws EmployeeManagementException {
         Employee employee = null;
         Session session = null;
         try {
@@ -79,20 +88,25 @@ public class EmployeeDaoImpl implements EmployeeDao {
             employee = session.get(Employee.class, id);
             for (Address address : employee.getAddressess()) {}   
         }catch(HibernateException e) {
-            e.printStackTrace();
+            throw new EmployeeManagementException("Can't Fetch");
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return employee;
     }
 
     /**
      * {inheritDoc}
+     * @throws FetchException 
      */
     @Override  
-    public Employee getSpecificEmployeeWithProjects(int id) {
+    public Employee getSpecificEmployeeWithProjects(int id) throws EmployeeManagementException {
         Employee employee = null;
         Session session = null;
         try {
@@ -100,11 +114,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
             employee = session.get(Employee.class, id);
             for (Project project : employee.getProjects()) {}   
         }catch(HibernateException e) {
-            e.printStackTrace();
+        	throw new EmployeeManagementException("Can't Fetch");
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return employee;
     }
@@ -113,27 +131,32 @@ public class EmployeeDaoImpl implements EmployeeDao {
      * {inheritDoc}
      */
     @Override  
-    public Employee getSpecificEmployee(int id) {
+    public Employee getSpecificEmployee(int id) throws EmployeeManagementException {
         Employee employee = null;
         Session session = null;
         try {
             session = DatabaseConnection.getSessionFactory().openSession();
             employee = session.get(Employee.class, id);   
         }catch(HibernateException e) {
-            e.printStackTrace();
+           throw new EmployeeManagementException("can't fetch");
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return employee;
     }
 
     /**
      * {inheritDoc}
+     * @throws FetchException 
      */
     @Override
-    public List<Employee> getAllEmployee() {
+    public List<Employee> getAllEmployee() throws EmployeeManagementException {
         Session session = null;
         List<Employee> employees = null;
         try {
@@ -143,11 +166,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 for (Address addresses : employee.getAddressess()) {}   
             }            
         } catch(HibernateException e) {
-            e.printStackTrace();
+        	 throw new EmployeeManagementException("Can't Fetch");
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return employees;
     }
@@ -168,9 +195,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
         } catch(HibernateException e) {
             e.printStackTrace();
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return null != employee;
     }
@@ -192,9 +223,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
             e.printStackTrace();
             count = 0;
         } finally {
-            if (null != session) {
-                session.close();
-            }
+        	try {
+				if (null != session) {
+					session.close();
+				}
+			} catch (HibernateException e) {
+				e.printStackTrace();
+			}
         }
         return 0 != count;    
     }

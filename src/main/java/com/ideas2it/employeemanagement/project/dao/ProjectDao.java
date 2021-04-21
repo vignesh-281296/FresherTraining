@@ -3,6 +3,9 @@ package com.ideas2it.employeemanagement.project.dao;
 import java.util.List;
 
 import com.ideas2it.employeemanagement.project.model.Project;
+import com.ideas2it.exceptions.CreationFailsException;
+import com.ideas2it.exceptions.EmployeeManagementException;
+import com.ideas2it.exceptions.FetchException;
 
 /**
  * It will perform crud operation and interact with database
@@ -16,8 +19,10 @@ public interface ProjectDao {
      * It is used to create project
      * @param project project details
      * @return boolean value
+     * @throws CreationFailsException 
+     * @throws EmployeeManagementException 
      */
-    public boolean insertProject(Project project);
+    public boolean insertProject(Project project) throws EmployeeManagementException;
 
     /**
      * check wheather the project id is exist or not
@@ -30,14 +35,17 @@ public interface ProjectDao {
      * get individual project details
      * @param id project id
      * @return basic project details
+     * @throws FetchException 
+     * @throws EmployeeManagementException 
      */
-    public Project getSpecificProject(int id);
+    public Project getSpecificProject(int id) throws EmployeeManagementException;
  
     /**
      * get all project details
      * @return project details
+     * @throws EmployeeManagementException 
      */
-    public List<Project> getAllProject();
+    public List<Project> getAllProject() throws EmployeeManagementException;
 
     /**
      * check whether the deleted project id is exist or not
@@ -57,6 +65,8 @@ public interface ProjectDao {
      * get specific project details with employee
      * @param id project id
      * @return project with employee details
+     * @throws FetchException 
+     * @throws EmployeeManagementException 
      */
-    public Project getSpecificProjectWithEmployee(int id);
+    public Project getSpecificProjectWithEmployee(int id) throws EmployeeManagementException;
 }

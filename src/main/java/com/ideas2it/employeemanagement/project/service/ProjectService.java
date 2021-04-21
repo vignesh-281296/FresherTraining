@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.ideas2it.employeemanagement.employee.model.Employee;
 import com.ideas2it.employeemanagement.project.model.Project;
+import com.ideas2it.exceptions.EmployeeManagementException;
 
 /**
  * It contains the method signature
@@ -23,9 +24,10 @@ public interface ProjectService {
      * @param endDate project end date
      * @param employee list of employee details
      * @return boolean value
+     * @throws EmployeeManagementException 
      */
     public boolean createProject(String name, String managerName, 
-            Date startDate, Date endDate);
+            Date startDate, Date endDate) throws EmployeeManagementException;
 
     /**
      * It is used to validate date
@@ -38,48 +40,53 @@ public interface ProjectService {
      * It is used to check wheather the project id is exist or not
      * @param id project id
      * @return boolean value
+     * @throws EmployeeManagementException 
      */
-    public boolean isProjectExist(int id);
+    public void isProjectExist(int id) throws EmployeeManagementException;
 
     /**
      * It is used to get individual project details
      * @param id project id
      * @return project details
+     * @throws EmployeeManagementException 
      */
-    public Project getSpecificProject(int id);
+    public Project getSpecificProject(int id) throws EmployeeManagementException;
 
     /**
      * It is used to get all project details
      * @return project details
+     * @throws EmployeeManagementException 
      */
-    public List<Project> getAllProject();
+    public List<Project> getAllProject() throws EmployeeManagementException;
 
     /**
      * It is used to delete project
      * @param id project id
      * @return boolean value
+     * @throws EmployeeManagementException 
      */
-    public boolean deleteProject(int id);
+    public void deleteProject(int id) throws EmployeeManagementException;
 
     /**
      * It is used to get deleted project details
      * @return deleted project details
      */
-    public List<String> getDeletedProjectDetails();
+    //public List<String> getDeletedProjectDetails();
 
     /**
      * It is used to check wheather the project is delete
      * @param id project id
      * @return boolean value
      */
-    public boolean isProjectDeleted(int id);
+    //public boolean isProjectDeleted(int id);
 
     /**
      * It is used to restore project
      * @param id project id
      * @return booleanvalue
+     * @throws EmployeeManagementException 
      */
-    public boolean restoreProject(int id);
+    public void restoreProject(int id) throws EmployeeManagementException;
 
     /**
      * It is used to update project details
@@ -89,43 +96,47 @@ public interface ProjectService {
      * @param startDate project start date
      * @param endDate project end date
      * @return boolean value
+     * @throws EmployeeManagementException 
      */
-    public boolean updateProject(int id, String projectName, String projectManagerName,
-    		Date startDate, Date endDate);
+    public void updateProject(int id, String projectName, String projectManagerName,
+    		Date startDate, Date endDate) throws EmployeeManagementException;
 
     /**
      * It is used to get specific project details
      * @param id project id
      * @return project details
+     * @throws EmployeeManagementException 
      */
-    public Project getSpecificProjectDetails(int id);
+    public Project getSpecificProjectDetails(int id) throws EmployeeManagementException;
 
     /**
      * It is used to get all employee details
      * @return employee details
+     * @throws EmployeeManagementException 
      */
-    public List<Employee> getAllEmployeeDetails();
+    public List<Employee> getAllEmployeeDetails() throws EmployeeManagementException;
 
     /**
      * It is used to check wheather the employee id is exist or not
      * @param employeeId 
      * @return boolean value
      */
-    public boolean isEmployeeExist(int employeeId);
+   // public boolean isEmployeeExist(int employeeId);
 
     /**
      * It is used to assign project to employee
      * @param id project id
      * @param employeeIds multiple employee id
+     * @throws EmployeeManagementException 
      */
-    public boolean assignProject(int id, List<Integer> employeeIds);
+    public void assignProject(int id, List<Integer> employeeIds) throws EmployeeManagementException;
 
     /**
      * It is used to get assigned project details
      * @param id project id
      * @return project details
      */
-    public List<String> getAssignedProject(int id);
+   // public List<String> getAssignedProject(int id);
 
     /**
      * It is used to un assign project
@@ -133,12 +144,13 @@ public interface ProjectService {
      * @param employeeId
      * @return boolean value
      */
-    public boolean unAssignProject(int id, int employeeId);
+    //public boolean unAssignProject(int id, int employeeId);
     
     /**
      * It is used to assigned project details
      * @param id project id
      * @return
+     * @throws EmployeeManagementException 
      */
-    public List<Employee> getAssignedProjectDetails(int id);
+    public List<Employee> getAssignedProjectDetails(int id) throws EmployeeManagementException;
 }

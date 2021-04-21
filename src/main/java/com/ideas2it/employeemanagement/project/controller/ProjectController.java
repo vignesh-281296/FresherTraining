@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ideas2it.employeemanagement.project.service.ProjectService;
 import com.ideas2it.employeemanagement.project.service.impl.ProjectServiceImpl;
+import com.ideas2it.exceptions.EmployeeManagementException;
 
 /**
  * This class send data to employee serivce
@@ -21,7 +23,7 @@ import com.ideas2it.employeemanagement.project.service.impl.ProjectServiceImpl;
  * @version 1.0 25-03-2021
  */
 public class ProjectController extends HttpServlet {
-    private ProjectServiceImpl projectService = new ProjectServiceImpl(); 
+    private ProjectService projectService = new ProjectServiceImpl(); 
    
     /**
      * Post pass requests and performs the actions
@@ -95,18 +97,19 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException
      */
     private void createProject(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+    	try {
     	String projectName = req.getParameter("project_name");
     	String projectManagerName = req.getParameter("project_manager_name");
     	Date startDate = Date.valueOf(req.getParameter("start_date"));
     	Date endDate = Date.valueOf(req.getParameter("end_date"));
     	
-    	boolean project = projectService.createProject(projectName, projectManagerName,
+    	projectService.createProject(projectName, projectManagerName,
     			startDate, endDate);
     	
-    	if (project) {
-    		req.setAttribute("message","created Successfully");
-    	} else {
-    		req.setAttribute("message","UnSuccessfully");
+    	req.setAttribute("message","created Successfully");
+    	
+    	} catch(EmployeeManagementException e) {
+    		req.setAttribute("message",e.getMessage());
     	}
     	req.getRequestDispatcher("/project.jsp").forward(req, res);
     }
@@ -119,13 +122,13 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void specificProjectDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	try {
     	int projectId = Integer.parseInt(req.getParameter("project_id"));
-    	boolean isProjectExist = projectService.isProjectExist(projectId);
-    	if (isProjectExist) {
-    	    req.setAttribute("projectDetails", projectService.getSpecificProject(projectId));
-    	}else {
-    		req.setAttribute("message","Project Id doesn't exist");
-    	}
+    	projectService.isProjectExist(projectId);
+    	req.setAttribute("projectDetails", projectService.getSpecificProject(projectId));
+    	} catch(EmployeeManagementException e) {
+    		 req.setAttribute("message",e.getMessage());
+    	} 
     	req.getRequestDispatcher("/specific_project.jsp").forward(req, res);
     }
     
@@ -137,11 +140,12 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void deleteProject(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	try {
     	int projectId = Integer.parseInt(req.getParameter("id"));
-    	if(projectService.deleteProject(projectId)) {
-    		req.setAttribute("message","Deleted Successfully");
-    	} else {
-    		req.setAttribute("message","Unsuccessful");
+    	projectService.deleteProject(projectId);
+        req.setAttribute("message","Deleted Successfully");
+    	} catch(EmployeeManagementException e) {
+    		req.setAttribute("message",e.getMessage());
     	}
     	req.getRequestDispatcher("/delete_project.jsp").forward(req, res);
     } 
@@ -154,11 +158,12 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void restoreEmployee(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	try {
     	int projectId = Integer.parseInt(req.getParameter("id"));
-    	if (projectService.restoreProject(projectId)) {
-    		req.setAttribute("message","Restore Successfully");
-    	} else {
-    		req.setAttribute("message","Unsuccessful");
+    	projectService.restoreProject(projectId);
+        req.setAttribute("message","Restore Successfully");
+    	} catch(EmployeeManagementException e) {
+    		req.setAttribute("message",e.getMessage());
     	}
     	req.getRequestDispatcher("/restore_project.jsp").forward(req, res);
     } 
@@ -171,7 +176,11 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void getAllprojectDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {	
+    	try {
     		req.setAttribute("projects",projectService.getAllProject());
+    	} catch(EmployeeManagementException e) {
+    		req.setAttribute("message",e.getMessage());
+    	}
     	    req.getRequestDispatcher("/display_all_project.jsp").forward(req, res);
     }
     
@@ -183,9 +192,13 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void employeeDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    	int projectId = Integer.parseInt(req.getParameter("id"));
-    	req.setAttribute("employeeDetails", projectService.getAllEmployeeDetails());
-    	req.setAttribute("assignprojectDetails", projectService.getAssignedProjectDetails(projectId));
+    	try {
+    	    int projectId = Integer.parseInt(req.getParameter("id"));
+    	    req.setAttribute("employeeDetails", projectService.getAllEmployeeDetails());
+    	    req.setAttribute("assignprojectDetails", projectService.getAssignedProjectDetails(projectId));
+    	} catch(EmployeeManagementException e) {
+    		req.setAttribute("message",e.getMessage());
+    	}
     	req.getRequestDispatcher("/assign_employee.jsp").forward(req, res);
     }
     
@@ -197,6 +210,7 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void assignEmployee(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	try {
     	int projectId = Integer.parseInt(req.getParameter("id"));
     	String[] employeeId = req.getParameterValues("employees");
     	List<Integer> employeeIds = new ArrayList<Integer>();
@@ -205,13 +219,12 @@ public class ProjectController extends HttpServlet {
     		    employeeIds.add(Integer.parseInt(employeeId[index]));
     	    }
     	}
-    	boolean result = projectService.assignProject(projectId, employeeIds);
-    	if (result) {
-    		req.setAttribute("message","Assigned Succesfully");
-    		
-    	} else {
-    		req.setAttribute("message","Unsuccessful");
-    	}
+    	 projectService.assignProject(projectId, employeeIds);
+         req.setAttribute("message","Assigned Succesfully");
+    	} catch(EmployeeManagementException e) {
+    		req.setAttribute("message",e.getMessage());
+    	}	
+    	
     	//req.getRequestDispatcher("/project?action=assign_employee_details").forward(req, res);
     	req.getRequestDispatcher("/project.jsp").forward(req, res);
     }
@@ -224,8 +237,12 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void getAssignedprojectDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	try {
     	int projectId = Integer.parseInt(req.getParameter("id"));
     	req.setAttribute("assignprojectDetails", projectService.getAssignedProjectDetails(projectId));
+    	} catch(EmployeeManagementException e) {
+    		req.setAttribute("message",e.getMessage());
+    	}
     	req.getRequestDispatcher("/unassign_project.jsp").forward(req, res);
     }
     
@@ -236,7 +253,7 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void unAssignEmployee(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    /*private void unAssignEmployee(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     	int projectId = Integer.parseInt(req.getParameter("id"));
     	int empId = Integer.parseInt(req.getParameter("assigned_employee"));
     	if ( projectService.unAssignProject(projectId, empId)) {
@@ -245,7 +262,7 @@ public class ProjectController extends HttpServlet {
     		req.setAttribute("message", "Unsuccessful");
    	    }
     	req.getRequestDispatcher("/project?action=get_assigned_project_details").forward(req, res);
-    }
+    }*/
     
     /**
      * It will get all assigned employee details
@@ -255,8 +272,12 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void displayAssignedEmployeeDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	try {
     	int projectId = Integer.parseInt(req.getParameter("id"));
     	req.setAttribute("assignedEmployeeDetails", projectService.getAssignedProjectDetails(projectId));
+    	} catch(EmployeeManagementException e) {
+    		req.setAttribute("message",e.getMessage());
+    	}
     	req.getRequestDispatcher("assigned_project_details.jsp").forward(req, res);
     }
     
@@ -268,8 +289,12 @@ public class ProjectController extends HttpServlet {
      * @throws IOException
      */
     private void updateProjectDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    	try {
     	int projectId = Integer.parseInt(req.getParameter("id"));
     	req.setAttribute("projectDetails", projectService.getSpecificProject(projectId));
+    	} catch(EmployeeManagementException e) {
+    		req.setAttribute("message",e.getMessage());
+    	}
     	req.getRequestDispatcher("/create_project.jsp").forward(req, res);
     }
     
@@ -280,26 +305,24 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void updateProject(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    	int projectId = Integer.parseInt(req.getParameter("id"));
-    	String projectName = req.getParameter("project_name");
-    	String projectManagerName = req.getParameter("project_manager_name");
-    	Date startDate = Date.valueOf(req.getParameter("start_date"));
-    	Date endDate = Date.valueOf(req.getParameter("end_date"));
-    	
-    	boolean updateProject = projectService.updateProject(projectId, projectName,
-    			projectManagerName, startDate, endDate);
-    	
-    	if (updateProject) {
-    		req.setAttribute("message", "Updated successfully");
-    	} else {
-    		req.setAttribute("message", "Unsuccessful");
-    	}
-    	req.getRequestDispatcher("/project.jsp").forward(req, res);
-    }
+	private void updateProject(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		try {
+			int projectId = Integer.parseInt(req.getParameter("id"));
+			String projectName = req.getParameter("project_name");
+			String projectManagerName = req.getParameter("project_manager_name");
+			Date startDate = Date.valueOf(req.getParameter("start_date"));
+			Date endDate = Date.valueOf(req.getParameter("end_date"));
+
+			projectService.updateProject(projectId, projectName, projectManagerName, startDate, endDate);
+			req.setAttribute("message", "Updated successfully");
+		} catch (EmployeeManagementException fe) {
+			req.setAttribute("message", fe.getMessage());
+		}
+		req.getRequestDispatcher("/project.jsp").forward(req, res);
+	}
     
     private void errorPage(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    	System.out.println("here");
+ 
     	res.sendRedirect("404_page.jsp");
     }
 }
