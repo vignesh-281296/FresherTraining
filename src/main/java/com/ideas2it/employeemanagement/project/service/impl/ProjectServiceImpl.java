@@ -49,11 +49,9 @@ public class ProjectServiceImpl implements ProjectService {
      * @throws NoIdExistException 
      */
     @Override
-    public void isProjectExist(int id) throws  EmployeeManagementException {
-    	if (!(projectDao.isProjectExist(id))) {
-    		throw new EmployeeManagementException("Project id doesn't exist");
-    	}
-          
+    public boolean isProjectExist(int id) throws  EmployeeManagementException {
+    	return projectDao.isProjectExist(id);
+    		   
     }
 
     /**

@@ -8,11 +8,13 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
+import com.ideas2it.employeemanagement.employee.dao.impl.EmployeeDaoImpl;
 import com.ideas2it.employeemanagement.employee.model.Employee;
 import com.ideas2it.employeemanagement.project.dao.ProjectDao;
 import com.ideas2it.employeemanagement.project.model.Project;
 import com.ideas2it.employeemanagement.sessionfactory.DatabaseConnection;
 import com.ideas2it.exceptions.EmployeeManagementException;
+import com.ideas2it.loggers.EmployeeManagementLogger;
 
 
 /**
@@ -22,7 +24,8 @@ import com.ideas2it.exceptions.EmployeeManagementException;
  * @version 1.0 24-03-2021
  */
 public class ProjectDaoImpl implements ProjectDao {
-   
+	private  EmployeeManagementLogger logger = new EmployeeManagementLogger(EmployeeDaoImpl.class);
+	
     /**
      * {inheritDoc}
      * @throws CreationFailsException 
@@ -37,6 +40,7 @@ public class ProjectDaoImpl implements ProjectDao {
             count = (Integer) session.save(project);
             session.getTransaction().commit();
         } catch(HibernateException e) {
+        	logger.logError(e);
         	throw new EmployeeManagementException("create fails");  
         } finally{
         	try {
@@ -44,6 +48,7 @@ public class ProjectDaoImpl implements ProjectDao {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }
@@ -52,9 +57,10 @@ public class ProjectDaoImpl implements ProjectDao {
 
     /**
      * {inheritDoc}
+     * @throws EmployeeManagementException 
      */
     @Override
-    public boolean isProjectExist(int id) {
+    public boolean isProjectExist(int id) throws EmployeeManagementException {
         Project project = null;
         Session session = null;
         try {
@@ -64,13 +70,15 @@ public class ProjectDaoImpl implements ProjectDao {
             criteria.add(Restrictions.eq("isDelete", true));
             project = (Project) criteria.uniqueResult();
         } catch(HibernateException e) {
-            e.printStackTrace();
+        	logger.logError(e);
+        	throw new EmployeeManagementException("something went wrong");
         } finally {
         	try {
 				if (null != session) {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }
@@ -89,13 +97,15 @@ public class ProjectDaoImpl implements ProjectDao {
             session = DatabaseConnection.getSessionFactory().openSession();
             project = session.get(Project.class, id);    
         }catch(HibernateException e) {
-            throw new EmployeeManagementException("can't fetch");
+        	logger.logError(e);
+            throw new EmployeeManagementException("something went wrong");
         } finally {
         	try {
 				if (null != session) {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }
@@ -115,13 +125,15 @@ public class ProjectDaoImpl implements ProjectDao {
             project = session.get(Project.class, id);
             for (Employee employee : project.getEmployees()){}    
         }catch(HibernateException e) {
-        	throw new EmployeeManagementException("can't fetch");
+        	logger.logError(e);
+        	throw new EmployeeManagementException("something went wrong");
         } finally {
         	try {
 				if (null != session) {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }
@@ -139,13 +151,15 @@ public class ProjectDaoImpl implements ProjectDao {
             session = DatabaseConnection.getSessionFactory().openSession();
             projects = session.createCriteria(Project.class).list();   
         } catch(HibernateException e) {
-        	throw new EmployeeManagementException("can't fetch");
+        	logger.logError(e);
+        	throw new EmployeeManagementException("something went wrong");
         } finally {
         	try {
 				if (null != session) {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }
@@ -155,8 +169,7 @@ public class ProjectDaoImpl implements ProjectDao {
     /**
      * {inheritDoc}
      */
-    @Override
-    public boolean isProjectDeleted(int id) {
+    /*public boolean isProjectDeleted(int id) {
         Project project = null;
         Session session = null;
         try {
@@ -177,7 +190,7 @@ public class ProjectDaoImpl implements ProjectDao {
 			}
         }
         return null != project;
-    }
+    }*/
 
     /**
      * {inheritDoc}
@@ -193,6 +206,7 @@ public class ProjectDaoImpl implements ProjectDao {
             session.getTransaction().commit();
             count = 1;
         } catch(HibernateException e) {
+        	logger.logError(e);
             e.printStackTrace();
             count = 0;    
         } finally{
@@ -201,6 +215,7 @@ public class ProjectDaoImpl implements ProjectDao {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}   
         }

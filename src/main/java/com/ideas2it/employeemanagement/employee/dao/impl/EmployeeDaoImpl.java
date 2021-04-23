@@ -8,12 +8,14 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
+//import com.ideas2it.employeemanagement.employee.controller.EmployeeController;
 import com.ideas2it.employeemanagement.employee.dao.EmployeeDao;
 import com.ideas2it.employeemanagement.employee.model.Address;
 import com.ideas2it.employeemanagement.employee.model.Employee;
 import com.ideas2it.employeemanagement.project.model.Project;
 import com.ideas2it.employeemanagement.sessionfactory.DatabaseConnection;
 import com.ideas2it.exceptions.EmployeeManagementException;
+import com.ideas2it.loggers.EmployeeManagementLogger;
 
 
 /**
@@ -23,6 +25,7 @@ import com.ideas2it.exceptions.EmployeeManagementException;
  * @created at 13-03-2021 
  */  
 public class EmployeeDaoImpl implements EmployeeDao {
+	 private  EmployeeManagementLogger logger = new EmployeeManagementLogger(EmployeeDaoImpl.class);
     
     /**
      * {inheritDoc}
@@ -37,13 +40,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
             session.save(employee);
             session.getTransaction().commit();
         } catch(HibernateException e) {
-            throw new EmployeeManagementException("Unsuccessful");   
+        	logger.logError(e);
+            throw new EmployeeManagementException("creation Unsuccessful");
         } finally{
 			try {
 				if (null != session) {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }
@@ -51,9 +56,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     /**
      * {inheritDoc}
+     * @throws EmployeeManagementException 
      */
     @Override
-    public boolean isEmployeeExist(int id) {
+    public boolean isEmployeeExist(int id) throws EmployeeManagementException {
         Employee employee = null;
         Session session = null;
         try {
@@ -63,13 +69,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
             criteria.add(Restrictions.eq("isDelete", true));
             employee = (Employee) criteria.uniqueResult();
         } catch(HibernateException e) {
-            e.printStackTrace();
+        	logger.logError(e);
+        	throw new EmployeeManagementException("something went wrong");
         } finally {
         	try {
 				if (null != session) {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }
@@ -88,13 +96,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
             employee = session.get(Employee.class, id);
             for (Address address : employee.getAddressess()) {}   
         }catch(HibernateException e) {
-            throw new EmployeeManagementException("Can't Fetch");
+        	logger.logError(e);
+            throw new EmployeeManagementException("something went wrong");
         } finally {
         	try {
 				if (null != session) {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }
@@ -114,13 +124,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
             employee = session.get(Employee.class, id);
             for (Project project : employee.getProjects()) {}   
         }catch(HibernateException e) {
-        	throw new EmployeeManagementException("Can't Fetch");
+        	logger.logError(e);
+        	throw new EmployeeManagementException("something went wrong");
         } finally {
         	try {
 				if (null != session) {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }
@@ -138,13 +150,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
             session = DatabaseConnection.getSessionFactory().openSession();
             employee = session.get(Employee.class, id);   
         }catch(HibernateException e) {
-           throw new EmployeeManagementException("can't fetch");
+        	logger.logError(e);
+           throw new EmployeeManagementException("something went wrong");
         } finally {
         	try {
 				if (null != session) {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }
@@ -165,14 +179,16 @@ public class EmployeeDaoImpl implements EmployeeDao {
             for (Employee employee : employees) {
                 for (Address addresses : employee.getAddressess()) {}   
             }            
-        } catch(HibernateException e) {
-        	 throw new EmployeeManagementException("Can't Fetch");
+        } catch(Exception e) {
+        	logger.logError(e);
+        	 throw new EmployeeManagementException("something went wrong");
         } finally {
         	try {
 				if (null != session) {
 					session.close();
 				}
-			} catch (HibernateException e) {
+			} catch (Exception e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }
@@ -182,8 +198,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     /**
      * {inheritDoc}
      */
-    @Override
-    public boolean isEmployeeDeleted(int id) {
+    /*public boolean isEmployeeDeleted(int id) {
         Employee employee = null;
         Session session = null;
         try {
@@ -204,7 +219,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			}
         }
         return null != employee;
-    }
+    }*/
 
     /**
      * {inheritDoc}
@@ -220,6 +235,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
             session.getTransaction().commit();
             count = 1;
         } catch(HibernateException e) {
+        	logger.logError(e);
             e.printStackTrace();
             count = 0;
         } finally {
@@ -228,6 +244,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 					session.close();
 				}
 			} catch (HibernateException e) {
+				logger.logError(e);
 				e.printStackTrace();
 			}
         }

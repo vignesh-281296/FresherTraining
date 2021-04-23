@@ -3,9 +3,7 @@ package com.ideas2it.employeemanagement.employee.dao;
 import java.util.List;
 
 import com.ideas2it.employeemanagement.employee.model.Employee;
-import com.ideas2it.exceptions.CreationFailsException;
 import com.ideas2it.exceptions.EmployeeManagementException;
-import com.ideas2it.exceptions.FetchException;
 
 /**
  * It contain method signature and perform crud 
@@ -26,8 +24,9 @@ public interface EmployeeDao {
      * check employee id exist or not 
      * @param id employee id
      * @return boolean value
+     * @throws EmployeeManagementException 
      */
-    public boolean isEmployeeExist(int id);
+    public boolean isEmployeeExist(int id) throws EmployeeManagementException;
 
     /**
      * get specific employee details with addressess
@@ -66,7 +65,7 @@ public interface EmployeeDao {
      * @param id employee id
      * @return boolean value
      */
-    public boolean isEmployeeDeleted(int id);
+    //public boolean isEmployeeDeleted(int id);
 
     /**
      * It is used to update employee details

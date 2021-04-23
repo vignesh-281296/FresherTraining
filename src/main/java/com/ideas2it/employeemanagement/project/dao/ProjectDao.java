@@ -3,9 +3,8 @@ package com.ideas2it.employeemanagement.project.dao;
 import java.util.List;
 
 import com.ideas2it.employeemanagement.project.model.Project;
-import com.ideas2it.exceptions.CreationFailsException;
 import com.ideas2it.exceptions.EmployeeManagementException;
-import com.ideas2it.exceptions.FetchException;
+
 
 /**
  * It will perform crud operation and interact with database
@@ -28,8 +27,9 @@ public interface ProjectDao {
      * check wheather the project id is exist or not
      * @param id project id
      * @return boolean value
+     * @throws EmployeeManagementException 
      */
-    public boolean isProjectExist(int id);
+    public boolean isProjectExist(int id) throws EmployeeManagementException;
 
     /**
      * get individual project details
@@ -52,7 +52,7 @@ public interface ProjectDao {
      * @param id project id
      * @return boolean value
      */
-    public boolean isProjectDeleted(int id);
+   // public boolean isProjectDeleted(int id);
     
     /**
      * It is usedd to update project details

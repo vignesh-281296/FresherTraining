@@ -59,7 +59,7 @@ public interface EmployeeService {
      * @return boolean value 
      * @throws EmployeeManagementException 
      */
-    public void isEmployeeExist(int id) throws EmployeeManagementException;
+    public boolean isEmployeeExist(int id) throws EmployeeManagementException;
 
     /**
      * get individual employee details

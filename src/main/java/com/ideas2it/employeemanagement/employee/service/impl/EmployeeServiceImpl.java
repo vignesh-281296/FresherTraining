@@ -32,10 +32,10 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public void insertEmployee(String name, String desgination, String emailId,
-            long phoneNumber, float salary, Date dob, List<List<String>> employeeAddressDetails) throws EmployeeManagementException{  
+            long phoneNumber, float salary, Date dob, List<List<String>> employeeAddressDetails) throws EmployeeManagementException {  
         List<Address> addressDetails = new ArrayList<Address>();
         for (List<String> address : employeeAddressDetails) {
-        	addressDetails.add(new Address(address.get(0),address.get(1),address.get(2),
+        	addressDetails.add(new Address(address.get(0), address.get(1), address.get(2),
         			address.get(3), address.get(4), address.get(5), address.get(6),true));
         }
         Employee employee = new Employee(name, desgination, emailId, phoneNumber, 
@@ -72,10 +72,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * {inheritDoc}
      */
     @Override
-    public void isEmployeeExist(int id) throws EmployeeManagementException {
-    	if (!(employeeDao.isEmployeeExist(id))) {
-    		throw new EmployeeManagementException("Employee doesn't exist");
-    	}
+    public boolean isEmployeeExist(int id) throws EmployeeManagementException {
+    	return employeeDao.isEmployeeExist(id);
     }
 
     /**
@@ -88,7 +86,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * {inheritDoc}
-     * @throws FetchException 
      */
     @Override
     public List<Employee> getAllEmployee() throws EmployeeManagementException {
@@ -96,8 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     * {inheritDoc}
-     * @throws UpdateException 
+     * {inheritDoc} 
      */ 
     @Override
     public void deleteEmployee(int id) throws EmployeeManagementException {
@@ -145,7 +141,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * {inheritDoc}
-     * @throws UpdateException 
      */ 
     @Override
     public void restoreEmployee(int id) throws EmployeeManagementException{
@@ -161,8 +156,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /** 
      * {inheritDoc}
-     * @throws FetchException 
-     * @throws UpdateException 
      */
     @Override
     public void updateEmployee(int id, String name, String desgination,
@@ -207,7 +200,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * {inheritDoc}
-     * @throws FetchException 
      */ 
    /* public Map<Integer, String>  getEmployeeAddressDetails(int id) throws FetchException {
         Employee employee = employeeDao.getSpecificEmployeeWithAddressess(id);
@@ -224,8 +216,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }*/
 
     /**
-     * {inheritDoc}
-     * @throws FetchException 
+     * {inheritDoc} 
      */ 
    /* public boolean updateEmployeeAddress(int addressIndex, int addressId, String[] addressDetail, int id) throws EmployeeManagementException {
         Employee employee = employeeDao.getSpecificEmployeeWithAddressess(id);
@@ -258,9 +249,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }*/
 
     /**
-     * {inheritDoc}
-     * @throws FetchException 
-     * @throws UpdateException 
+     * {inheritDoc} 
      */ 
     @Override
     public boolean assignEmployee(int empId, List<Integer> projectIds) throws EmployeeManagementException {
@@ -279,8 +268,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     * {inheritDoc}
-     * @throws FetchException 
+     * {inheritDoc} 
      */ 
     /*public boolean addEmployeeAddress(int employeeId, String[] addressDetail) throws FetchException {
         Employee employee = employeeDao.getSpecificEmployeeWithAddressess(employeeId);
@@ -301,14 +289,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     * {inheritDoc}
-     * @throws EmployeeManagementException 
+     * {inheritDoc} 
      */ 
     @Override
     public List<Employee> getAllEmployeeDetails() throws EmployeeManagementException {
         return employeeDao.getAllEmployee();
     }
     
+    /**
+     * {inheritDoc} 
+     */ 
+    @Override
     public List<Project> getAssignedEmployeeDetails(int id) throws EmployeeManagementException {
         Employee employee = employeeDao.getSpecificEmployeeWithProjects(id);
         return employee.getProjects();

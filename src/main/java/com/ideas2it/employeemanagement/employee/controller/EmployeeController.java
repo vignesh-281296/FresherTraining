@@ -18,6 +18,10 @@ import com.ideas2it.employeemanagement.employee.model.Employee;
 import com.ideas2it.employeemanagement.employee.service.EmployeeService;
 import com.ideas2it.employeemanagement.employee.service.impl.EmployeeServiceImpl;
 import com.ideas2it.exceptions.EmployeeManagementException;
+import com.ideas2it.loggers.EmployeeManagementLogger;
+
+//import com.ideas2it.loggers.EmployeeManagementLogger;
+//import org.apache.log4j.Logger;
 
 /**
  * It will send data to employee service
@@ -25,32 +29,37 @@ import com.ideas2it.exceptions.EmployeeManagementException;
 public class EmployeeController extends HttpServlet {
 
     private EmployeeService employeeService = new EmployeeServiceImpl();
-    
+    private  EmployeeManagementLogger logger = new EmployeeManagementLogger(EmployeeController.class);
+   
     /**
      * Post pass requests and performs the actions
      * @param req provides HttpServletRequest information for HttpServlet
      * @param res provides HttpServletResponse information for HttpServlet
      */
-    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-    	PrintWriter out =  res.getWriter();
-    	String action = req.getParameter("action");
-    	switch(action) {
-    	case "create_employee" :
-    		createEmployee(req, res);
-    		break;
-    	case "specific_employee" :
-    		specificEmployeeDetails(req, res);
-    		break;
-    	case "assign_projects" :
-    		assignProject(req, res);
-    		break;
-    	case "update_employee" :
-    		updateEmployee(req, res);
-    		break;	
-    	 default :
-    		 errorPage(req, res);	 
-    	}
+    public void doPost(HttpServletRequest req, HttpServletResponse res)  {
     	
+    	try {
+			PrintWriter out =  res.getWriter();
+			String action = req.getParameter("action");
+	    	switch(action) {
+	    	case "create_employee" :
+				createEmployee(req, res);
+	    		break;
+	    	case "specific_employee" :
+	    		specificEmployeeDetails(req, res);
+	    		break;
+	    	case "assign_projects" :
+	    		assignProject(req, res);
+	    		break;
+	    	case "update_employee" :
+	    		updateEmployee(req, res);
+	    		break;	
+	    	 default :
+	    		 errorPage(req, res);	 
+	    	}
+		} catch (IOException | ServletException e) {
+			logger.logError(e);
+		}
     }
     
     /**
@@ -59,33 +68,38 @@ public class EmployeeController extends HttpServlet {
      * @param res provides HttpServletResponse information for HttpServlet
      */
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-    	PrintWriter out =  res.getWriter();
-    	String action = req.getParameter("action");
-    	switch(action) {
-    	case "delete_employee" :
-    		deleteEmployee(req, res);
-    		break;
-    	case "restore_employee" :
-    		restoreEmployee(req, res);
-    		break;
-    	case "display_all_employee" :
-    		getAllEmployeeDetails(req, res);
-    		break;
-    	case "assign_project_details" :
-    		ProjectsDetails(req, res);
-    		break;
-    	case "get_assigned_employee_details" :
-    		getAssignedEmployeeDetails(req, res);
-    		break;
-    	case "assigned_employee_details" :
-    		displayAssignedEmployeeDetails(req, res);
-    		break;
-    	case "update_employee_details" :
-    		updateEmployeeDetails(req, res);
-    		break;
-    	 default :
-    		errorPage(req, res);	 
-    	}
+    	
+		try {
+			PrintWriter out = res.getWriter();
+			String action = req.getParameter("action");
+			switch (action) {
+			case "delete_employee":
+				deleteEmployee(req, res);
+				break;
+			case "restore_employee":
+				restoreEmployee(req, res);
+				break;
+			case "display_all_employee":
+				getAllEmployeeDetails(req, res);
+				break;
+			case "assign_project_details":
+				ProjectsDetails(req, res);
+				break;
+			case "get_assigned_employee_details":
+				getAssignedEmployeeDetails(req, res);
+				break;
+			case "assigned_employee_details":
+				displayAssignedEmployeeDetails(req, res);
+				break;
+			case "update_employee_details":
+				updateEmployeeDetails(req, res);
+				break;
+			default:
+				errorPage(req, res);
+			}
+		} catch (IOException | ServletException e) {
+			logger.logError(e);
+		}
 	}
     
     /**
@@ -149,8 +163,11 @@ public class EmployeeController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			int empId = Integer.parseInt(req.getParameter("employee_id"));
-			employeeService.isEmployeeExist(empId);
-			req.setAttribute("employee", employeeService.getSpecificEmployee(empId));
+			if (employeeService.isEmployeeExist(empId)) {
+				req.setAttribute("employee", employeeService.getSpecificEmployee(empId));
+			} else {
+				req.setAttribute("message", "Employee id doesn't exist");
+			}
 		} catch (EmployeeManagementException e) {
 			req.setAttribute("message", e.getMessage());
 		}
@@ -207,6 +224,7 @@ public class EmployeeController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			req.setAttribute("employees", employeeService.getAllEmployee());
+			//logger.logInfo("please god help me");
 		} catch (EmployeeManagementException e) {
 			req.setAttribute("message", e.getMessage());
 		}
@@ -399,7 +417,6 @@ public class EmployeeController extends HttpServlet {
 	}
 
 	private void errorPage(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
 		res.sendRedirect("404_page.jsp");
 	}
 }

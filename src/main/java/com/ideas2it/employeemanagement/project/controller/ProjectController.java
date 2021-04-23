@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ideas2it.employeemanagement.employee.controller.EmployeeController;
 import com.ideas2it.employeemanagement.project.service.ProjectService;
 import com.ideas2it.employeemanagement.project.service.impl.ProjectServiceImpl;
 import com.ideas2it.exceptions.EmployeeManagementException;
+import com.ideas2it.loggers.EmployeeManagementLogger;
 
 /**
  * This class send data to employee serivce
@@ -23,15 +25,17 @@ import com.ideas2it.exceptions.EmployeeManagementException;
  * @version 1.0 25-03-2021
  */
 public class ProjectController extends HttpServlet {
+	
     private ProjectService projectService = new ProjectServiceImpl(); 
+    private  EmployeeManagementLogger logger = new EmployeeManagementLogger(EmployeeController.class);
    
     /**
      * Post pass requests and performs the actions
      * @param req provides HttpServletRequest information for HttpServlet
      * @param res provides HttpServletResponse information for HttpServlet
      */
-    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-    	//doGet(req, res);
+    public void doPost(HttpServletRequest req, HttpServletResponse res) {
+    	try {
     	PrintWriter out =  res.getWriter();
     	String action = req.getParameter("action");
     	switch(action) {
@@ -50,6 +54,9 @@ public class ProjectController extends HttpServlet {
     	 default :
     		 errorPage(req, res);	 
     	}	
+    	} catch(IOException | ServletException e) {
+    		logger.logError(e);
+    	}
     }
     
     /**
@@ -57,34 +64,38 @@ public class ProjectController extends HttpServlet {
      * @param req provides HttpServletRequest information for HttpServlet
      * @param res provides HttpServletResponse information for HttpServlet
      */
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-    	PrintWriter out =  res.getWriter();
-    	String action = req.getParameter("action");
-    	switch(action) {
-    	case "display_all_project" :   		
-    		getAllprojectDetails(req, res);
-    		break;	
-    	case "delete_project" :   		
-    		deleteProject(req, res);
-    		break;	
-    	case "restore_project" :   		
-    		restoreEmployee(req, res);
-    		break;
-    	case "assign_employee_details" :   		
-    		employeeDetails(req, res);
-    		break;
-    	case "get_assigned_project_details" : 
-    		getAssignedprojectDetails(req, res);
-    		break;
-    	case "assigned_employee_details" : 
-    		displayAssignedEmployeeDetails(req, res);
-    		break;	
-    	case "update_project_detail" : 
-    		updateProjectDetails(req, res);
-    		break;
-    	 default :
-    		 errorPage(req, res); 	 
-    	}	
+    public void doGet(HttpServletRequest req, HttpServletResponse res) {
+		try {
+			PrintWriter out = res.getWriter();
+			String action = req.getParameter("action");
+			switch (action) {
+			case "display_all_project":
+				getAllprojectDetails(req, res);
+				break;
+			case "delete_project":
+				deleteProject(req, res);
+				break;
+			case "restore_project":
+				restoreEmployee(req, res);
+				break;
+			case "assign_employee_details":
+				employeeDetails(req, res);
+				break;
+			case "get_assigned_project_details":
+				getAssignedprojectDetails(req, res);
+				break;
+			case "assigned_employee_details":
+				displayAssignedEmployeeDetails(req, res);
+				break;
+			case "update_project_detail":
+				updateProjectDetails(req, res);
+				break;
+			default:
+				errorPage(req, res);
+			}
+		} catch (IOException | ServletException e) {
+			logger.logError(e);
+		}
 	}
     
     /**
@@ -121,16 +132,20 @@ public class ProjectController extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void specificProjectDetails(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-    	try {
-    	int projectId = Integer.parseInt(req.getParameter("project_id"));
-    	projectService.isProjectExist(projectId);
-    	req.setAttribute("projectDetails", projectService.getSpecificProject(projectId));
-    	} catch(EmployeeManagementException e) {
-    		 req.setAttribute("message",e.getMessage());
-    	} 
-    	req.getRequestDispatcher("/specific_project.jsp").forward(req, res);
-    }
+	private void specificProjectDetails(HttpServletRequest req, HttpServletResponse res)
+			throws ServletException, IOException {
+		try {
+			int projectId = Integer.parseInt(req.getParameter("project_id"));
+			if (projectService.isProjectExist(projectId)) {
+				req.setAttribute("projectDetails", projectService.getSpecificProject(projectId));
+			} else {
+				req.setAttribute("message", "Project id doesn't exist");
+			}
+		} catch (EmployeeManagementException e) {
+			req.setAttribute("message", e.getMessage());
+		}
+		req.getRequestDispatcher("/specific_project.jsp").forward(req, res);
+	}
     
     /**
      * It is used to delete project
@@ -322,7 +337,6 @@ public class ProjectController extends HttpServlet {
 	}
     
     private void errorPage(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
- 
     	res.sendRedirect("404_page.jsp");
     }
 }

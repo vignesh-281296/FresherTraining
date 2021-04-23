@@ -42,7 +42,7 @@ public interface ProjectService {
      * @return boolean value
      * @throws EmployeeManagementException 
      */
-    public void isProjectExist(int id) throws EmployeeManagementException;
+    public boolean isProjectExist(int id) throws EmployeeManagementException;
 
     /**
      * It is used to get individual project details
