@@ -1,7 +1,7 @@
 package com.ideas2it.employeemanagement.sessionfactory;
 
 import org.hibernate.cfg.Configuration;
-
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 
@@ -31,5 +31,11 @@ public class DatabaseConnection {
                e.printStackTrace();
           }
           return sessionFactory;
+      }
+      
+      public static void sessionClose(Session session) {
+    	  if (null != session) {
+				session.close();
+			}
       }
 }

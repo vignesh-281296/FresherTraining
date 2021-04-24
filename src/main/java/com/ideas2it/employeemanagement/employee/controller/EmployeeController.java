@@ -80,6 +80,7 @@ public class EmployeeController extends HttpServlet {
 				restoreEmployee(req, res);
 				break;
 			case "display_all_employee":
+				//logger.logError("log");
 				getAllEmployeeDetails(req, res);
 				break;
 			case "assign_project_details":

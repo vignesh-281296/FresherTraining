@@ -19,7 +19,7 @@ import com.ideas2it.loggers.EmployeeManagementLogger;
 
 
 /**
- * It is used to store and retrives datas to database
+ * It is used to store and retrieves data to database
  *
  * @author vignesh r
  * @created at 13-03-2021 
@@ -43,14 +43,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         	logger.logError(e);
             throw new EmployeeManagementException("creation Unsuccessful");
         } finally{
-			try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
     }
 
@@ -72,14 +65,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         	logger.logError(e);
         	throw new EmployeeManagementException("something went wrong");
         } finally {
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
         return null != employee;
     }
@@ -99,14 +85,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         	logger.logError(e);
             throw new EmployeeManagementException("something went wrong");
         } finally {
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
         return employee;
     }
@@ -127,14 +106,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         	logger.logError(e);
         	throw new EmployeeManagementException("something went wrong");
         } finally {
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
         return employee;
     }
@@ -151,16 +123,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
             employee = session.get(Employee.class, id);   
         }catch(HibernateException e) {
         	logger.logError(e);
-           throw new EmployeeManagementException("something went wrong");
+            throw new EmployeeManagementException("something went wrong");
         } finally {
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
         return employee;
     }
@@ -181,16 +146,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
             }            
         } catch(Exception e) {
         	logger.logError(e);
-        	 throw new EmployeeManagementException("something went wrong");
+        	throw new EmployeeManagementException("something went wrong");
         } finally {
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (Exception e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
         return employees;
     }
@@ -236,17 +194,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
             count = 1;
         } catch(HibernateException e) {
         	logger.logError(e);
-            e.printStackTrace();
             count = 0;
         } finally {
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
         return 0 != count;    
     }

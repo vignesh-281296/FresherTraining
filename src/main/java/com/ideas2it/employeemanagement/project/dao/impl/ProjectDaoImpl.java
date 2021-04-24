@@ -43,14 +43,7 @@ public class ProjectDaoImpl implements ProjectDao {
         	logger.logError(e);
         	throw new EmployeeManagementException("create fails");  
         } finally{
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
         return 0 != count;            
     }
@@ -73,14 +66,7 @@ public class ProjectDaoImpl implements ProjectDao {
         	logger.logError(e);
         	throw new EmployeeManagementException("something went wrong");
         } finally {
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
         return null != project;
     } 
@@ -100,14 +86,7 @@ public class ProjectDaoImpl implements ProjectDao {
         	logger.logError(e);
             throw new EmployeeManagementException("something went wrong");
         } finally {
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
         return project;
     }
@@ -128,14 +107,7 @@ public class ProjectDaoImpl implements ProjectDao {
         	logger.logError(e);
         	throw new EmployeeManagementException("something went wrong");
         } finally {
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
         return project;
     }
@@ -154,14 +126,7 @@ public class ProjectDaoImpl implements ProjectDao {
         	logger.logError(e);
         	throw new EmployeeManagementException("something went wrong");
         } finally {
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}
+        	DatabaseConnection.sessionClose(session);
         }
         return projects;
     }
@@ -210,14 +175,7 @@ public class ProjectDaoImpl implements ProjectDao {
             e.printStackTrace();
             count = 0;    
         } finally{
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				logger.logError(e);
-				e.printStackTrace();
-			}   
+        	DatabaseConnection.sessionClose(session); 
         }
         return 0 != count;
     }

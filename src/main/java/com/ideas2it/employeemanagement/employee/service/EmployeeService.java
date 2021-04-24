@@ -162,7 +162,7 @@ public interface EmployeeService {
      * @return boolean value 
      * @throws EmployeeManagementException 
      */
-    public boolean assignEmployee(int empId, List<Integer> projectIds) throws EmployeeManagementException;
+    public void assignEmployee(int empId, List<Integer> projectIds) throws EmployeeManagementException;
 
     /**
      * It is used to add employee address
