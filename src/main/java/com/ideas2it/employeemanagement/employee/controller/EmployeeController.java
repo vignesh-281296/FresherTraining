@@ -70,7 +70,7 @@ public class EmployeeController extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
     	
 		try {
-			PrintWriter out = res.getWriter();
+			//PrintWriter out = res.getWriter();
 			String action = req.getParameter("action");
 			switch (action) {
 			case "delete_employee":
@@ -225,7 +225,6 @@ public class EmployeeController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			req.setAttribute("employees", employeeService.getAllEmployee());
-			//logger.logInfo("please god help me");
 		} catch (EmployeeManagementException e) {
 			req.setAttribute("message", e.getMessage());
 		}

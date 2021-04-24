@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ideas2it.employeemanagement.employee.dao.impl.EmployeeDaoImpl;
 import com.ideas2it.employeemanagement.employee.model.Employee;
 import com.ideas2it.employeemanagement.employee.service.impl.EmployeeServiceImpl;
 import com.ideas2it.employeemanagement.project.dao.ProjectDao;
@@ -13,6 +14,7 @@ import com.ideas2it.employeemanagement.project.dao.impl.ProjectDaoImpl;
 import com.ideas2it.employeemanagement.project.model.Project;
 import com.ideas2it.employeemanagement.project.service.ProjectService;
 import com.ideas2it.exceptions.EmployeeManagementException;
+import com.ideas2it.loggers.EmployeeManagementLogger;
 
 /**
  * This class for project business logic
@@ -22,18 +24,18 @@ import com.ideas2it.exceptions.EmployeeManagementException;
  */
 public class ProjectServiceImpl implements ProjectService {
     private ProjectDao projectDao = new ProjectDaoImpl();
-
+    private  EmployeeManagementLogger logger = new EmployeeManagementLogger(EmployeeDaoImpl.class);
+    
     /**
      * {inheritDoc}
-     * @throws CreationFailsException 
      */
     @Override
-    public boolean createProject(String name, String managerName, 
-            Date startDate, Date endDate) throws  EmployeeManagementException {
-        List<Employee> employees = new ArrayList<Employee>();
-        Project project = new Project(name, managerName, startDate, endDate, true, employees);
-        return projectDao.insertProject(project);
-    }
+	public boolean createProject(String name, String managerName, Date startDate, Date endDate)
+			throws EmployeeManagementException {
+		List<Employee> employees = new ArrayList<Employee>();
+		Project project = new Project(name, managerName, startDate, endDate, true, employees);
+		return projectDao.insertProject(project);
+	}
 
     /**
      * {inheritDoc}
@@ -45,8 +47,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     /**
      * {inheritDoc}
-     * @return 
-     * @throws NoIdExistException 
      */
     @Override
     public boolean isProjectExist(int id) throws  EmployeeManagementException {
@@ -56,7 +56,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     /**
      * {inheritDoc}
-     * @throws FetchException 
      */
     @Override
     public Project getSpecificProject(int id) throws EmployeeManagementException {
@@ -73,18 +72,21 @@ public class ProjectServiceImpl implements ProjectService {
 
     /**
      * {inheritDoc}
-     * @throws FetchException 
      */
     @Override
-    public void deleteProject(int id) throws EmployeeManagementException {
-        Project project = projectDao.getSpecificProjectWithEmployee(id);
-        project.setIsDelete(false);
-        project.setEmployees(null);
-        if (!(projectDao.updateProject(project))) {
-        	throw new EmployeeManagementException("Delete Unsuccessful");
-        }
-      
-    }
+	public void deleteProject(int id) throws EmployeeManagementException {
+		try {
+			Project project = projectDao.getSpecificProjectWithEmployee(id);
+			project.setIsDelete(false);
+			project.setEmployees(null);
+			if (!(projectDao.updateProject(project))) {
+				throw new EmployeeManagementException("Delete Unsuccessful");
+			}
+		} catch (NullPointerException e) {
+			logger.logError(e);
+			throw new EmployeeManagementException("Delete Unsuccessful");
+		}
+	}
 
     /**
      * {inheritDoc}
@@ -108,41 +110,47 @@ public class ProjectServiceImpl implements ProjectService {
 
     /**
      * {inheritDoc}
-     * @throws FetchException 
-     * @throws UpdateException 
      */
     @Override
-    public void restoreProject(int id) throws EmployeeManagementException {
-        Project project = projectDao.getSpecificProjectWithEmployee(id);
-        project.setIsDelete(true);
-        if (!(projectDao.updateProject(project))) {
-        	throw new EmployeeManagementException("Restore Unsuccessful");
-        }  
-    }
+	public void restoreProject(int id) throws EmployeeManagementException {
+		try {
+			Project project = projectDao.getSpecificProjectWithEmployee(id);
+			project.setIsDelete(true);
+			if (!(projectDao.updateProject(project))) {
+				throw new EmployeeManagementException("Restore Unsuccessful");
+			}
+		} catch (NullPointerException e) {
+			logger.logError(e);
+			throw new EmployeeManagementException("Restore Unsuccessful");
+		}
+	}
 
    /** 
-     * {inheritDoc}
- * @throws FetchException 
+     * {inheritDoc} 
      */
     @Override
-    public void updateProject(int id, String projectName, String projectManagerName,
-    		Date startDate, Date endDate) throws EmployeeManagementException {
-        Project project = projectDao.getSpecificProject(id);
-        project.setName(projectName);
-        project.setManagerName(projectManagerName);
-        project.setStartDate(startDate); 
-        project.setEndDate(endDate);
-    
-        Project projectDetail = new Project(id, project.getName(), project.getManagerName(),
-               project.getStartDate(), project.getEndDate(), true);
-        if (!(projectDao.updateProject(projectDetail))) {
-            throw new EmployeeManagementException("Update Unsuccessful");	
-        }       
-    }
+	public void updateProject(int id, String projectName, String projectManagerName, Date startDate, Date endDate)
+			throws EmployeeManagementException {
+		try {
+			Project project = projectDao.getSpecificProject(id);
+			project.setName(projectName);
+			project.setManagerName(projectManagerName);
+			project.setStartDate(startDate);
+			project.setEndDate(endDate);
+
+			Project projectDetail = new Project(id, project.getName(), project.getManagerName(), project.getStartDate(),
+					project.getEndDate(), true);
+			if (!(projectDao.updateProject(projectDetail))) {
+				throw new EmployeeManagementException("Update Unsuccessful");
+			}
+		} catch (NullPointerException e) {
+			logger.logError(e);
+			throw new EmployeeManagementException("Update Unsuccessful");
+		}
+	}
    
     /**
      * {inheritDoc}
-     * @throws FetchException 
      */
     @Override
     public Project getSpecificProjectDetails(int id) throws EmployeeManagementException {
@@ -151,7 +159,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     /**
      * {inheritDoc}
-     * @throws FetchException 
      */
     @Override
     public List<Employee> getAllEmployeeDetails() throws EmployeeManagementException {
@@ -172,19 +179,23 @@ public class ProjectServiceImpl implements ProjectService {
      * {inheritDoc}
      */
     @Override
-    public void assignProject(int id, List<Integer> employeeIds) throws EmployeeManagementException{
-        EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
-        Project projectDetails = projectDao.getSpecificProjectWithEmployee(id);
-        //List<Employee> employeeDetails = projectDetails.getEmployees();
-        List<Employee> employeeDetails = new ArrayList<Employee>();
-        for (Integer employeeId : employeeIds) {
-            employeeDetails.add(employeeService.getSpecificEmployeeDetails(employeeId));    
-        }
-        projectDetails.setEmployees(employeeDetails); 
-       if(!(projectDao.updateProject(projectDetails))) {
-    	   throw new EmployeeManagementException("Assign unsuccessful");
-       }   
-    }
+	public void assignProject(int id, List<Integer> employeeIds) throws EmployeeManagementException {
+		try {
+			EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
+			Project projectDetails = projectDao.getSpecificProjectWithEmployee(id);
+			List<Employee> employeeDetails = new ArrayList<Employee>();
+			for (Integer employeeId : employeeIds) {
+				employeeDetails.add(employeeService.getSpecificEmployeeDetails(employeeId));
+			}
+			projectDetails.setEmployees(employeeDetails);
+			if (!(projectDao.updateProject(projectDetails))) {
+				throw new EmployeeManagementException("Assign unsuccessful");
+			}
+		} catch (NullPointerException e) {
+			logger.logError(e);
+			throw new EmployeeManagementException("Assign Unsuccessful");
+		}
+	}
     
     /** 
      * {inheritDoc}

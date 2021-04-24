@@ -28,6 +28,7 @@ import com.ideas2it.loggers.EmployeeManagementLogger;
 public class EmployeeServiceImpl implements EmployeeService { 
     private EmployeeDao employeeDao = new EmployeeDaoImpl(); 
     private  EmployeeManagementLogger logger = new EmployeeManagementLogger(EmployeeDaoImpl.class);
+    
     /**
      * {inheritDoc}
      */
@@ -43,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			Employee employee = new Employee(name, desgination, emailId, phoneNumber, salary, dob, true,
 					addressDetails);
 			employeeDao.insertEmployee(employee);
-		} catch (Exception e) {
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
 			logger.logError(e);
 			throw new EmployeeManagementException("creation Unsuccessful");
 		}
@@ -103,20 +104,24 @@ public class EmployeeServiceImpl implements EmployeeService {
      */ 
     @Override
 	public void deleteEmployee(int id) throws EmployeeManagementException {
-		Employee employee = employeeDao.getSpecificEmployeeWithAddressess(id);
-		employee.setIsDelete(false);
-		employee.getAddressess().forEach((address) -> {
-			address.setIsDelete(false);
-		});
-		employee.setProjects(null);
-		if (!(employeeDao.updateEmployee(employee))) {
+		try {
+			Employee employee = employeeDao.getSpecificEmployeeWithAddressess(id);
+			employee.setIsDelete(false);
+			employee.getAddressess().forEach((address) -> {
+				address.setIsDelete(false);
+			});
+			employee.setProjects(null);
+			if (!(employeeDao.updateEmployee(employee))) {
+				throw new EmployeeManagementException("Delete Unsuccessful");
+			}
+		} catch (NullPointerException e) {
+			logger.logError(e);
 			throw new EmployeeManagementException("Delete Unsuccessful");
 		}
 	}
 
     /**
      * {inheritDoc}
-     * @throws FetchException 
      */ 
     /*public List<List<String>> getDeletedEmployeeDetails() throws FetchException {
         List<List<String>> employees = new ArrayList<List<String>>();
@@ -150,12 +155,17 @@ public class EmployeeServiceImpl implements EmployeeService {
      */ 
     @Override
 	public void restoreEmployee(int id) throws EmployeeManagementException {
-		Employee employee = employeeDao.getSpecificEmployeeWithAddressess(id);
-		employee.setIsDelete(true);
-		employee.getAddressess().forEach((address) -> {
-			address.setIsDelete(true);
-		});
-		if (!(employeeDao.updateEmployee(employee))) {
+		try {
+			Employee employee = employeeDao.getSpecificEmployeeWithAddressess(id);
+			employee.setIsDelete(true);
+			employee.getAddressess().forEach((address) -> {
+				address.setIsDelete(true);
+			});
+			if (!(employeeDao.updateEmployee(employee))) {
+				throw new EmployeeManagementException("Restore Unsuccessful");
+			}
+		} catch (NullPointerException e) {
+			logger.logError(e);
 			throw new EmployeeManagementException("Restore Unsuccessful");
 		}
 	}
@@ -166,42 +176,49 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
 	public void updateEmployee(int id, String name, String desgination, String email, long phoneNumber, float salary,
 			Date dob, List<List<String>> addressess) throws EmployeeManagementException {
-		Employee employee = employeeDao.getSpecificEmployeeWithAddressess(id);
-		employee.setId(id);
-		employee.setName(name);
-		employee.setDesgination(desgination);
-		employee.setEmail(email);
-		employee.setPhoneNumber(phoneNumber);
-		employee.setSalary(salary);
-		employee.setDob(dob);
-		List<Address> oldAddresess = employee.getAddressess();
-		List<Address> addressDetails = new ArrayList<Address>();
+		try {
+			Employee employee = employeeDao.getSpecificEmployeeWithAddressess(id);
+			employee.setId(id);
+			employee.setName(name);
+			employee.setDesgination(desgination);
+			employee.setEmail(email);
+			employee.setPhoneNumber(phoneNumber);
+			employee.setSalary(salary);
+			employee.setDob(dob);
+			List<Address> oldAddresess = employee.getAddressess();
+			List<Address> addressDetails = new ArrayList<Address>();
 
-		if (1 == addressess.size()) {
-			List<String> address = addressess.get(0);
-			oldAddresess.get(0).setId(Integer.parseInt(address.get(0)));
-			oldAddresess.get(0).setDoorNo(address.get(1));
-			oldAddresess.get(0).setStreetName(address.get(2));
-			oldAddresess.get(0).setCity(address.get(3));
-			oldAddresess.get(0).setDistrict(address.get(4));
-			oldAddresess.get(0).setState(address.get(5));
-			oldAddresess.get(0).setCountry(address.get(6));
-			oldAddresess.get(0).setAddressMode(address.get(7));
-			oldAddresess.get(0).setEmployee(employee);
-			employee.setAddressess(oldAddresess);
-		} else {
-			for (List<String> address : addressess) {
-				Address addressValues = new Address(Integer.parseInt(address.get(0)), address.get(1), address.get(2),
-						address.get(3), address.get(4), address.get(5), address.get(6), address.get(7), true);
-				addressValues.setEmployee(employee);
-				addressDetails.add(addressValues);
-				addressValues.setEmployee(employee);
+			if (1 == addressess.size()) {
+				List<String> address = addressess.get(0);
+				oldAddresess.get(0).setId(Integer.parseInt(address.get(0)));
+				oldAddresess.get(0).setDoorNo(address.get(1));
+				oldAddresess.get(0).setStreetName(address.get(2));
+				oldAddresess.get(0).setCity(address.get(3));
+				oldAddresess.get(0).setDistrict(address.get(4));
+				oldAddresess.get(0).setState(address.get(5));
+				oldAddresess.get(0).setCountry(address.get(6));
+				oldAddresess.get(0).setAddressMode(address.get(7));
+				oldAddresess.get(0).setEmployee(employee);
+				employee.setAddressess(oldAddresess);
+			} else {
+				for (List<String> address : addressess) {
+					Address addressValues = new Address(Integer.parseInt(address.get(0)), address.get(1),
+							address.get(2), address.get(3), address.get(4), address.get(5), address.get(6),
+							address.get(7), true);
+					addressValues.setEmployee(employee);
+					addressDetails.add(addressValues);
+					addressValues.setEmployee(employee);
+				}
+				employee.setAddressess(addressDetails);
 			}
-			employee.setAddressess(addressDetails);
-		}
-		if (!(employeeDao.updateEmployee(employee))) {
+			if (!(employeeDao.updateEmployee(employee))) {
+				throw new EmployeeManagementException("Update Unsuccessful");
+			}
+		} catch (IndexOutOfBoundsException | NullPointerException e) {
+			logger.logError(e);
 			throw new EmployeeManagementException("Update Unsuccessful");
 		}
+		
 	}
 
     /**
@@ -259,15 +276,19 @@ public class EmployeeServiceImpl implements EmployeeService {
      */ 
 	@Override
 	public void assignEmployee(int empId, List<Integer> projectIds) throws EmployeeManagementException {
-		ProjectServiceImpl projectService = new ProjectServiceImpl();
-		Employee employeeDetails = employeeDao.getSpecificEmployeeWithProjects(empId);
-		// List<Project> projectDetails = employeeDetails.getProjects();
-		List<Project> projectDetails = new ArrayList<Project>();
-		for (Integer projectId : projectIds) {
-			projectDetails.add(projectService.getSpecificProjectDetails(projectId));
-		}
-		employeeDetails.setProjects(projectDetails);
-		if (!(employeeDao.updateEmployee(employeeDetails))) {
+		try {
+			ProjectServiceImpl projectService = new ProjectServiceImpl();
+			Employee employeeDetails = employeeDao.getSpecificEmployeeWithProjects(empId);
+			List<Project> projectDetails = new ArrayList<Project>();
+			for (Integer projectId : projectIds) {
+				projectDetails.add(projectService.getSpecificProjectDetails(projectId));
+			}
+			employeeDetails.setProjects(projectDetails);
+			if (!(employeeDao.updateEmployee(employeeDetails))) {
+				throw new EmployeeManagementException("Assign Unsuccessful");
+			}
+		} catch (NullPointerException e) {
+			logger.logError(e);
 			throw new EmployeeManagementException("Assign Unsuccessful");
 		}
 	}
@@ -312,7 +333,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /** 
      * {inheritDoc}
-     * @throws FetchException 
      *
    /* public List<String> getAssignedEmployee(int id) throws EmployeeManagementException {
         Employee employee = employeeDao.getSpecificEmployeeWithProjects(id);
