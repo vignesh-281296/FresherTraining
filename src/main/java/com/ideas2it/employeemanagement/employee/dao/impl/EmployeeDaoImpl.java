@@ -1,8 +1,5 @@
 package com.ideas2it.employeemanagement.employee.dao.impl;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -46,29 +43,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
         } finally{
         	DatabaseConnection.sessionClose(session);
         }
-    }
-
-    /**
-     * {inheritDoc}
-     * @throws EmployeeManagementException 
-     */
-    @Override
-    public boolean isEmployeeExist(int id) throws EmployeeManagementException {
-        Employee employee = null;
-        Session session = null;
-        try {
-            session = DatabaseConnection.getSessionFactory().openSession();
-            Criteria criteria = session.createCriteria(Employee.class);
-            criteria.add(Restrictions.eq("id", id));
-            criteria.add(Restrictions.eq("isDelete", true));
-            employee = (Employee) criteria.uniqueResult();
-        } catch(HibernateException e) {
-        	logger.logError(e);
-        	throw new EmployeeManagementException("something went wrong");
-        } finally {
-        	DatabaseConnection.sessionClose(session);
-        }
-        return null != employee;
     }
 
     /**
@@ -152,32 +126,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
         }
         return employees;
     }
-
-    /**
-     * {inheritDoc}
-     */
-    /*public boolean isEmployeeDeleted(int id) {
-        Employee employee = null;
-        Session session = null;
-        try {
-            session = DatabaseConnection.getSessionFactory().openSession();
-            Criteria criteria = session.createCriteria(Employee.class);
-            criteria.add(Restrictions.eq("id", id));
-            criteria.add(Restrictions.eq("isDelete", false));
-            employee = (Employee) criteria.uniqueResult();
-        } catch(HibernateException e) {
-            e.printStackTrace();
-        } finally {
-        	try {
-				if (null != session) {
-					session.close();
-				}
-			} catch (HibernateException e) {
-				e.printStackTrace();
-			}
-        }
-        return null != employee;
-    }*/
 
     /**
      * {inheritDoc}

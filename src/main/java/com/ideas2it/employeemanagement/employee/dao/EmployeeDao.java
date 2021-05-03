@@ -21,14 +21,6 @@ public interface EmployeeDao {
     public void insertEmployee(Employee employee) throws EmployeeManagementException;
 
     /**
-     * check employee id exist or not 
-     * @param id employee id
-     * @return boolean value
-     * @throws EmployeeManagementException 
-     */
-    public boolean isEmployeeExist(int id) throws EmployeeManagementException;
-
-    /**
      * get specific employee details with addressess
      * @param id employee id
      * @return employee details
@@ -59,13 +51,6 @@ public interface EmployeeDao {
      * @throws FetchException 
      */  
     public List<Employee> getAllEmployee() throws EmployeeManagementException;
-
-    /**
-     * check for deleted employee id is exist or not
-     * @param id employee id
-     * @return boolean value
-     */
-    //public boolean isEmployeeDeleted(int id);
 
     /**
      * It is used to update employee details

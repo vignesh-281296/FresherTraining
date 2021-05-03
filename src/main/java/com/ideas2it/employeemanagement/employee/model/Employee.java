@@ -1,7 +1,8 @@
 package com.ideas2it.employeemanagement.employee.model;
 
-import java.sql.Date;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.ideas2it.employeemanagement.employee.model.Address;
@@ -158,8 +159,8 @@ public class Employee {
         return addressess;
     }
 
-    public void setAddressess(List<Address> addressess) {
-        this.addressess = addressess;
+    public void setAddressess(List<Address> address) {
+        this.addressess = address;
     }
 
     public List<Project> getProjects() {
