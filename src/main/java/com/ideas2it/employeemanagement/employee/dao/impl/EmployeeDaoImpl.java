@@ -113,9 +113,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public List<Employee> getAllEmployee() throws EmployeeManagementException {
 		Session session = null;
 		List<Employee> employees = null;
+		String getAllEmployeesQuery = "FROM Employee";
 		try {
 			session = DatabaseConnection.getSessionFactory().openSession();
-			employees = session.createCriteria(Employee.class).list();
+			//employees = session.createCriteria(Employee.class).list();
+			employees = session.createQuery(getAllEmployeesQuery).getResultList();
 			for (Employee employee : employees) {
 				for (Address addresses : employee.getAddressess()) {
 				}
