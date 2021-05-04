@@ -12,13 +12,10 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<context:component-scan base-package="com.ideas2it" />
-
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	<!-- <bean id="employeeService"
-		class="employeemanagement.employee.service.impl.EmployeeServiceImpl">
-	</bean> -->
+	
 </beans>

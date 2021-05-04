@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.ideas2it.employeemanagement.employee.model.Address;
 import com.ideas2it.employeemanagement.project.model.Project;
 
@@ -14,6 +16,7 @@ import com.ideas2it.employeemanagement.project.model.Project;
  * @author vignesh r.
  * version 1.0 01-03-2021.
  */
+@Component
 public class Employee {
     
     private int id;
@@ -177,5 +180,10 @@ public class Employee {
                 + email + "\nPhone Number - " + phoneNumber 
                 + "\nSalary - " + salary + "\nDOB -" + dob;      
     }
+
+	public void show() {
+		// TODO Auto-generated method stub
+		System.out.println("hi");	
+	}
   
 } 

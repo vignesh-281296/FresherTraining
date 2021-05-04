@@ -11,11 +11,13 @@
     	http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-	<context:component-scan base-package="com.ideas2it" />
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/views/" />
-		<property name="suffix" value=".jsp" />
+	<bean id="employeeservice" class="com.ideas2it.employeemanagement.employee.service.impl.EmployeeServiceImpl">
+	<constructor-arg ref="employeedao"></constructor-arg>
+	<constructor-arg ref="projectService"></constructor-arg>
 	</bean>
-	
+	<bean id="employeedao" class="com.ideas2it.employeemanagement.employee.dao.impl.EmployeeDaoImpl">
+	</bean>
+	<bean id="projectService"
+		class="com.ideas2it.employeemanagement.project.service.impl.ProjectServiceImpl">
+	</bean>
 </beans>
